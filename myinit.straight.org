@@ -1499,7 +1499,7 @@ With a prefix ARG, remove start location."
 (use-package org-roam
   :demand t  ;; Ensure org-roam is loaded by default
   :custom
-  (org-roam-directory "./org/")
+  (org-roam-directory "~/org-roam/")
   ;; Show tags column in node list
   (org-roam-node-display-template
    (concat "${title:*} "
@@ -1558,7 +1558,7 @@ With a prefix ARG, remove start location."
                  (direction . right)
                  (window-width . 0.33)
                  (window-height . fit-window-to-buffer)))
-  (setq org-roam-graph-executable "c:\\Program Files\\Graphviz\\bin\\dot.exe"))
+  (setq org-roam-graph-executable "/usr/bin/dot"))
 
 (require 'org-roam-protocol) ;; provides extensions for capturing content from external applications
 
@@ -1571,6 +1571,8 @@ With a prefix ARG, remove start location."
                                                   '(:immediate-finish t)))))
     (apply #'org-roam-node-insert args)))
 
+(setq org-roam-file-exclude-regexp
+      (concat "^" (expand-file-name org-roam-directory) "logseq/"))
 ;;;; org-bibtex ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package org-roam-bibtex
