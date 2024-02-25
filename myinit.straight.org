@@ -6,10 +6,10 @@
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/site-lisp")
 #+END_SRC
-# * default directory
-# #+begin_SRC emacs-lisp
-# (setq default-directory "c:\\Users\\delbo\\iCloudDrive\\27N4MQEA55~pro~writer\\")
-# #+end_SRC
+* default directory
+#+begin_SRC emacs-lisp
+(setq default-directory "~/")
+#+end_SRC
 * better defaults
 #+begin_SRC emacs-lisp
 (setq-default
@@ -174,7 +174,7 @@ This is in contrast to the auto-save-mode, which automatically saves such  buffe
     citar-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json")  ;; A list of bib files.
     ;; Generally identical to `org-cite-global-bibliography'.
 
-    ;; citar-notes-paths '("c:\\Users\\delbo\\iCloudDrive\\iCloud~com~logseq~logseq\\pages\\") ;; List of directories for reference nodes
+    citar-notes-paths '("~/org-roam/") ;; List of directories for reference nodes
     ;; citar-open-note-functions 'orb-citar-edit-notes   ; Open notes in `org-roam'--deprecated?
     citar-at-point-function 'embark-act         ; Use `embark'
     citar-templates
@@ -437,7 +437,7 @@ Version 2017-09-22 2020-09-08"
   ;; (use-package deft
   ;;   :ensure t
   ;;   :config
-  ;;   (setq deft-directory "c:\\Users\\delbo\\iCloudDrive\\org-roam\\"
+  ;;   (setq deft-directory "~/org-roam/"
   ;;         deft-recursive t
   ;;         deft-auto-save-interval 0
   ;;         deft-extensions '("md" "org" "tex" "txt")
@@ -499,8 +499,8 @@ in whole buffer.  With neither, delete comments on current line."
   (use-package denote
     :ensure t)
 
-  ;; Remember to check the doc strings of those variables.
-  ;; (setq denote-directory "C:\\Users\\delbo\\iCloudDrive\\27N4MQEA55~pro~writer")
+  Remember to check the doc strings of those variables.
+  (setq denote-directory "~/Dropbox/org-notes")
   (setq denote-known-keywords '("hoggery" "seeds" "blog" "logorrhea"))
   (setq denote-infer-keywords t)
   (setq denote-sort-keywords t)
@@ -1111,20 +1111,20 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 
 * org-journal
 #+begin_src emacs-lisp
-  ;; (use-package org-journal
-  ;;   :defer t
-  ;;   :config
-  ;;   (setq org-journal-date-prefix "#+TITLE: "
-  ;;         org-journal-file-format "jurnal-%Y-%m-%d.org"
-  ;;         org-journal-dir "c:\\Users\\delbo\\iCloudDrive\\27N4MQEA55~pro~writer\\org\\"
-  ;;         org-journal-carryover-items nil
-  ;;         org-journal-date-format "%Y-%m-%d")
-  ;;   (defun org-journal-today ()
-  ;;     (interactive)
-  ;;     (org-journal-new-entry t))
-  ;;   :bind
-  ;;   ("C-c n j" . org-journal-new-entry)
-  ;;   ("C-c n t" . org-journal-today))
+  (use-package org-journal
+    :defer t
+    :config
+    (setq org-journal-date-prefix "#+TITLE: "
+          org-journal-file-format "jurnal-%Y-%m-%d.org"
+          org-journal-dir "~/org-notes/jurnal"
+          org-journal-carryover-items nil
+          org-journal-date-format "%Y-%m-%d")
+    (defun org-journal-today ()
+      (interactive)
+      (org-journal-new-entry t))
+    :bind
+    ("C-c n j" . org-journal-new-entry)
+    ("C-c n t" . org-journal-today))
 
   #+end_src
 
@@ -1450,47 +1450,47 @@ With a prefix ARG, remove start location."
     (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
 
 #+END_SRC
-* org-ref
-#+BEGIN_SRC emacs-lisp
-  (use-package org-ref
-    :ensure t)
+* org-ref REPLACED BY ORG-CITE
+replaced by org-cite
+# #+BEGIN_SRC emacs-lisp
+#   (use-package org-ref
+#     :ensure t)
 
-;;;Deprecated in org-ref v3
-  ;; (setq org-ref-bibliography-notes "C:\\Users\\delbo\\Dropbox\\bibliography\\notes.org"
-  ;;       org-ref-default-bibliography '("C:\\Users\\delbo\\Dropbox\\Zotero_Libraries\\MyLibrary.bib");; MUST BE A LIST ;;
-  ;;       org-ref-pdf-directory "C:\\Users\\delbo\\Dropbox\\bibliography\\bibtex-pdfs\\")
+# ;;;Deprecated in org-ref v3
+#   ;; (setq org-ref-bibliography-notes "C:\\Users\\delbo\\Dropbox\\bibliography\\notes.org"
+#   ;;       org-ref-default-bibliography '("C:\\Users\\delbo\\Dropbox\\Zotero_Libraries\\MyLibrary.bib");; MUST BE A LIST ;;
+#   ;;       org-ref-pdf-directory "C:\\Users\\delbo\\Dropbox\\bibliography\\bibtex-pdfs\\")
   
-(setq bibtex-completion-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.bib")
-      ;; bibtex-completion-library-path '("C:\\Users\\delbo\\iCloudDrive\\org-pdfs\\")
-      bibtex-completion-notes-path "C:/Users/delbo/Dropbox/bibliography/notes/"
-	  bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
-	  bibtex-completion-additional-search-fields '(keywords)
-	  bibtex-completion-display-formats
-	  '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
-	    (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
-	    (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-	    (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-	    (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
-	  bibtex-completion-pdf-open-function
-	  (lambda (fpath)
-	    (call-process "open" nil 0 nil fpath)))
+# (setq bibtex-completion-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.bib")
+#       bibtex-completion-library-path '("~/Dropbox/org-pdfs/")
+#       bibtex-completion-notes-path "~/Dropbox/bibliography/notes/"
+# 	  bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
+# 	  bibtex-completion-additional-search-fields '(keywords)
+# 	  bibtex-completion-display-formats
+# 	  '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+# 	    (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+# 	    (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+# 	    (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+# 	    (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
+# 	  bibtex-completion-pdf-open-function
+# 	  (lambda (fpath)
+# 	    (call-process "open" nil 0 nil fpath)))
   
-  (setq org-src-fontify-natively t
-        org-confirm-babel-evaluate nil
-        org-src-preserve-indentation t
-        org-ref-default-citation-link "autocite")
+#   (setq org-src-fontify-natively t
+#         org-confirm-babel-evaluate nil
+#         org-src-preserve-indentation t
+#         org-ref-default-citation-link "autocite")
   
-  (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
-        org-ref-insert-cite-function 'org-ref-cite-insert-ivy
-        org-ref-insert-label-function 'org-ref-insert-label-link
-        org-ref-insert-ref-function 'org-ref-insert-ref-link
-        org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
+#   (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
+#         org-ref-insert-cite-function 'org-ref-cite-insert-ivy
+#         org-ref-insert-label-function 'org-ref-insert-label-link
+#         org-ref-insert-ref-function 'org-ref-insert-ref-link
+#         org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
   
   
-  (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
-  (define-key org-mode-map (kbd "s-[") 'org-ref-insert-link-hydra/body)
-  ;; (global-set-key (kbd "C-c C-]") 'org-ref-insert-cite-with-completion)
-  
+#   (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
+#   (define-key org-mode-map (kbd "s-[") 'org-ref-insert-link-hydra/body)
+#   ;; (global-set-key (kbd "C-c C-]") 'org-ref-insert-cite-with-completion)
   
 #+end_src
 * org-roam
