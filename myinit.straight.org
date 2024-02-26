@@ -496,110 +496,110 @@ in whole buffer.  With neither, delete comments on current line."
 #+END_SRC
 * denote
 #+begin_SRC emacs-lisp
-  (use-package denote
-    :ensure t)
+    (use-package denote
+      :ensure t)
 
-  Remember to check the doc strings of those variables.
-  (setq denote-directory "~/Dropbox/org-notes")
-  (setq denote-known-keywords '("hoggery" "seeds" "blog" "logorrhea"))
-  (setq denote-infer-keywords t)
-  (setq denote-sort-keywords t)
-  (setq denote-file-type nil) ; Org is the default, set others here
-  (setq denote-prompts '(title keywords))
-
-
-  ;; Pick dates, where relevant, with Org's advanced interface:
-  (setq denote-date-prompt-use-org-read-date t)
+    ;; Remember to check the doc strings of those variables.
+    (setq denote-directory "~/Dropbox/org-notes")
+    (setq denote-known-keywords '("hoggery" "seeds" "blog" "logorrhea"))
+    (setq denote-infer-keywords t)
+    (setq denote-sort-keywords t)
+    (setq denote-file-type nil) ; Org is the default, set others here
+    (setq denote-prompts '(title keywords))
 
 
-  ;; Read this manual for how to specify `denote-templates'.  We do not
-  ;; include an example here to avoid potential confusion.
+    ;; Pick dates, where relevant, with Org's advanced interface:
+    (setq denote-date-prompt-use-org-read-date t)
 
 
-  ;; We allow multi-word keywords by default.  The author's personal
-  ;; preference is for single-word keywords for a more rigid workflow.
-  (setq denote-allow-multi-word-keywords t)
+    ;; Read this manual for how to specify `denote-templates'.  We do not
+    ;; include an example here to avoid potential confusion.
 
-  (setq denote-date-format nil) ; read doc string
 
-  ;; By default, we do not show the context of links.  We just display
-  ;; file names.  This provides a more informative view.
-  (setq denote-backlinks-show-context t)
+    ;; We allow multi-word keywords by default.  The author's personal
+    ;; preference is for single-word keywords for a more rigid workflow.
+    (setq denote-allow-multi-word-keywords t)
 
-  ;; Also see `denote-link-backlinks-display-buffer-action' which is a bit
-  ;; advanced.
+    (setq denote-date-format nil) ; read doc string
 
-  ;; If you use Markdown or plain text files (Org renders links as buttons
-  ;; right away)
-  (add-hook 'find-file-hook #'denote-link-buttonize-buffer)
+    ;; By default, we do not show the context of links.  We just display
+    ;; file names.  This provides a more informative view.
+    (setq denote-backlinks-show-context t)
 
-  ;; We use different ways to specify a path for demo purposes.
-;;  (setq denote-dired-directories
-;;        (list denote-directory
-;;              (thread-last denote-directory (expand-file-name "org"))
-;;              (thread-last denote-directory (expand-file-name "markdown"))
-;;              (thread-last denote-directory (expand-file-name "notes"))
-;;              (thread-last denote-directory (expand-file-name "seeds"))
-;;              ))
+    ;; Also see `denote-link-backlinks-display-buffer-action' which is a bit
+    ;; advanced.
 
-  ;; Generic (great if you rename files Denote-style in lots of places):
-  (add-hook 'dired-mode-hook #'denote-dired-mode)
-  ;;
-  ;; OR if only want it in `denote-dired-directories':
-  ;; (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
+    ;; If you use Markdown or plain text files (Org renders links as buttons
+    ;; right away)
+    (add-hook 'find-file-hook #'denote-link-buttonize-buffer)
 
-  ;; Here is a custom, user-level command from one of the examples we
-  ;; showed in this manual.  We define it here and add it to a key binding
-  ;; below.
-  (defun my-denote-journal ()
-    "Create an entry tagged 'journal', while prompting for a title."
-    (interactive)
-    (denote
-     (denote--title-prompt)
-     '("journal")))
+    ;; We use different ways to specify a path for demo purposes.
+  ;;  (setq denote-dired-directories
+  ;;        (list denote-directory
+  ;;              (thread-last denote-directory (expand-file-name "org"))
+  ;;              (thread-last denote-directory (expand-file-name "markdown"))
+  ;;              (thread-last denote-directory (expand-file-name "notes"))
+  ;;              (thread-last denote-directory (expand-file-name "seeds"))
+  ;;              ))
 
-  ;; Denote DOES NOT define any key bindings.  This is for the user to
-  ;; decide.  For example:
-  (let ((map global-map))
-    (define-key map (kbd "C-c n j") #'my-denote-journal) ; our custom command
-    (define-key map (kbd "C-c n n") #'denote)
-    (define-key map (kbd "C-c n N") #'denote-type)
-    (define-key map (kbd "C-c n d") #'denote-date)
-    (define-key map (kbd "C-c n s") #'denote-subdirectory)
-    (define-key map (kbd "C-c n t") #'denote-template)
-    ;; If you intend to use Denote with a variety of file types, it is
-    ;; easier to bind the link-related commands to the `global-map', as
-    ;; shown here.  Otherwise follow the same pattern for `org-mode-map',
-    ;; `markdown-mode-map', and/or `text-mode-map'.
-    (define-key map (kbd "C-c n i") #'denote-link) ; "insert" mnemonic
-    (define-key map (kbd "C-c n I") #'denote-link-add-links)
-    (define-key map (kbd "C-c n b") #'denote-link-backlinks)
-    (define-key map (kbd "C-c n f f") #'denote-link-find-file)
-    (define-key map (kbd "C-c n f b") #'denote-link-find-backlink)
-    ;; Note that `denote-rename-file' can work from any context, not just
-    ;; Dired bufffers.  That is why we bind it here to the `global-map'.
-    (define-key map (kbd "C-c n r") #'denote-rename-file)
-    (define-key map (kbd "C-c n R") #'denote-rename-file-using-front-matter))
+    ;; Generic (great if you rename files Denote-style in lots of places):
+    (add-hook 'dired-mode-hook #'denote-dired-mode)
+    ;;
+    ;; OR if only want it in `denote-dired-directories':
+    ;; (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
 
-  ;; Key bindings specifically for Dired.
-  (let ((map dired-mode-map))
-    (define-key map (kbd "C-c C-d C-i") #'denote-link-dired-marked-notes)
-    (define-key map (kbd "C-c C-d C-r") #'denote-dired-rename-marked-files)
-    (define-key map (kbd "C-c C-d C-R") #'denote-dired-rename-marked-files-using-front-matter))
+    ;; Here is a custom, user-level command from one of the examples we
+    ;; showed in this manual.  We define it here and add it to a key binding
+    ;; below.
+    (defun my-denote-journal ()
+      "Create an entry tagged 'journal', while prompting for a title."
+      (interactive)
+      (denote
+       (denote--title-prompt)
+       '("journal")))
 
-  (with-eval-after-load 'org-capture
-    (setq denote-org-capture-specifiers "%l\n%i\n%?")
-    (add-to-list 'org-capture-templates
-                 '("n" "New note (with denote.el)" plain
-                   (file denote-last-path)
-                   #'denote-org-capture
-                   :no-save t
-                   :immediate-finish nil
-                   :kill-buffer t
-                   :jump-to-captured t)))
+    ;; Denote DOES NOT define any key bindings.  This is for the user to
+    ;; decide.  For example:
+    (let ((map global-map))
+      (define-key map (kbd "C-c n j") #'my-denote-journal) ; our custom command
+      (define-key map (kbd "C-c n n") #'denote)
+      (define-key map (kbd "C-c n N") #'denote-type)
+      (define-key map (kbd "C-c n d") #'denote-date)
+      (define-key map (kbd "C-c n s") #'denote-subdirectory)
+      (define-key map (kbd "C-c n t") #'denote-template)
+      ;; If you intend to use Denote with a variety of file types, it is
+      ;; easier to bind the link-related commands to the `global-map', as
+      ;; shown here.  Otherwise follow the same pattern for `org-mode-map',
+      ;; `markdown-mode-map', and/or `text-mode-map'.
+      (define-key map (kbd "C-c n i") #'denote-link) ; "insert" mnemonic
+      (define-key map (kbd "C-c n I") #'denote-link-add-links)
+      (define-key map (kbd "C-c n b") #'denote-link-backlinks)
+      (define-key map (kbd "C-c n f f") #'denote-link-find-file)
+      (define-key map (kbd "C-c n f b") #'denote-link-find-backlink)
+      ;; Note that `denote-rename-file' can work from any context, not just
+      ;; Dired bufffers.  That is why we bind it here to the `global-map'.
+      (define-key map (kbd "C-c n r") #'denote-rename-file)
+      (define-key map (kbd "C-c n R") #'denote-rename-file-using-front-matter))
 
-  ;; Also check the commands `denote-link-after-creating',
-  ;; `denote-link-or-create'.  You may want to bind them to keys as well.
+    ;; Key bindings specifically for Dired.
+    (let ((map dired-mode-map))
+      (define-key map (kbd "C-c C-d C-i") #'denote-link-dired-marked-notes)
+      (define-key map (kbd "C-c C-d C-r") #'denote-dired-rename-marked-files)
+      (define-key map (kbd "C-c C-d C-R") #'denote-dired-rename-marked-files-using-front-matter))
+
+    (with-eval-after-load 'org-capture
+      (setq denote-org-capture-specifiers "%l\n%i\n%?")
+      (add-to-list 'org-capture-templates
+                   '("n" "New note (with denote.el)" plain
+                     (file denote-last-path)
+                     #'denote-org-capture
+                     :no-save t
+                     :immediate-finish nil
+                     :kill-buffer t
+                     :jump-to-captured t)))
+
+    ;; Also check the commands `denote-link-after-creating',
+    ;; `denote-link-or-create'.  You may want to bind them to keys as well.
 #+end_SRC
 * ediff
 #+BEGIN_SRC emacs-lisp
@@ -1398,99 +1398,103 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 #+END_SRC
 * org noter / org-pdftools
 #+BEGIN_SRC emacs-lisp
-
+;; new fork at github.com/org-noter/org-noter
 (use-package org-noter
   :ensure t
   :init
-  (setq org-noter-notes-search-path '("~/org/")
+  (setq org-noter-notes-search-path '(("~/org/")
+                                      ("~/Dropbox/org-pdfs/")
+                                      ("~/Dropbox/org-notes"))
         org-noter-doc-split-fraction (quote (0.6 . 0.4)))
- (require 'org-noter-pdftools))
+;;   (require 'org-noter-pdftools) ;; not currently maintained
+  )
+
 (add-hook 'nov-mode-hook (lambda () (visual-line-mode -1)))
 (global-set-key (kbd "<f12>") 'org-noter)
 
 (use-package djvu
   :ensure t)
 
-(use-package org-pdftools
-  :ensure t
-  :hook (org-mode . org-pdftools-setup-link))
+;; (use-package org-pdftools
+;;   :ensure t
+;;   :hook (org-mode . org-pdftools-setup-link))
 
-(use-package org-noter-pdftools
-  :ensure t
-  :after org-noter
-  :config
-  ;; Add a function to ensure precise note is inserted
-  (defun org-noter-pdftools-insert-precise-note (&optional toggle-no-questions)
-    (interactive "P")
-    (org-noter--with-valid-session
-     (let ((org-noter-insert-note-no-questions (if toggle-no-questions
-                                                   (not org-noter-insert-note-no-questions)
-                                                 org-noter-insert-note-no-questions))
-           (org-pdftools-use-isearch-link t)
-           (org-pdftools-use-freepointer-annot t))
-       (org-noter-insert-note (org-noter--get-precise-info)))))
+;; (use-package org-noter-pdftools
+;;   :ensure t
+;;   :after org-noter
+;;   :config
+;;   ;; Add a function to ensure precise note is inserted
+;;   (defun org-noter-pdftools-insert-precise-note (&optional toggle-no-questions)
+;;     (interactive "P")
+;;     (org-noter--with-valid-session
+;;      (let ((org-noter-insert-note-no-questions (if toggle-no-questions
+;;                                                    (not org-noter-insert-note-no-questions)
+;;                                                  org-noter-insert-note-no-questions))
+;;            (org-pdftools-use-isearch-link t)
+;;            (org-pdftools-use-freepointer-annot t))
+;;        (org-noter-insert-note (org-noter--get-precise-info)))))
 
-  ;; fix https://github.com/weirdNox/org-noter/pull/93/commits/f8349ae7575e599f375de1be6be2d0d5de4e6cbf
-  (defun org-noter-set-start-location (&optional arg)
-    "When opening a session with this document, go to the current location.
-With a prefix ARG, remove start location."
-    (interactive "P")
-    (org-noter--with-valid-session
-     (let ((inhibit-read-only t)
-           (ast (org-noter--parse-root))
-           (location (org-noter--doc-approx-location (when (called-interactively-p 'any) 'interactive))))
-       (with-current-buffer (org-noter--session-notes-buffer session)
-         (org-with-wide-buffer
-          (goto-char (org-element-property :begin ast))
-          (if arg
-              (org-entry-delete nil org-noter-property-note-location)
-            (org-entry-put nil org-noter-property-note-location
-                           (org-noter--pretty-print-location location))))))))
-  (with-eval-after-load 'pdf-annot
-    (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
+;;   ;; fix https://github.com/weirdNox/org-noter/pull/93/commits/f8349ae7575e599f375de1be6be2d0d5de4e6cbf
+;;   (defun org-noter-set-start-location (&optional arg)
+;;     "When opening a session with this document, go to the current location.
+;; With a prefix ARG, remove start location."
+;;     (interactive "P")
+;;     (org-noter--with-valid-session
+;;      (let ((inhibit-read-only t)
+;;            (ast (org-noter--parse-root))
+;;            (location (org-noter--doc-approx-location (when (called-interactively-p 'any) 'interactive))))
+;;        (with-current-buffer (org-noter--session-notes-buffer session)
+;;          (org-with-wide-buffer
+;;           (goto-char (org-element-property :begin ast))
+;;           (if arg
+;;               (org-entry-delete nil org-noter-property-note-location)
+;;             (org-entry-put nil org-noter-property-note-location
+;;                            (org-noter--pretty-print-location location))))))))
+;;   (with-eval-after-load 'pdf-annot
+;;     (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
 
 #+END_SRC
-* org-ref REPLACED BY ORG-CITE
+* org-ref REPLACED BY ORG-CITE?
 replaced by org-cite
-# #+BEGIN_SRC emacs-lisp
-#   (use-package org-ref
-#     :ensure t)
+#+BEGIN_SRC emacs-lisp
+  (use-package org-ref
+    :ensure t)
 
-# ;;;Deprecated in org-ref v3
-#   ;; (setq org-ref-bibliography-notes "C:\\Users\\delbo\\Dropbox\\bibliography\\notes.org"
-#   ;;       org-ref-default-bibliography '("C:\\Users\\delbo\\Dropbox\\Zotero_Libraries\\MyLibrary.bib");; MUST BE A LIST ;;
-#   ;;       org-ref-pdf-directory "C:\\Users\\delbo\\Dropbox\\bibliography\\bibtex-pdfs\\")
+;;;Deprecated in org-ref v3
+  ;; (setq org-ref-bibliography-notes "C:\\Users\\delbo\\Dropbox\\bibliography\\notes.org"
+  ;;       org-ref-default-bibliography '("C:\\Users\\delbo\\Dropbox\\Zotero_Libraries\\MyLibrary.bib");; MUST BE A LIST ;;
+  ;;       org-ref-pdf-directory "C:\\Users\\delbo\\Dropbox\\bibliography\\bibtex-pdfs\\")
   
-# (setq bibtex-completion-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.bib")
-#       bibtex-completion-library-path '("~/Dropbox/org-pdfs/")
-#       bibtex-completion-notes-path "~/Dropbox/bibliography/notes/"
-# 	  bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
-# 	  bibtex-completion-additional-search-fields '(keywords)
-# 	  bibtex-completion-display-formats
-# 	  '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
-# 	    (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
-# 	    (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-# 	    (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-# 	    (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
-# 	  bibtex-completion-pdf-open-function
-# 	  (lambda (fpath)
-# 	    (call-process "open" nil 0 nil fpath)))
+(setq bibtex-completion-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.bib")
+      bibtex-completion-library-path '("~/Dropbox/org-pdfs/")
+      bibtex-completion-notes-path "~/Dropbox/bibliography/notes/"
+	  bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
+	  bibtex-completion-additional-search-fields '(keywords)
+	  bibtex-completion-display-formats
+	  '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+	    (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+	    (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+	    (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+	    (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
+	  bibtex-completion-pdf-open-function
+	  (lambda (fpath)
+	    (call-process "open" nil 0 nil fpath)))
   
-#   (setq org-src-fontify-natively t
-#         org-confirm-babel-evaluate nil
-#         org-src-preserve-indentation t
-#         org-ref-default-citation-link "autocite")
+  (setq org-src-fontify-natively t
+        org-confirm-babel-evaluate nil
+        org-src-preserve-indentation t
+        org-ref-default-citation-link "autocite")
   
-#   (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
-#         org-ref-insert-cite-function 'org-ref-cite-insert-ivy
-#         org-ref-insert-label-function 'org-ref-insert-label-link
-#         org-ref-insert-ref-function 'org-ref-insert-ref-link
-#         org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
+  (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
+        org-ref-insert-cite-function 'org-ref-cite-insert-ivy
+        org-ref-insert-label-function 'org-ref-insert-label-link
+        org-ref-insert-ref-function 'org-ref-insert-ref-link
+        org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
   
   
-#   (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
-#   (define-key org-mode-map (kbd "s-[") 'org-ref-insert-link-hydra/body)
-#   ;; (global-set-key (kbd "C-c C-]") 'org-ref-insert-cite-with-completion)
+  (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
+  (define-key org-mode-map (kbd "s-[") 'org-ref-insert-link-hydra/body)
+  ;; (global-set-key (kbd "C-c C-]") 'org-ref-insert-cite-with-completion)
   
 #+end_src
 * org-roam
