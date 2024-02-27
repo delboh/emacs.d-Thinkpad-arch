@@ -154,6 +154,35 @@ This is in contrast to the auto-save-mode, which automatically saves such  buffe
     (use-package avy
       :ensure t)
 #+end_SRC
+* back-up files
+#+BEGIN_SRC emacs-lisp
+ ;; Backup files are saved to temporary-file-directory /tmp/
+   (setq backup-directory-alist
+          `((".*" . ,temporary-file-directory)))
+    (setq auto-save-file-name-transforms
+          `((".*" ,temporary-file-directory t)))
+
+;; Delete old files after a week
+(message "Deleting old backup files...")
+(let ((week (* 60 60 24 7))
+      (current (float-time (current-time))))
+  (dolist (file (directory-files temporary-file-directory t))
+    (when (and (backup-file-name-p file)
+               (> (- current (float-time (fifth (file-attributes file))))
+                  week))
+      (message "%s" file)
+      (delete-file file))))
+
+;; (setq
+;;    backup-by-copying t      ; don't clobber symlinks
+;;    kept-new-versions 6
+;;    kept-old-versions 2
+;;    version-control t)       ; use versioned backups
+
+
+
+
+#+END_SRC
 * browse-url
 #+BEGIN_SRC emacs-lisp
 (setq browse-url-browser-function 'eww-browse-url
