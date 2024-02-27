@@ -155,6 +155,7 @@ This is in contrast to the auto-save-mode, which automatically saves such  buffe
       :ensure t)
 #+end_SRC
 * back-up files
+from https://www.emacswiki.org/emacs/BackupDirectory
 #+BEGIN_SRC emacs-lisp
  ;; Backup files are saved to temporary-file-directory /tmp/
    (setq backup-directory-alist
