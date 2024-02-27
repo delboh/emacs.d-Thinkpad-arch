@@ -1995,9 +1995,9 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
 * spell checking
 #+BEGIN_SRC emacs-lisp
   (use-package flyspell
-    ;; :init
-    ;; (setq ispell-program-name "hunspell"
-    ;;       ispell-local-dictionary "en_GB")
+    :init
+    (setq ispell-program-name "hunspell"
+          ispell-local-dictionary "en_GB")
     :hook ((markdown-mode org-mode text-mode LaTeX-mode latex-mode) . flyspell-mode)
     (prog-mode . flyspell-prog-mode)
     :custom
