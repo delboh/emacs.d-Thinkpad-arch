@@ -75,26 +75,6 @@
 (set-default 'abbrev-mode t)
 #+end_src
 
-* org agenda speedup and optimization
-#+BEGIN_SRC emacs-lisp
-
-;; custom commands
-;; (setq org-agenda-custom-commands
-;;       '((" " "Reading" agenda "List of rendez-vous and tasks for today"
-;;          ((org-agenda-files '("~/org/rdv.org" "~/org/bzg.org"))))))
-
-;; Inhibit agenda files startup options
-;; (setq org-agenda-inhibit-startup t) 
-
-;; disable tag-inheritance in agenda files
-;; (setq org-agenda-use-tag-inheritance nil)
-
-;; Disable parsing for some drawer properties
-;; (setq org-agenda-ignore-drawer-properties '(effort appt category))
-
-;; Don't search archive files for ids
-(setq org-id-search-archives nil)
-#+END_SRC
 * AUCTeX
 #+begin_src emacs-lisp
   ;; make AUCTeX aware of the multi-file document structure.
@@ -483,10 +463,6 @@ Version 2017-09-22 2020-09-08"
   ;;   :bind
   ;;   ("C-c n d" . deft))
 #+end_src
-* dictionary
-#+BEGIN_SRC emacs-lisp
-  (use-package dictionary)
-#+END_SRC
 * delete comments
 from https://emacs.stackexchange.com/questions/5441/function-to-delete-all-comments-from-a-buffer-without-moving-them-to-kill-ring
 #+BEGIN_SRC emacs-lisp
@@ -523,6 +499,26 @@ in whole buffer.  With neither, delete comments on current line."
       (when lines
         (goto-char (if arg (point-min) beg)))
       (comment-delete (or lines 1)))))
+#+END_SRC
+* delete-file-and-current-buffer
+from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
+#+BEGIN_SRC emacs-lisp
+;; based on http://emacsredux.com/blog/2013/04/03/delete-file-and-buffer/
+(defun delete-file-and-buffer ()
+  "Kill the current buffer and delete the file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (if filename
+        (if (y-or-n-p (concat "Do you really want to delete file " filename " ?"))
+            (progn
+              (delete-file filename)
+              (message "Deleted file %s." filename)
+              (kill-buffer)))
+      (message "Not a file visiting buffer!"))))
+#+END_SRC
+* dictionary
+#+BEGIN_SRC emacs-lisp
+  (use-package dictionary)
 #+END_SRC
 * denote
 #+begin_SRC emacs-lisp
