@@ -167,7 +167,6 @@ from https://www.emacswiki.org/emacs/BackupDirectory
 * browse-url
 #+BEGIN_SRC emacs-lisp
 (setq browse-url-browser-function 'eww-browse-url
-      browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "chromium"
       browse-url-secondary-browser-function 'browse-url-default-browser)
 #+END_SRC
@@ -1997,7 +1996,7 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
   (use-package flyspell
     :init
     (setq ispell-program-name "hunspell"
-          ispell-local-dictionary "en_GB")
+          ispell-local-dictionary "en_GB-large")
     :hook ((markdown-mode org-mode text-mode LaTeX-mode latex-mode) . flyspell-mode)
     (prog-mode . flyspell-prog-mode)
     :custom
@@ -2009,7 +2008,7 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
 
 
 
-    ;;; Hunspell
+  ;;; Hunspell
   ;; ;;; Spell checking using hunspell
   ;; (setq ispell-local-dictionary-alist
   ;;   '((nil "[A-Za-z]" "[^A-Za-z]" "[']" t
