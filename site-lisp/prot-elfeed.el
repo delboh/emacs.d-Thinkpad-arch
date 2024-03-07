@@ -48,7 +48,7 @@
   :type 'string
   :group 'prot-elfeed)
 
-(defcustom prot-elfeed-archives-directory "~/Documents/feeds"
+(defcustom prot-elfeed-archives-directory "c:\\Users\\delbo\\Documents\\feeds\\"
   "Path to directory for storing Elfeed entries."
   :type 'string
   :group 'prot-elfeed)
