@@ -1066,20 +1066,22 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 #+end_SRC
 * nov.el epub mode
 #+begin_SRC emacs-lisp
-  (use-package nov
-    :ensure t
-    :init
-    (setq nov-text-width 80
-          visual-fill-column-center-text t))
+(use-package nov
+  :ensure t
+  :init
+  (setq
+   nov-unzip-program "/usr/bin/unzip"
+   nov-text-width 80
+   visual-fill-column-center-text t))
 
 
-  (defun my-nov-font-setup ()
-    (face-remap-add-relative 'variable-pitch :family "Times New Roman"
-                             :height 1.2))
+(defun my-nov-font-setup ()
+  (face-remap-add-relative 'variable-pitch :family "Times New Roman"
+                           :height 1.2))
 
-  (add-hook 'nov-mode-hook 'my-nov-font-setup)
+(add-hook 'nov-mode-hook 'my-nov-font-setup)
 
-  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
 #+end_SRC
 * OED lookup with f7
