@@ -1,3 +1,10 @@
+* package archives
+#+BEGIN_SRC emacs-lisp
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("melpa" . "http://melpa.org/packages/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+                         ("org" . "http://orgmode.org/elpa/")))
+#+END_SRC
 * ELPA certificates
 #+begin_SRC emacs-lisp
   ;; (use-package gnu-elpa-keyring-update)

@@ -12,24 +12,16 @@
 (require 'server)
 (if (not (server-running-p)) (server-start))
 
-;; (require 'package)
 (setq package-enable-at-startup nil)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-                         ("org" . "http://orgmode.org/elpa/")))
-
-;; (package-initialize)
-
-;; Bootstrap `use-package'
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
 
 ;; Bootstrap 'straight.el'
 (defvar bootstrap-version)
 (let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
@@ -43,6 +35,8 @@
 ;; Ideally, right after the straight.el bootstrap.
 
 (straight-use-package 'org)
+
+(straight-use-package 'use-package)
 
 
 ;; Load myinit.org
