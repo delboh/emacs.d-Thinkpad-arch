@@ -36,7 +36,7 @@
 
 (straight-use-package 'org)
 
-(straight-use-package 'use-package)rtt
+(straight-use-package 'use-package)
 
 ;; Load myinit.org
 (org-babel-load-file (expand-file-name "~/.emacs.d/myinit.straight.org"))

@@ -7,7 +7,8 @@
 #+END_SRC
 * ELPA certificates
 #+begin_SRC emacs-lisp
-  ;; (use-package gnu-elpa-keyring-update)
+(use-package gnu-elpa-keyring-update
+  :ensure t)
 #+end_SRC
 * load path
 #+BEGIN_SRC emacs-lisp
@@ -44,7 +45,6 @@
  user-mail-address "iharvie@rcs.ac.uk"            ; Set the email address of the current user
  vc-follow-symlinks t                             ; Always follow the symlinks
  view-read-only t                                 ; Always open read-only buffers in view-mode
- ;; backup-directory-alist `(("." . "~/.saves"))     ; Keep backup files in specified location
  x-stretch-cursor t)                              ; Stretch cursor to the glyph width
 
 (column-number-mode 1)                            ; Show the column number
@@ -54,7 +54,7 @@
 ;; (global-auto-revert-mode nil)                     ; Revert buffers when the underlying file has changed-NOT DIRECTLY SETTABLE
 ;; (setq global-auto-revert-non-file-buffers nil)       ; Revert Dired and other buffers-bad idea!
 (global-visual-line-mode 1)                       ; Sane line wrapping
-(global-hl-line-mode nil)                         ; Hightlight current line
+(global-hl-line-mode 0)                           ; Hightlight current line
 (recentf-mode 1)                                  ; show list of recent files with M-x recentf-open-files
 (global-set-key (kbd "M-o") 'recentf-open-files)  ; keybinding for recentf
 (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
@@ -62,9 +62,9 @@
 (savehist-mode 1)                                 ; Save what you enter into minibuffer prompts
 (show-paren-mode 1)                               ; Show the parent
 (save-place-mode 1)                               ; Open file with point in previous location
-(toggle-scroll-bar -1)                            ; Hide scroll bar
-(tool-bar-mode -1)                                ; Hide tool bar
-(menu-bar-mode -1)                                ; Hide menu bar
+(toggle-scroll-bar 0)                             ; Hide scroll bar
+(tool-bar-mode 0)                                 ; Hide tool bar
+(menu-bar-mode 0)                                 ; Hide menu bar
 
 ;; Don't ask before killing buffer
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
