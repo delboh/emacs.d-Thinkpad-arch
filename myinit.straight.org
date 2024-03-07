@@ -1,9 +1,9 @@
 * package archives
 #+BEGIN_SRC emacs-lisp
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-                         ("org" . "http://orgmode.org/elpa/")))
+;; (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+;;                          ("melpa" . "http://melpa.org/packages/")
+;;                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+;;                          ("org" . "http://orgmode.org/elpa/")))
 #+END_SRC
 * ELPA certificates
 #+begin_SRC emacs-lisp
@@ -2001,11 +2001,11 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
 
 ;; Read the doc string of `spacious-padding-subtle-mode-line' as it
 ;; is very flexible and provides several examples.
-(setq spacious-padding-subtle-mode-line
-      `( :mode-line-active 'default
-         :mode-line-inactive vertical-border))
+;; (setq spacious-padding-subtle-mode-line
+;;       `( :mode-line-active 'default
+;;          :mode-line-inactive vertical-border))
 
-(spacious-padding-mode 1)
+;; (spacious-padding-mode 1)
 
 ;; Set a key binding if you need to toggle spacious padding.
 (define-key global-map (kbd "<f6>") #'spacious-padding-mode)
