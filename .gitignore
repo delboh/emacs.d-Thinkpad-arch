@@ -44,3 +44,4 @@ abbrev_defs
 /speed-type/
 *.org_archive
 /elfeed/
+/.elfeed/

@@ -137,37 +137,22 @@ This is in contrast to the auto-save-mode, which automatically saves such  buffe
 * back-up files
 from https://www.emacswiki.org/emacs/BackupDirectory
 #+BEGIN_SRC emacs-lisp
- ;; Backup files are saved to temporary-file-directory /tmp/
-   (setq backup-directory-alist
-          `((".*" . ,temporary-file-directory)))
-    (setq auto-save-file-name-transforms
-          `((".*" ,temporary-file-directory t)))
+   ;; Backup files are saved to temporary-file-directory /tmp/
+     (setq backup-directory-alist
+            `((".*" . ,temporary-file-directory)))
+      (setq auto-save-file-name-transforms
+            `((".*" ,temporary-file-directory t)))
 
-;; Delete old files after a week
-(message "Deleting old backup files...")
-(let ((week (* 60 60 24 7))
-      (current (float-time (current-time))))
-  (dolist (file (directory-files temporary-file-directory t))
-    (when (and (backup-file-name-p file)
-               (> (- current (float-time (fifth (file-attributes file))))
-                  week))
-      (message "%s" file)
-      (delete-file file))))
-
-;; (setq
-;;    backup-by-copying t      ; don't clobber symlinks
-;;    kept-new-versions 6
-;;    kept-old-versions 2
-;;    version-control t)       ; use versioned backups
-
-
-
+  ;; (setq
+  ;;    backup-by-copying t      ; don't clobber symlinks
+  ;;    kept-new-versions 6
+  ;;    kept-old-versions 2
+  ;;    version-control t)       ; use versioned backups
 
 #+END_SRC
 * browse-url
 #+BEGIN_SRC emacs-lisp
 (setq browse-url-browser-function 'eww-browse-url
-      browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "chromium"
       browse-url-secondary-browser-function 'browse-url-default-browser)
 #+END_SRC
@@ -1104,7 +1089,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
                 (buffer-substring-no-properties (region-beginning) (region-end))
               (current-word)))
       (setq word (replace-regexp-in-string " " "_" word))
-      (browse-url (concat "https://www.oed.com/search?searchType=dictionary&q="word"&_searchBtn=Search"))
+      (browse-url-generic (concat "https://www.oed.com/search?searchType=dictionary&q="word"&_searchBtn=Search"))
 ;;      (eww (concat "https://www.oed.com/search?searchType=dictionary&q="word"&_searchBtn=Search"))
       ))
   (global-set-key (kbd "<f7>") 'my-lookup-oed)
@@ -1632,7 +1617,7 @@ replaced by org-cite
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t
-          org-roam-ui-browser-function 'browse-url))
+          org-roam-ui-browser-function 'browse-url-generic))
 #+end_SRC
 * org-web-tools
 #+begin_SRC emacs-lisp
@@ -1995,9 +1980,9 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
 * spell checking
 #+BEGIN_SRC emacs-lisp
   (use-package flyspell
-    ;; :init
-    ;; (setq ispell-program-name "hunspell"
-    ;;       ispell-local-dictionary "en_GB")
+    :init
+    (setq ispell-program-name "hunspell"
+          ispell-local-dictionary "en_GB")
     :hook ((markdown-mode org-mode text-mode LaTeX-mode latex-mode) . flyspell-mode)
     (prog-mode . flyspell-prog-mode)
     :custom
