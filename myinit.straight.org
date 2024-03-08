@@ -890,6 +890,12 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
       ))
   (global-set-key (kbd "<f8>") 'my-lookup-googlescholar)
 #+end_src 
+* hide-mode-line
+#+BEGIN_SRC emacs-lisp
+(use-package hide-mode-line
+  :ensure t
+  :hook (epub-mode))
+#+END_SRC
 * htmlize
 #+begin_src emacs-lisp
   (use-package htmlize
@@ -1426,11 +1432,11 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 (use-package org-noter
   :ensure t
   :init
-  (setq org-noter-notes-search-path '(("~/org/")
-                                      ("~/Dropbox/org-pdfs/")
-                                      ("~/Dropbox/org-notes"))
+  (setq org-noter-notes-search-path '("~/org/"
+                                      "~/Dropbox/org-pdfs/"
+                                      "~/Dropbox/org-notes")
         org-noter-doc-split-fraction (quote (0.6 . 0.4)))
-;;   (require 'org-noter-pdftools) ;; not currently maintained
+  ;;   (require 'org-noter-pdftools) ;; not currently maintained
   )
 
 (add-hook 'nov-mode-hook (lambda () (visual-line-mode -1)))
