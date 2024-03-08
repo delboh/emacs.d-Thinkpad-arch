@@ -890,12 +890,6 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
       ))
   (global-set-key (kbd "<f8>") 'my-lookup-googlescholar)
 #+end_src 
-* hide-mode-line
-#+BEGIN_SRC emacs-lisp
-(use-package hide-mode-line
-  :ensure t
-  :hook (epub-mode))
-#+END_SRC
 * htmlize
 #+begin_src emacs-lisp
   (use-package htmlize
