@@ -185,15 +185,16 @@ from https://www.emacswiki.org/emacs/BackupDirectory
      (preview . "${author editor:%etal} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.")
      (note . "Notes on ${author editor:%etal}, ${title}")))
   ;; from https://kristofferbalintona.me/posts/202206141852/
-  ;;   ((main . "${author editor:30}   ${date year issued:4}    ${title:110}")
+  ;;   (main . "${author editor:30}   ${date year issued:4}    ${title:110}")
   ;;   (suffix . "     ${=type=:20}    ${tags keywords keywords:*}")
   ;;   (preview . "${author editor} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
-  ;;   (note . "#+title: Notes on ${author editor}, ${title}")) ; For new notes
+  ;;   (note . "#+title: Notes on ${author editor}, ${title}") ; For new notes
   :bind (:map org-mode-map
               ;; org-cite-insert is also bound to C-c C-x C-@
               ("C-c b" . #'org-cite-insert)
               ("C-c r" . citar-insert-reference)
               ("C-c o" . citar-open-notes)))
+
 
 #+end_SRC
 * citar-embark
@@ -1420,13 +1421,13 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
               (org-remove-inline-images)))
 
 #+END_SRC
-* org noter / org-pdftools
+* org noter
 #+BEGIN_SRC emacs-lisp
 ;; new fork at github.com/org-noter/org-noter
 (use-package org-noter
   :ensure t
   :init
-  (setq org-noter-notes-search-path '("~/org/"
+  (setq org-noter-notes-search-path '("~/org-roam/"
                                       "~/Dropbox/org-pdfs/"
                                       "~/Dropbox/org-notes")
         org-noter-doc-split-fraction (quote (0.6 . 0.4)))
@@ -1438,44 +1439,6 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 
 (use-package djvu
   :ensure t)
-
-;; (use-package org-pdftools
-;;   :ensure t
-;;   :hook (org-mode . org-pdftools-setup-link))
-
-;; (use-package org-noter-pdftools
-;;   :ensure t
-;;   :after org-noter
-;;   :config
-;;   ;; Add a function to ensure precise note is inserted
-;;   (defun org-noter-pdftools-insert-precise-note (&optional toggle-no-questions)
-;;     (interactive "P")
-;;     (org-noter--with-valid-session
-;;      (let ((org-noter-insert-note-no-questions (if toggle-no-questions
-;;                                                    (not org-noter-insert-note-no-questions)
-;;                                                  org-noter-insert-note-no-questions))
-;;            (org-pdftools-use-isearch-link t)
-;;            (org-pdftools-use-freepointer-annot t))
-;;        (org-noter-insert-note (org-noter--get-precise-info)))))
-
-;;   ;; fix https://github.com/weirdNox/org-noter/pull/93/commits/f8349ae7575e599f375de1be6be2d0d5de4e6cbf
-;;   (defun org-noter-set-start-location (&optional arg)
-;;     "When opening a session with this document, go to the current location.
-;; With a prefix ARG, remove start location."
-;;     (interactive "P")
-;;     (org-noter--with-valid-session
-;;      (let ((inhibit-read-only t)
-;;            (ast (org-noter--parse-root))
-;;            (location (org-noter--doc-approx-location (when (called-interactively-p 'any) 'interactive))))
-;;        (with-current-buffer (org-noter--session-notes-buffer session)
-;;          (org-with-wide-buffer
-;;           (goto-char (org-element-property :begin ast))
-;;           (if arg
-;;               (org-entry-delete nil org-noter-property-note-location)
-;;             (org-entry-put nil org-noter-property-note-location
-;;                            (org-noter--pretty-print-location location))))))))
-;;   (with-eval-after-load 'pdf-annot
-;;     (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
 
 #+END_SRC
 * org-ref REPLACED BY ORG-CITE?
