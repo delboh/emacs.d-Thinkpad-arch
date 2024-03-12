@@ -1072,11 +1072,6 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
   :straight (nov :type git :host nil :repo "https://depp.brause.cc/nov.el.git")
   :custom
   (nov-unzip-program "/usr/bin/unzip"))
- 
-
-;; (setq visual-fill-column-center-text t )
-;; (add-hook 'nov-mode-hook 'visual-line-mode)
-;; (add-hook 'nov-mode-hook 'visual-fill-column-mode)
 
 (defun my-nov-font-setup ()
   (face-remap-add-relative 'variable-pitch :family "Liberation Serif"
