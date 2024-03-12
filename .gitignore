@@ -45,3 +45,4 @@ abbrev_defs
 *.org_archive
 /elfeed/
 /.elfeed/
+/prot-eww-visited-history
