@@ -185,15 +185,15 @@ from https://www.emacswiki.org/emacs/BackupDirectory
      (preview . "${author editor:%etal} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.")
      (note . "Notes on ${author editor:%etal}, ${title}")))
   ;; from https://kristofferbalintona.me/posts/202206141852/
-  ;;   (main . "${author editor:30}   ${date year issued:4}    ${title:110}")
+  ;;   ((main . "${author editor:30}   ${date year issued:4}    ${title:110}")
   ;;   (suffix . "     ${=type=:20}    ${tags keywords keywords:*}")
   ;;   (preview . "${author editor} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
-  ;;   (note . "#+title: Notes on ${author editor}, ${title}") ; For new notes
+  ;;   (note . "#+title: Notes on ${author editor}, ${title}")) ; For new notes
   :bind (:map org-mode-map
               ;; org-cite-insert is also bound to C-c C-x C-@
               ("C-c b" . #'org-cite-insert)
               ("C-c r" . citar-insert-reference)
-              ("C-c o" . citar-open-notes))) 
+              ("C-c o" . citar-open-notes)))
 
 #+end_SRC
 * citar-embark
