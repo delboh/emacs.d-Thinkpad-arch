@@ -1071,7 +1071,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
   :ensure t
   :straight (nov :type git :host nil :repo "https://depp.brause.cc/nov.el.git")
   :custom
-  (nov-unzip-program '("/usr/bin/unzip")))
+  (nov-unzip-program "/usr/bin/unzip"))
  
 
 ;; (setq visual-fill-column-center-text t )
@@ -1080,7 +1080,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 
 (defun my-nov-font-setup ()
   (face-remap-add-relative 'variable-pitch :family "Liberation Serif"
-                           :height 1.2))
+                           :height 1.6))
 (add-hook 'nov-mode-hook 'my-nov-font-setup)
 
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
