@@ -45,7 +45,8 @@
  user-mail-address "iharvie@rcs.ac.uk"            ; Set the email address of the current user
  vc-follow-symlinks t                             ; Always follow the symlinks
  view-read-only t                                 ; Always open read-only buffers in view-mode
- x-stretch-cursor t)                              ; Stretch cursor to the glyph width
+ x-stretch-cursor t                               ; Stretch cursor to the glyph width
+ large-file-warning-threshold 25000000)           ; nil to turn off completely
 
 (column-number-mode 1)                            ; Show the column number
 (display-time-mode 1)                             ; Enable time in the mode-line
