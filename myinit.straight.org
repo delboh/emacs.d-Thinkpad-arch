@@ -1149,7 +1149,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 #+BEGIN_SRC emacs-lisp 
 (use-package org
   :init
-  (setq org-directory "~/Dropbox/org"
+  (setq org-directory "~/org"
         org-archive-subtree-save-file-p nil                                                      ; avoids permission error when archiving in Dropbox
         org-default-notes-file (concat org-directory "/notes.org")
         org-use-speed-commands t                                                                 ; activate single letter commands on headlines
@@ -1194,61 +1194,61 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
       '((sequence "TODO" "INPROGRESS" "DONE")))
 (setq org-capture-templates                                                                    ; org-capture-templates
       '(("i" "inbox" entry
-         (file+olp "~\Dropbox\org\gtd.org" "INBOX")
+         (file+olp "~/Dropbox/org/gtd.org" "INBOX")
          "** TODO %?\n %^G")          
         ("t" "gtd scheduled" entry
-         (file+olp "~\Dropbox\org\gtd.org" "TASKS" "Scheduled Tasks")
+         (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Scheduled Tasks")
          "*** TODO %?\n SCHEDULED: %^t")
         ("s" "gtd scheduled with deadline" entry
-         (file+olp "~\Dropbox\org\gtd.org" "TASKS" "Scheduled Tasks")
+         (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Scheduled Tasks")
          "*** TODO %?\n SCHEDULED: %^t DEADLINE: %^t")          
         ("D" "gtd scheduled dels" entry
-         (file+olp "~\Dropbox\org\gtd.org" "DELS")
+         (file+olp "~/Dropbox/org/gtd.org" "DELS")
          "** %? :dels:\n  SCHEDULED: %^t")
         ("e" "gtd scheduled Event" entry
-         (file+olp "~\Dropbox\org\gtd.org" "EVENTS")
+         (file+olp "~/Dropbox/org/gtd.org" "EVENTS")
          "** %?\n SCHEDULED: %^t")
         ("O " "gtd Oxford" entry
-         (file+olp "~\Dropbox\org\gtd.org" "TASKS" "Maintenance" "Argyle Street")
+         (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Maintenance" "Argyle Street")
          "**** TODO %? :Oxford:")
         ("M" "gtd Millbrae" entry
-         (file+olp "~\Dropbox\org\gtd.org" "TASKS" "Maintenance" "Millbrae")
+         (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Maintenance" "Millbrae")
          "**** TODO %? :Glasgow:")
         ("S" "gtd Studio Maintenance" entry
-         (file+olp "~\Dropbox\org\gtd.org" "TASKS" "Maintenance" "Studio")
+         (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Maintenance" "Studio")
          "**** TODO %? :Studio:")          
         ("j" "Journal" entry
          (file+olp+datetree "~\Dropbox\org\jurnal.org" "JURNAL")
          "** %?\nEntered on %U\n  %a" :empty-lines 1)
         ("1" "project1 TODO" entry
-         (file+olp "~\Dropbox\org\gtd.org" "PROJECT1")
+         (file+olp "~/Dropbox/org/gtd.org" "PROJECT1")
          "** TODO %? :project1: ")
         ("2" "project2 TODO" entry
-         (file+olp "~\Dropbox\org\gtd.org" "PROJECT2")
+         (file+olp "~/Dropbox/org/gtd.org" "PROJECT2")
          "** TODO %? :project2: ")
         ("3" "project3 TODO" entry
          (file+olp "~\Dropbox\org\gtr.org" "PROJECT3")
          "** TODO %? :project3:")
         ("d" "development TODO" entry
-         (file+olp "~\Dropbox\org\gtd.org" "DEVELOPMENT PROJECT")
+         (file+olp "~/Dropbox/org/gtd.org" "DEVELOPMENT PROJECT")
          "** TODO %? :development: ")
         ("r" "reading TODO" entry
-         (file+olp "~\Dropbox\org\gtd.org" "READING")
+         (file+olp "~/Dropbox/org/gtd.org" "READING")
          "** TODO %? :reading: ")          
         ("w" "website TODO" entry
-         (file+olp "~\Dropbox\org\gtd.org" "WEBSITE")
+         (file+olp "~/Dropbox/org/gtd.org" "WEBSITE")
          "** TODO %? :website: ")
         ("c" "reference TODO" entry
-         (file+olp "~\Dropbox\org\gtd.org" "WRITING" "references")
+         (file+olp "~/Dropbox/org/gtd.org" "WRITING" "references")
          "** TODO %? :reference: ")
         ("f" "footnote TODO" entry
-         (file+olp "~\Dropbox\org\gtd.org" "WRITING" "footnotes")
+         (file+olp "~/Dropbox/org/gtd.org" "WRITING" "footnotes")
          "** TODO %? :footnote:")
         ("z" "zettel TODO" entry
-         (file+olp "~\Dropbox\org\gtd.org" "ZETTEL")
+         (file+olp "~/Dropbox/org/gtd.org" "ZETTEL")
          "** TODO %? :zettel: ")
         ("b" "blog TODO" entry
-         (file+olp "~\Dropbox\org\gtd.org" "BLOG")
+         (file+olp "~/Dropbox/org/gtd.org" "BLOG")
          "** TODO %? :blog:")))
 (setq org-tag-alist                                                                            ; org-tag-alist
       '((:startgroup . nil)
