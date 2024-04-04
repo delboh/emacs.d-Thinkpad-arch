@@ -1149,7 +1149,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 #+BEGIN_SRC emacs-lisp 
 (use-package org
   :init
-  (setq org-directory "~/org"
+  (setq org-directory "~/Dropbox/org"
         org-archive-subtree-save-file-p nil                                                      ; avoids permission error when archiving in Dropbox
         org-default-notes-file (concat org-directory "/notes.org")
         org-use-speed-commands t                                                                 ; activate single letter commands on headlines
