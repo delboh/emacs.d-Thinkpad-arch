@@ -38,9 +38,9 @@
 
 (straight-use-package 'use-package)
 
+;; Move customization variables to a separate file and load it
+(setq custom-file "~/.emacs.d/custom-vars.el")
+(load custom-file)
+
 ;; Load myinit.org
 (org-babel-load-file (expand-file-name "~/.emacs.d/myinit.straight.org"))
-
-;; Move customization variables to a separate file and load it
-(setq custom-file (locate-user-emacs-file "custom-vars.el"))
-(load custom-file 'noerror 'nomessage)
