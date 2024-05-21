@@ -2280,11 +2280,13 @@ fullscreen effect disabled in customize
 (use-package writeroom-mode
   :ensure t
   :after org
-  :bind (("C-|" . writeroom-mode)
+  :config
+  (setq writeroom-width 76)
+  :bind
+  (("C-|" . writeroom-mode)
          :map writeroom-mode-map
          ("s-?" . nil) ;; free up for help
-         ("<S-f6>" . writeroom-toggle-mode-line))
-  )
+         ("<S-f6>" . writeroom-toggle-mode-line)))
 
 #+end_SRC
 
