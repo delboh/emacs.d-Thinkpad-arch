@@ -1872,13 +1872,104 @@ LaTeX output from org-mode files
 #+end_SRC
 * printing
 #+begin_SRC emacs-lisp
-(setq ps-printer-name t)
-(setq ps-lpr-command "C:/Program Files/gs/gs9.55.0/bin/gswin64.exe")
-(setq ps-lpr-switches '("-q" "-dNOPAUSE" "-dBATCH"
-                        "-sDEVICE=mswinpr2"
-                        "-sPAPERSIZE=a4"))
-#+end_SRC
 
+#+end_SRC
+* prot/olivetti mode
+https://protesilaos.com/codelog/2020-07-18-emacs-concept-org-tweaked-focus/
+#+BEGIN_SRC emacs-lisp
+(use-package emacs
+  :commands prot/hidden-mode-line-mode
+  :config
+  (setq mode-line-percent-position '(-3 "%p"))
+  (setq mode-line-defining-kbd-macro
+        (propertize " Macro" 'face 'mode-line-emphasis))
+  (setq-default mode-line-format
+                '("%e"
+                  mode-line-front-space
+                  mode-line-mule-info
+                  mode-line-client
+                  mode-line-modified
+                  mode-line-remote
+                  mode-line-frame-identification
+                  mode-line-buffer-identification
+                  "  "
+                  mode-line-position
+                  (vc-mode vc-mode)
+                  " "
+                  mode-line-modes
+                  " "
+                  mode-line-misc-info
+                  mode-line-end-spaces))
+
+  (define-minor-mode prot/hidden-mode-line-mode
+    "Toggle modeline visibility in the current buffer."
+    :init-value nil
+    :global nil
+    (if prot/hidden-mode-line-mode
+        (setq-local mode-line-format nil)
+      (kill-local-variable 'mode-line-format)
+      (force-mode-line-update))))
+
+(use-package org-superstar              ; supersedes `org-bullets'
+  :ensure t
+  :after org
+  :config
+  (setq org-superstar-remove-leading-stars t)
+  (setq org-superstar-headline-bullets-list '(" ")) ;; '("🞛" "◉" "○" "▷")
+  (setq org-superstar-item-bullet-alist
+        '((?+ . ?•)
+          (?* . ?➤)
+          (?- . ?–)))
+  (org-superstar-mode -1))
+
+(use-package emacs
+  :config
+  (setq window-divider-default-right-width 1)
+  (setq window-divider-default-bottom-width 1)
+  (setq window-divider-default-places t)
+  (window-divider-mode -1))
+
+(use-package olivetti
+  :ensure t
+  :diminish
+  :config
+  (setq olivetti-body-width 0.65)
+  (setq olivetti-minimum-body-width 72)
+  (setq olivetti-recall-visual-line-mode-entry-state t)
+
+  (define-minor-mode prot/olivetti-mode
+    "Toggle buffer-local `olivetti-mode' with additional parameters.
+
+Fringes are disabled.  The modeline is hidden, except for
+`prog-mode' buffers (see `prot/hidden-mode-line-mode').  The
+default typeface is set to a proportionately-spaced family,
+except for programming modes (see `prot/variable-pitch-mode').
+The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
+    :init-value nil
+    :global nil
+    (if prot/olivetti-mode
+        (progn
+          (olivetti-mode 1)
+          (set-window-fringes (selected-window) 0 0)
+ ;;         (prot/variable-pitch-mode 1)
+ ;;         (prot/cursor-type-mode 1)
+          (unless (derived-mode-p 'prog-mode)
+            (prot/hidden-mode-line-mode 1))
+          (window-divider-mode 1)
+          (when (eq major-mode 'org-mode)
+            (org-superstar-mode 1)))
+      (olivetti-mode -1)
+      (set-window-fringes (selected-window) nil) ; Use default width
+;;      (prot/variable-pitch-mode -1)
+;;      (prot/cursor-type-mode -1)
+      (unless (derived-mode-p 'prog-mode)
+        (prot/hidden-mode-line-mode -1))
+      (window-divider-mode -1)
+      (when (eq major-mode "org-mode")
+        (org-superstar-mode -1))))
+
+  :bind ("C-|" . prot/olivetti-mode))
+#+END_SRC
 * Reftex
 #+begin_src emacs-lisp
   ;; (use-package reftex
@@ -2250,14 +2341,14 @@ Brings up some help
 * writeroom mode
 fullscreen effect disabled in customize
 #+begin_SRC emacs-lisp
-(use-package writeroom-mode
-  :ensure t
-  :after org
-  :bind
-  (("C-|" . writeroom-mode)
-         :map writeroom-mode-map
-         ("s-?" . nil) ;; free up for help
-         ("<S-f6>" . writeroom-toggle-mode-line)))
+;; (use-package writeroom-mode
+;;   :ensure t
+;;   :after org
+;;   :bind
+;;   (("C-|" . writeroom-mode)
+;;          :map writeroom-mode-map
+;;          ("s-?" . nil) ;; free up for help
+;;          ("<S-f6>" . writeroom-toggle-mode-line)))
 
 #+end_SRC
 
