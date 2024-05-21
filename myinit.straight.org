@@ -2253,8 +2253,6 @@ fullscreen effect disabled in customize
 (use-package writeroom-mode
   :ensure t
   :after org
-  :config
-  (setq writeroom-width 76)
   :bind
   (("C-|" . writeroom-mode)
          :map writeroom-mode-map
