@@ -1172,9 +1172,9 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
   (setq org-cite-global-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json")
               org-cite-export-processors
               '((md . (csl "~/Dropbox/Zotero_Libraries/styles/harvard-anglia-ruskin-university.csl"))
-                (latex . (csl "~/Dropbox/Zotero/styles/harvard-anglia-ruskin-university.csl"))
-                (odt . (csl "~/Dropbox/Zotero/styles/harvard-anglia-ruskin-university.csl"))
-                (t . (csl "~/Dropbox/Zotero/styles/harvard-anglia-ruskin-university.csl"))
+                (latex . (csl "~/Dropbox/Zotero_Libraries/styles/harvard-anglia-ruskin-university.csl"))
+                (odt . (csl "~/Dropbox/Zotero_Libraries/styles/harvard-anglia-ruskin-university.csl"))
+                (t . (csl "~/Dropbox/Zotero_Libraries/styles/harvard-anglia-ruskin-university.csl"))
         ))
 
 ;;       ;;;;;
