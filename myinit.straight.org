@@ -860,22 +860,17 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
 
 #+END_SRC
 
-* font size
-#+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :height 100)
-#+END_SRC
 * free-keys
 #+begin_src emacs-lisp
   (use-package free-keys
     :ensure t)
 #+end_src
-* git
+* magit
 #+BEGIN_SRC emacs-lisp 
 (use-package magit
   :ensure t
-  :init
-  (progn
-    (bind-key "C-x g" 'magit-status)
+  :config
+  (setq magit-define-global-key-bindings 'recommended
     ))
 #+END_SRC
 
@@ -1910,6 +1905,19 @@ https://protesilaos.com/codelog/2020-07-18-emacs-concept-org-tweaked-focus/
       (kill-local-variable 'mode-line-format)
       (force-mode-line-update))))
 
+(use-package face-remap
+  :diminish buffer-face-mode            ; the actual mode
+  :commands prot/variable-pitch-mode
+  :config
+  (define-minor-mode prot/variable-pitch-mode
+    "Toggle `variable-pitch-mode', except for `prog-mode'."
+    :init-value nil
+    :global nil
+    (if prot/variable-pitch-mode
+        (unless (derived-mode-p 'prog-mode)
+          (variable-pitch-mode 1))
+      (variable-pitch-mode -1))))
+
 (use-package org-superstar              ; supersedes `org-bullets'
   :ensure t
   :after org
@@ -1951,8 +1959,8 @@ The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
         (progn
           (olivetti-mode 1)
           (set-window-fringes (selected-window) 0 0)
- ;;         (prot/variable-pitch-mode 1)
- ;;         (prot/cursor-type-mode 1)
+         (prot/variable-pitch-mode 1)
+;;         (prot/cursor-type-mode 1)
           (unless (derived-mode-p 'prog-mode)
             (prot/hidden-mode-line-mode 1))
           (window-divider-mode 1)
@@ -1960,7 +1968,7 @@ The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
             (org-superstar-mode 1)))
       (olivetti-mode -1)
       (set-window-fringes (selected-window) nil) ; Use default width
-;;      (prot/variable-pitch-mode -1)
+      (prot/variable-pitch-mode -1)
 ;;      (prot/cursor-type-mode -1)
       (unless (derived-mode-p 'prog-mode)
         (prot/hidden-mode-line-mode -1))
@@ -2138,8 +2146,13 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
 #+END_SRC
 * theme & fonts
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'default-frame-alist '(font . "Hack-10.5"))
-(set-face-attribute 'default t :font "Hack-10.5" )
+(set-face-attribute 'default nil :font "Hack-12")
+(set-face-attribute 'fixed-pitch nil :font "Hack-12")
+(set-face-attribute 'variable-pitch nil :font "Alegreya-14")
+
+(dolist (face '(default fixed-pitch))
+  (set-face-attribute `,face nil :font "Hack-12"))
+
 (setq-default line-spacing 0.2)
 
 ;; (require 'plain-theme)
