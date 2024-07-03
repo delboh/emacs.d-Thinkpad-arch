@@ -204,6 +204,7 @@ from https://www.emacswiki.org/emacs/BackupDirectory
   :ensure t
   :after (citar org-roam)
   :config (citar-org-roam-mode))
+
 #+END_SRC
 * clean empty lines
 #+BEGIN_SRC emacs-lisp
