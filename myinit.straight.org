@@ -180,6 +180,9 @@ from https://www.emacswiki.org/emacs/BackupDirectory
   :custom
   (citar-notes-paths '("~/org-roam/")) ;; List of directories for reference nodes
   (citar-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json")) ;;List of bibliography files
+  (org-cite-insert-processor 'citar)
+  (org-cite-follow-processor 'citar)
+  (org-cite-activate-processor 'citar)
   :hook
   (LaTeX-mode . citar-capf-setup)
   (org-mode . citar-capf-setup)
@@ -188,6 +191,8 @@ from https://www.emacswiki.org/emacs/BackupDirectory
               ("C-c b" . #'org-cite-insert)
               ("C-c r" . citar-insert-reference)
               ("C-c o" . citar-open-notes)))
+;; Open embark menu with org-open-at-point
+(setq citar-at-point-function 'embark-act)
 
 (use-package citar-embark
   :ensure t
