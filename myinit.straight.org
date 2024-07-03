@@ -175,45 +175,24 @@ from https://www.emacswiki.org/emacs/BackupDirectory
 
 (use-package citar
   :ensure t
-  :no-require
   :custom
-  (org-cite-global-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json"))
   (citar-notes-paths '("~/org-roam/")) ;; List of directories for reference nodes
-  (org-cite-insert-processor 'citar)
-  (org-cite-follow-processor 'citar)
-  (org-cite-activate-processor 'citar)
-  (citar-bibliography org-cite-global-bibliography)
-  (citar-at-point-function 'citar-dwim) ;; default
-  ;; (citar-at-point-function embark-act) ;; Use `embark'
-  (citar-templates
-   ;; default
-   '((main . "${author editor:30%sn}     ${date year issued:4}     ${title:48}")
-     (suffix . "          ${=key= id:15}    ${=type=:12}    ${tags keywords keywords:*}")
-     (preview . "${author editor:%etal} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.")
-     (note . "Notes on ${author editor:%etal}, ${title}")))
-  ;; from https://kristofferbalintona.me/posts/202206141852/
-  ;;   (main . "${author editor:30}   ${date year issued:4}    ${title:110}")
-  ;;   (suffix . "     ${=type=:20}    ${tags keywords keywords:*}")
-  ;;   (preview . "${author editor} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
-  ;;   (note . "#+title: Notes on ${author editor}, ${title}") ; For new notes
+  (citar-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json")) ;;List of bibliography files
+  :hook
+  (LaTeX-mode . citar-capf-setup)
+  (org-mode . citar-capf-setup)
   :bind (:map org-mode-map
               ;; org-cite-insert is also bound to C-c C-x C-@
               ("C-c b" . #'org-cite-insert)
               ("C-c r" . citar-insert-reference)
               ("C-c o" . citar-open-notes)))
 
-
-#+end_SRC
-* citar-embark
-#+BEGIN_SRC emacs-lisp
 (use-package citar-embark
   :ensure t
   :after citar embark
   :no-require
   :config (citar-embark-mode))
-#+END_SRC
-* citar-org-roam
-#+BEGIN_SRC emacs-lisp
+
 (use-package citar-org-roam
   :ensure t
   :after (citar org-roam)
@@ -554,10 +533,6 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
 
     ;; Also see `denote-link-backlinks-display-buffer-action' which is a bit
     ;; advanced.
-
-    ;; If you use Markdown or plain text files (Org renders links as buttons
-    ;; right away)
-    (add-hook 'find-file-hook #'denote-link-buttonize-buffer)
 
     ;; We use different ways to specify a path for demo purposes.
   ;;  (setq denote-dired-directories
@@ -1170,133 +1145,133 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; org-cite ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   (setq org-cite-global-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json")
-              org-cite-export-processors
-              '((md . (csl "~/Dropbox/Zotero_Libraries/styles/harvard-anglia-ruskin-university.csl"))
-                (latex . (csl "~/Dropbox/Zotero_Libraries/styles/harvard-anglia-ruskin-university.csl"))
-                (odt . (csl "~/Dropbox/Zotero_Libraries/styles/harvard-anglia-ruskin-university.csl"))
-                (t . (csl "~/Dropbox/Zotero_Libraries/styles/harvard-anglia-ruskin-university.csl"))
-        ))
+        org-cite-csl-styles-dir "~/Zotero/styles")
+        ;; org-cite-export-processors
+        ;; '((md . (csl "~/Dropbox/Zotero_Libraries/styles/harvard-anglia-ruskin-university.csl"))
+        ;;   (latex . (csl "~/Dropbox/Zotero_Libraries/styles/harvard-anglia-ruskin-university.csl"))
+        ;;   (odt . (csl "~/Dropbox/Zotero_Libraries/styles/harvard-anglia-ruskin-university.csl"))
+        ;;   (t . (csl "~/Dropbox/Zotero_Libraries/styles/harvard-anglia-ruskin-university.csl")))) ; fallback
 
-;;       ;;;;;
+  ;;       ;;;;;
   ;;;;;;;;;;;;;;;;;;;;;;;;; org-agenda options ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; org-agenda-files '("~/Dropbox/org/")                                       ; set in custom-vars.el
-(setq  org-agenda-custom-commands                                                               ; org-agenda custom commands
-       '(("1" "Hoggery" tags-todo "project1")
-         ("2" "Hoggery" tags-todo "project2")
-         ("3" "Hoggery" tags-todo "project3")
-         ("D" "Hoggery" tags-todo "development")
-         ("r" "Hoggery" tags-todo "reading")
-         ("c" "Hoggery" tags-todo "reference")
-         ("f" "Hoggery" tags-todo "footnote")
-         ("e" "emacs" tags-todo "emacs")
-         ("w" "website" tags-todo "website")
-         ("z" "zettel" tags-todo "zettel")))
-(setq org-todo-keywords
-      '((sequence "TODO" "INPROGRESS" "DONE")))
-(setq org-capture-templates                                                                    ; org-capture-templates
-      '(("i" "inbox" entry
-         (file+olp "~/Dropbox/org/gtd.org" "INBOX")
-         "** TODO %?\n %^G")          
-        ("t" "gtd scheduled" entry
-         (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Scheduled Tasks")
-         "*** TODO %?\n SCHEDULED: %^t")
-        ("s" "gtd scheduled with deadline" entry
-         (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Scheduled Tasks")
-         "*** TODO %?\n SCHEDULED: %^t DEADLINE: %^t")          
-        ("D" "gtd scheduled dels" entry
-         (file+olp "~/Dropbox/org/gtd.org" "DELS")
-         "** %? :dels:\n  SCHEDULED: %^t")
-        ("e" "gtd scheduled Event" entry
-         (file+olp "~/Dropbox/org/gtd.org" "EVENTS")
-         "** %?\n SCHEDULED: %^t")
-        ("O " "gtd Oxford" entry
-         (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Maintenance" "Argyle Street")
-         "**** TODO %? :Oxford:")
-        ("M" "gtd Millbrae" entry
-         (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Maintenance" "Millbrae")
-         "**** TODO %? :Glasgow:")
-        ("S" "gtd Studio Maintenance" entry
-         (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Maintenance" "Studio")
-         "**** TODO %? :Studio:")          
-        ("j" "Journal" entry
-         (file+olp+datetree "~\Dropbox\org\jurnal.org" "JURNAL")
-         "** %?\nEntered on %U\n  %a" :empty-lines 1)
-        ("1" "project1 TODO" entry
-         (file+olp "~/Dropbox/org/gtd.org" "PROJECT1")
-         "** TODO %? :project1: ")
-        ("2" "project2 TODO" entry
-         (file+olp "~/Dropbox/org/gtd.org" "PROJECT2")
-         "** TODO %? :project2: ")
-        ("3" "project3 TODO" entry
-         (file+olp "~\Dropbox\org\gtr.org" "PROJECT3")
-         "** TODO %? :project3:")
-        ("d" "development TODO" entry
-         (file+olp "~/Dropbox/org/gtd.org" "DEVELOPMENT PROJECT")
-         "** TODO %? :development: ")
-        ("r" "reading TODO" entry
-         (file+olp "~/Dropbox/org/gtd.org" "READING")
-         "** TODO %? :reading: ")          
-        ("w" "website TODO" entry
-         (file+olp "~/Dropbox/org/gtd.org" "WEBSITE")
-         "** TODO %? :website: ")
-        ("c" "reference TODO" entry
-         (file+olp "~/Dropbox/org/gtd.org" "WRITING" "references")
-         "** TODO %? :reference: ")
-        ("f" "footnote TODO" entry
-         (file+olp "~/Dropbox/org/gtd.org" "WRITING" "footnotes")
-         "** TODO %? :footnote:")
-        ("z" "zettel TODO" entry
-         (file+olp "~/Dropbox/org/gtd.org" "ZETTEL")
-         "** TODO %? :zettel: ")
-        ("b" "blog TODO" entry
-         (file+olp "~/Dropbox/org/gtd.org" "BLOG")
-         "** TODO %? :blog:")))
-(setq org-tag-alist                                                                            ; org-tag-alist
-      '((:startgroup . nil)
-        ("dels" . ?D) ("HOGGERY" . ?H) ("SJoP" . ?S) ("MAINTENANCE" . ?M)
-        (:endgroup . nil)
-        (:startgroup . nil)
-        ("Oxford" . ?o) ("Glasgow" . ?g) ("Studio" . ?s)
-        (:endgroup . nil)
-        (:startgroup . nil)
-        ("project1" . ?1)
-        ("project2" . ?2)
-        ("project3" . ?3)
-        ("development" . ?d)
-        (:endgroup . nil)
-        ("writing" . ?w)
-        ("reading" . ?r)
-        ("reference" . ?c)
-        ("footnote" . ?f)
-        ("emacs" . ?e)
-        ("zettel" . ?z)
-        ("website" . ?y)
-        ("blog" . ?b)
-        ("ignore" . ?i)
-        ("noexport" . ?n)))
-(setq org-structure-template-alist                                                              ; org-structure-templates
-      '(("me" . "mesostic")
-        ("fi" . "figure")
-        ("fl" . "flushright")
-        ("sh" . "SRC sh")
-        ("el" . "SRC emacs-lisp")
-        ("a" . "export ascii")
-        ("c" . "center")
-        ("C" . "comment")
-        ("ex" . "example")
-        ("E" . "export")
-        ("h" . "export html")
-        ("l" . "export latex")
-        ("q" . "quote")
-        ("s" . "src")
-        ("v" . "verse")))
-:bind (("C-c a" . org-agenda)
-       :map org-mode-map
-       ("C-c l" . org-store-link)                                                               ; default key binding not working!
-       ("C-c c" . org-capture)
-       ("C-c ]" . org-ref-insert-linkl)
-       ("C-c [" . nil)
-       ("C-<f12>" . org-agenda-file-to-front)))                                                ; disable org-agenda-file-to-front
+  ;; org-agenda-files '("~/Dropbox/org/")                                       ; set in custom-vars.el
+  (setq  org-agenda-custom-commands                                                               ; org-agenda custom commands
+         '(("1" "Hoggery" tags-todo "project1")
+           ("2" "Hoggery" tags-todo "project2")
+           ("3" "Hoggery" tags-todo "project3")
+           ("D" "Hoggery" tags-todo "development")
+           ("r" "Hoggery" tags-todo "reading")
+           ("c" "Hoggery" tags-todo "reference")
+           ("f" "Hoggery" tags-todo "footnote")
+           ("e" "emacs" tags-todo "emacs")
+           ("w" "website" tags-todo "website")
+           ("z" "zettel" tags-todo "zettel")))
+  (setq org-todo-keywords
+        '((sequence "TODO" "INPROGRESS" "DONE")))
+  (setq org-capture-templates                                                                    ; org-capture-templates
+        '(("i" "inbox" entry
+           (file+olp "~/Dropbox/org/gtd.org" "INBOX")
+           "** TODO %?\n %^G")          
+          ("t" "gtd scheduled" entry
+           (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Scheduled Tasks")
+           "*** TODO %?\n SCHEDULED: %^t")
+          ("s" "gtd scheduled with deadline" entry
+           (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Scheduled Tasks")
+           "*** TODO %?\n SCHEDULED: %^t DEADLINE: %^t")          
+          ("D" "gtd scheduled dels" entry
+           (file+olp "~/Dropbox/org/gtd.org" "DELS")
+           "** %? :dels:\n  SCHEDULED: %^t")
+          ("e" "gtd scheduled Event" entry
+           (file+olp "~/Dropbox/org/gtd.org" "EVENTS")
+           "** %?\n SCHEDULED: %^t")
+          ("O " "gtd Oxford" entry
+           (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Maintenance" "Argyle Street")
+           "**** TODO %? :Oxford:")
+          ("M" "gtd Millbrae" entry
+           (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Maintenance" "Millbrae")
+           "**** TODO %? :Glasgow:")
+          ("S" "gtd Studio Maintenance" entry
+           (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Maintenance" "Studio")
+           "**** TODO %? :Studio:")          
+          ("j" "Journal" entry
+           (file+olp+datetree "~\Dropbox\org\jurnal.org" "JURNAL")
+           "** %?\nEntered on %U\n  %a" :empty-lines 1)
+          ("1" "project1 TODO" entry
+           (file+olp "~/Dropbox/org/gtd.org" "PROJECT1")
+           "** TODO %? :project1: ")
+          ("2" "project2 TODO" entry
+           (file+olp "~/Dropbox/org/gtd.org" "PROJECT2")
+           "** TODO %? :project2: ")
+          ("3" "project3 TODO" entry
+           (file+olp "~\Dropbox\org\gtr.org" "PROJECT3")
+           "** TODO %? :project3:")
+          ("d" "development TODO" entry
+           (file+olp "~/Dropbox/org/gtd.org" "DEVELOPMENT PROJECT")
+           "** TODO %? :development: ")
+          ("r" "reading TODO" entry
+           (file+olp "~/Dropbox/org/gtd.org" "READING")
+           "** TODO %? :reading: ")          
+          ("w" "website TODO" entry
+           (file+olp "~/Dropbox/org/gtd.org" "WEBSITE")
+           "** TODO %? :website: ")
+          ("c" "reference TODO" entry
+           (file+olp "~/Dropbox/org/gtd.org" "WRITING" "references")
+           "** TODO %? :reference: ")
+          ("f" "footnote TODO" entry
+           (file+olp "~/Dropbox/org/gtd.org" "WRITING" "footnotes")
+           "** TODO %? :footnote:")
+          ("z" "zettel TODO" entry
+           (file+olp "~/Dropbox/org/gtd.org" "ZETTEL")
+           "** TODO %? :zettel: ")
+          ("b" "blog TODO" entry
+           (file+olp "~/Dropbox/org/gtd.org" "BLOG")
+           "** TODO %? :blog:")))
+  (setq org-tag-alist                                                                            ; org-tag-alist
+        '((:startgroup . nil)
+          ("dels" . ?D) ("HOGGERY" . ?H) ("SJoP" . ?S) ("MAINTENANCE" . ?M)
+          (:endgroup . nil)
+          (:startgroup . nil)
+          ("Oxford" . ?o) ("Glasgow" . ?g) ("Studio" . ?s)
+          (:endgroup . nil)
+          (:startgroup . nil)
+          ("project1" . ?1)
+          ("project2" . ?2)
+          ("project3" . ?3)
+          ("development" . ?d)
+          (:endgroup . nil)
+          ("writing" . ?w)
+          ("reading" . ?r)
+          ("reference" . ?c)
+          ("footnote" . ?f)
+          ("emacs" . ?e)
+          ("zettel" . ?z)
+          ("website" . ?y)
+          ("blog" . ?b)
+          ("ignore" . ?i)
+          ("noexport" . ?n)))
+  (setq org-structure-template-alist                                                              ; org-structure-templates
+        '(("me" . "mesostic")
+          ("fi" . "figure")
+          ("fl" . "flushright")
+          ("sh" . "SRC sh")
+          ("el" . "SRC emacs-lisp")
+          ("a" . "export ascii")
+          ("c" . "center")
+          ("C" . "comment")
+          ("ex" . "example")
+          ("E" . "export")
+          ("h" . "export html")
+          ("l" . "export latex")
+          ("q" . "quote")
+          ("s" . "src")
+          ("v" . "verse")))
+  :bind (("C-c a" . org-agenda)
+         :map org-mode-map
+         ("C-c l" . org-store-link)                                                               ; default key binding not working!
+         ("C-c c" . org-capture)
+         ("C-c ]" . org-ref-insert-linkl)
+         ("C-c [" . nil)
+         ("C-<f12>" . org-agenda-file-to-front)))                                                ; disable org-agenda-file-to-front
 ;; END OF USEPACKAGE SETTINGS ;;;;;;;;;;;;;;;;;;;;;
 
 ;; org-file-apps ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1436,45 +1411,44 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 * org-ref REPLACED BY ORG-CITE?
 replaced by org-cite
 #+BEGIN_SRC emacs-lisp
-  (use-package org-ref
-    :ensure t)
+    ;; (use-package org-ref
+    ;;   :ensure t)
 
-;;;Deprecated in org-ref v3
-  ;; (setq org-ref-bibliography-notes "C:\\Users\\delbo\\Dropbox\\bibliography\\notes.org"
-  ;;       org-ref-default-bibliography '("C:\\Users\\delbo\\Dropbox\\Zotero_Libraries\\MyLibrary.bib");; MUST BE A LIST ;;
-  ;;       org-ref-pdf-directory "C:\\Users\\delbo\\Dropbox\\bibliography\\bibtex-pdfs\\")
-  
-(setq bibtex-completion-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.bib")
-      bibtex-completion-library-path '("~/Dropbox/org-pdfs/")
-      bibtex-completion-notes-path "~/Dropbox/bibliography/notes/"
-	  bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
-	  bibtex-completion-additional-search-fields '(keywords)
-	  bibtex-completion-display-formats
-	  '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
-	    (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
-	    (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-	    (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-	    (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
-	  bibtex-completion-pdf-open-function
-	  (lambda (fpath)
-	    (call-process "open" nil 0 nil fpath)))
-  
-  (setq org-src-fontify-natively t
-        org-confirm-babel-evaluate nil
-        org-src-preserve-indentation t
-        org-ref-default-citation-link "autocite")
-  
-  (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
-        org-ref-insert-cite-function 'org-ref-cite-insert-ivy
-        org-ref-insert-label-function 'org-ref-insert-label-link
-        org-ref-insert-ref-function 'org-ref-insert-ref-link
-        org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
-  
-  
-  (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
-  (define-key org-mode-map (kbd "s-[") 'org-ref-insert-link-hydra/body)
-  ;; (global-set-key (kbd "C-c C-]") 'org-ref-insert-cite-with-completion)
-  
+  ;;;Deprecated in org-ref v3
+    ;; (setq org-ref-bibliography-notes "C:\\Users\\delbo\\Dropbox\\bibliography\\notes.org"
+    ;;       org-ref-default-bibliography '("C:\\Users\\delbo\\Dropbox\\Zotero_Libraries\\MyLibrary.bib");; MUST BE A LIST ;;
+    ;;       org-ref-pdf-directory "C:\\Users\\delbo\\Dropbox\\bibliography\\bibtex-pdfs\\")
+    
+  (setq bibtex-completion-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.bib")
+        bibtex-completion-library-path '("~/Dropbox/org-pdfs/")
+        bibtex-completion-notes-path "~/Dropbox/bibliography/notes/"
+  	  bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
+  	  bibtex-completion-additional-search-fields '(keywords)
+  	  bibtex-completion-display-formats
+  	  '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+  	    (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+  	    (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+  	    (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+  	    (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
+  	  bibtex-completion-pdf-open-function
+  	  (lambda (fpath)
+  	    (call-process "open" nil 0 nil fpath)))
+    
+    (setq org-confirm-babel-evaluate nil
+          org-src-preserve-indentation t)
+    
+    ;; (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
+    ;;       org-ref-insert-cite-function 'org-ref-cite-insert-ivy
+    ;;       org-ref-insert-label-function 'org-ref-insert-label-link
+    ;;       org-ref-insert-ref-function 'org-ref-insert-ref-link
+    ;;       org-ref-default-citation-link "autocite"
+    ;;       org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
+    
+    
+    ;; (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
+    ;; (define-key org-mode-map (kbd "s-[") 'org-ref-insert-link-hydra/body)
+    ;; ;; (global-set-key (kbd "C-c C-]") 'org-ref-insert-cite-with-completion)
+    
 #+end_src
 * org-roam
 #+begin_SRC emacs-lisp
