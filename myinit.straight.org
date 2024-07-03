@@ -91,7 +91,9 @@ moved to "custom-vars.el"
 #+END_SRC
 * AUCTeX
 #+begin_src emacs-lisp
-  ;; make AUCTeX aware of the multi-file document structure.
+(use-package auctex
+  :ensure t)
+;; make AUCTeX aware of the multi-file document structure.
   ;; Each time you open a new file, AUCTeX will then ask you for a master file.
   (setq-default TeX-master nil)
 #+end_src
