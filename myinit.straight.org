@@ -1124,8 +1124,6 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 * Org mode
 #+BEGIN_SRC emacs-lisp 
 (use-package org
-  :ensure t
-  :pin gnu
   :init
   (setq org-directory "~/org"
         org-archive-subtree-save-file-p nil                                                      ; avoids permission error when archiving in Dropbox
