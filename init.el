@@ -31,12 +31,8 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-;; It is recommended to put (straight-use-package 'org) early in the config.
-;; Ideally, right after the straight.el bootstrap.
-
-(straight-use-package 'org)
-
 (straight-use-package 'use-package)
+(straight-use-package '(org :type built-in))
 
 ;; Move customization variables to a separate file and load it
 (setq custom-file "~/.emacs.d/custom-vars.el")
