@@ -1145,7 +1145,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; org-cite ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   (setq org-cite-global-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json")
-        org-cite-csl-styles-dir "~/Zotero/styles/"
+        org-cite-csl-styles-dir "~/Dropbox/Zotero_Libraries/styles/"
         org-cite-export-processors '((t csl))) ; fallback
 
   ;;       ;;;;;
