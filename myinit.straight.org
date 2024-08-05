@@ -1929,7 +1929,7 @@ The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
         (progn
           (olivetti-mode 1)
           (set-window-fringes (selected-window) 0 0)
-         (prot/variable-pitch-mode 1)
+;;         (prot/variable-pitch-mode 1) 
 ;;         (prot/cursor-type-mode 1)
           (unless (derived-mode-p 'prog-mode)
             (prot/hidden-mode-line-mode 1))
@@ -1938,7 +1938,7 @@ The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
             (org-superstar-mode 1)))
       (olivetti-mode -1)
       (set-window-fringes (selected-window) nil) ; Use default width
-      (prot/variable-pitch-mode -1)
+;;      (prot/variable-pitch-mode -1)
 ;;      (prot/cursor-type-mode -1)
       (unless (derived-mode-p 'prog-mode)
         (prot/hidden-mode-line-mode -1))
