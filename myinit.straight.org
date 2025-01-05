@@ -168,6 +168,26 @@ from https://www.emacswiki.org/emacs/BackupDirectory
   ;;    version-control t)       ; use versioned backups
 
 #+END_SRC
+* bibtex completion config
+#+BEGIN_SRC emacs-lisp
+  (setq bibtex-completion-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.bib")
+        bibtex-completion-library-path '("~/Dropbox/org-pdfs/")
+        bibtex-completion-notes-path "~/Dropbox/bibliography/notes/"
+  	  bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
+  	  bibtex-completion-additional-search-fields '(keywords)
+  	  bibtex-completion-display-formats
+  	  '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+  	    (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+  	    (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+  	    (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+  	    (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
+  	  bibtex-completion-pdf-open-function
+  	  (lambda (fpath)
+  	    (call-process "open" nil 0 nil fpath)))
+    
+    (setq org-confirm-babel-evaluate nil
+          org-src-preserve-indentation t)
+#+END_SRC
 * browse-url
 #+BEGIN_SRC emacs-lisp
 (setq browse-url-browser-function 'eww-browse-url
@@ -1009,10 +1029,15 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
     :commands (markdown-mode gfm-mode)
     :mode (("README\\.md\\'" . gfm-mode)
            ("\\.md\\'" . markdown-mode)
-           ("\\.markdown\\'" . markdown-mode))
-    :init (setq markdown-command "multimarkdown"))
+           ("\\.markdown\\'" . markdown-mode)
+           ("\\.mkd\\'" .markdown-mode)
+           ("\\.mdown\\'" .markdown-mode)
+           ("\\.mkdn\\'" .markdown-mode)
+           ("\\.mdwn\\'" .markdown-mode))
+    :init (setq markdown-command "pandoc"))
 
-  '(markdown-command "pandoc")
+;; '(markdown-command "pandoc") 
+
 #+END_SRC
 * move-text
 #+begin_SRC emacs-lisp
@@ -1404,8 +1429,8 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
   :ensure t)
 
 #+END_SRC
-* org-ref REPLACED BY ORG-CITE?
-replaced by org-cite
+* org-ref REPLACED BY ORG-CITE
+replaced by org-cite--configuration retained for clarity
 #+BEGIN_SRC emacs-lisp
     ;; (use-package org-ref
     ;;   :ensure t)
@@ -1414,25 +1439,7 @@ replaced by org-cite
     ;; (setq org-ref-bibliography-notes "C:\\Users\\delbo\\Dropbox\\bibliography\\notes.org"
     ;;       org-ref-default-bibliography '("C:\\Users\\delbo\\Dropbox\\Zotero_Libraries\\MyLibrary.bib");; MUST BE A LIST ;;
     ;;       org-ref-pdf-directory "C:\\Users\\delbo\\Dropbox\\bibliography\\bibtex-pdfs\\")
-    
-  (setq bibtex-completion-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.bib")
-        bibtex-completion-library-path '("~/Dropbox/org-pdfs/")
-        bibtex-completion-notes-path "~/Dropbox/bibliography/notes/"
-  	  bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
-  	  bibtex-completion-additional-search-fields '(keywords)
-  	  bibtex-completion-display-formats
-  	  '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
-  	    (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
-  	    (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-  	    (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-  	    (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
-  	  bibtex-completion-pdf-open-function
-  	  (lambda (fpath)
-  	    (call-process "open" nil 0 nil fpath)))
-    
-    (setq org-confirm-babel-evaluate nil
-          org-src-preserve-indentation t)
-    
+        
     ;; (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
     ;;       org-ref-insert-cite-function 'org-ref-cite-insert-ivy
     ;;       org-ref-insert-label-function 'org-ref-insert-label-link
@@ -1450,7 +1457,8 @@ replaced by org-cite
 #+begin_SRC emacs-lisp
 (use-package f) ;; Dependency
 (use-package org-roam
-  :demand t  ;; Ensure org-roam is loaded by default
+  :ensure t
+  :pin melpa
   :custom
   (org-roam-directory "~/org-roam/")
   ;; Show tags column in node list
@@ -1526,8 +1534,9 @@ replaced by org-cite
 
 (setq org-roam-file-exclude-regexp
       (concat "^" (expand-file-name org-roam-directory) "logseq/"))
-;;;; org-bibtex ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;; org-roam-bibtex ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package org-roam-bibtex
   :ensure t
   :after org-roam
@@ -1948,7 +1957,8 @@ The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
 
   :bind ("C-|" . prot/olivetti-mode))
 #+END_SRC
-* Reftex
+* Reftex DISABLED
+config retained for clarity
 #+begin_src emacs-lisp
   ;; (use-package reftex
   ;;   :commands turn-on-reftex
