@@ -1511,7 +1511,7 @@ replaced by org-cite--configuration retained for clarity
                 ("C-M-i"   . completion-at-point)
                 )))
   :config
-  (org-roam-setup)
+  (org-roam-db-autosync-enable)
   ;; for org-roam-buffer-toggle
   ;; Recommendation in the official manual
   (add-to-list 'display-buffer-alist
