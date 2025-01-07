@@ -1465,7 +1465,7 @@ replaced by org-cite--configuration retained for clarity
   (org-roam-node-display-template
    (concat "${title:*} "
            (propertize "${tags:10}" 'face 'org-tag)))
-  (org-roam-complete-everywhere t)
+  (org-roam-completion-everywhere t)
   (org-roam-mode-section-functions
    (list #'org-roam-backlinks-section
          #'org-roam-reflinks-section
@@ -1511,6 +1511,7 @@ replaced by org-cite--configuration retained for clarity
                 ("C-M-i"   . completion-at-point)
                 )))
   :config
+  (org-roam-setup)
   ;; for org-roam-buffer-toggle
   ;; Recommendation in the official manual
   (add-to-list 'display-buffer-alist
