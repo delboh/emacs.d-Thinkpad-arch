@@ -1154,6 +1154,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
         org-archive-subtree-save-file-p nil                                                      ; avoids permission error when archiving in Dropbox
         org-default-notes-file (concat org-directory "/notes.org")
         org-use-speed-commands t                                                                 ; activate single letter commands on headlines
+        org-return-follows-link t                                                                ; return opens link at point
         org-src-fontify-natively t
         org-export-html-postamble nil
         org-hide-leading-stars t
