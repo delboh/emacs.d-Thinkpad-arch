@@ -168,25 +168,26 @@ from https://www.emacswiki.org/emacs/BackupDirectory
   ;;    version-control t)       ; use versioned backups
 
 #+END_SRC
-* bibtex completion config
+* bibtex completion config: replaced by citar
+config retained for reference
 #+BEGIN_SRC emacs-lisp
-  (setq bibtex-completion-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.bib")
-        bibtex-completion-library-path '("~/Dropbox/org-pdfs/")
-        bibtex-completion-notes-path "~/Dropbox/bibliography/notes/"
-  	  bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
-  	  bibtex-completion-additional-search-fields '(keywords)
-  	  bibtex-completion-display-formats
-  	  '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
-  	    (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
-  	    (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-  	    (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-  	    (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
-  	  bibtex-completion-pdf-open-function
-  	  (lambda (fpath)
-  	    (call-process "open" nil 0 nil fpath)))
+  ;; (setq bibtex-completion-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.bib")
+  ;;       bibtex-completion-library-path '("~/Dropbox/org-pdfs/")
+  ;;       bibtex-completion-notes-path "~/Dropbox/bibliography/notes/"
+  ;; 	  bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
+  ;; 	  bibtex-completion-additional-search-fields '(keywords)
+  ;; 	  bibtex-completion-display-formats
+  ;; 	  '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+  ;; 	    (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+  ;; 	    (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+  ;; 	    (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+  ;; 	    (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
+  ;; 	  bibtex-completion-pdf-open-function
+  ;; 	  (lambda (fpath)
+  ;; 	    (call-process "open" nil 0 nil fpath)))
     
-    (setq org-confirm-babel-evaluate nil
-          org-src-preserve-indentation t)
+  ;;   (setq org-confirm-babel-evaluate nil
+  ;;         org-src-preserve-indentation t)
 #+END_SRC
 * browse-url
 #+BEGIN_SRC emacs-lisp
