@@ -201,7 +201,7 @@ from https://www.emacswiki.org/emacs/BackupDirectory
   :ensure t
   :init
   (setq citar-notes-paths '("~/org-roam/") ;; List of directories for reference nodes
-        citar-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json") ;;List of bibliography files
+        citar-bibliography org-cite-global-bibliography ;; Set to match org-cite
         org-cite-insert-processor 'citar
         org-cite-follow-processor 'citar
         org-cite-activate-processor 'citar)
@@ -1291,7 +1291,6 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
          :map org-mode-map
          ("C-c l" . org-store-link)                                                               ; default key binding not working!
          ("C-c c" . org-capture)
-         ("C-c ]" . org-ref-insert-linkl)
          ("C-c [" . nil)
          ("C-<f12>" . org-agenda-file-to-front)))                                                ; disable org-agenda-file-to-front
 ;; END OF USEPACKAGE SETTINGS ;;;;;;;;;;;;;;;;;;;;;
@@ -1431,10 +1430,10 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 
 #+END_SRC
 * org-ref REPLACED BY ORG-CITE
-replaced by org-cite--configuration retained for clarity
+replaced by org-cite for citations. Still used for cross references, labels and glossary functions.
 #+BEGIN_SRC emacs-lisp
-    ;; (use-package org-ref
-    ;;   :ensure t)
+    (use-package org-ref
+      :ensure t)
 
   ;;;Deprecated in org-ref v3
     ;; (setq org-ref-bibliography-notes "C:\\Users\\delbo\\Dropbox\\bibliography\\notes.org"
@@ -1448,7 +1447,8 @@ replaced by org-cite--configuration retained for clarity
     ;;       org-ref-default-citation-link "autocite"
     ;;       org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
     
-    
+    (setq org-ref-insert-cite-function (lambda () (org-cite-insert nil)))
+
     ;; (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
     ;; (define-key org-mode-map (kbd "s-[") 'org-ref-insert-link-hydra/body)
     ;; ;; (global-set-key (kbd "C-c C-]") 'org-ref-insert-cite-with-completion)
@@ -1539,12 +1539,23 @@ replaced by org-cite--configuration retained for clarity
 
 ;;;; org-roam-bibtex ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; (use-package org-roam-bibtex
+;;   :ensure t
+;;   :after org-roam
+;;   :config
+;;   (require 'org-ref))
+;; (org-roam-bibtex-mode)                  
+
 (use-package org-roam-bibtex
   :ensure t
   :after org-roam
   :config
-  (require 'org-ref))
-(org-roam-bibtex-mode)
+  (setq orb-preformat-keywords
+        '("citekey" "title" "url" "author-or-editor" "keywords" "file" "year"))
+  (setq orb-process-file-keyword t
+        orb-file-field-extensions '("pdf"))
+  (setq orb-insert-interface 'citar))
+
 
 #+end_SRC
 * org-roam-ui
@@ -1823,7 +1834,7 @@ LaTeX output from org-mode files
                    ("\\mboxsubparagraph{%s}" . "\\mboxsubparagraph*{%s}")))
 
 (setq org-latex-pdf-process '("latexmk -shell-escape -pdf -f %f")
-      org-latex-prefer-user-labels nil) ;;use org-ref for labels
+      org-latex-prefer-user-labels nil) ;; use org-ref for labels
 
 
 #+end_src
