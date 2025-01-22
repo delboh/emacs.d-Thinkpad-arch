@@ -1457,144 +1457,123 @@ replaced by org-cite for citations. Still used for cross references, labels and 
 #+end_src
 * org-roam
 #+begin_SRC emacs-lisp
-  (use-package f) ;; Dependency
-  (use-package org-roam
-    :ensure t
-    :pin melpa
-    :custom
-    (org-roam-directory "~/org-roam/")
-    ;; Show tags column in node list
-    (org-roam-node-display-template
-     (concat "${title:*} "
-             (propertize "${tags:10}" 'face 'org-tag)))
-    (org-roam-completion-everywhere t)
-    (org-roam-mode-section-functions
-     (list #'org-roam-backlinks-section
-           #'org-roam-reflinks-section
-           ;; #'org-roam-unlinked-references-section
-           ))
-    ;; org-roam-db-autosync-mode must be enabled in Easy Customization ;;
-    (org-roam-capture-templates
-     '(("d" "default" plain
-        "%?"
-        :target
-        (file+head
-         "%<%Y%m%d%H%M%S>-${slug}.org"
-         "#+title: ${title}\n")
-        :unnarrowed t)
-       ("p" "project" plain
-        "* Tasks\n\n** TODO %?\n\n"
-        :target
-        (file+head
-         "%<%Y%m%d%H%M%S>-${slug}.org"
-         "#+title: ${title}\n#+category: ${title}\n#+filetags: PROJECT\n")
-        :jump-to-captured t
-        :unnarrowed t)
-       ("z" "zettel" plain
-        "%?"
-        :target
-        (file+head
-         "%<%Y%m%d%H%M%S>-${slug}.org"
-         "#+title: ${title}\n#+filetags: :ZETTEL:\n")
-        :jump-to-captured t
-        :unnarrowed t)
-       ("s" "structure" plain
-        "%?"
-        :target
-        (file+head
-         "%<%Y%m%d%H%M%S>-${slug}.org"
-         "#+title: ${title}\n#+filetags: :STRUCTURE:\n")
-        :jump-to-captured t
-        :unnarrowed t)
-       ("l" "literature reference" plain
-        "\nSource: %^{Source}\n\nAuthor: %^{Author}\nTitle: ${title}\n\n%?"
-        :target
-        (file+head
-         "%<%Y%m%d%H%M%S>-${slug}.org"
-         "#+title: ${title}\n#+filetags: :LITERATURE:\n")
-        :jump-to-captured t
-        :unnarrowed t)
-       ("n" "literature note" plain
-        "\nSource: %^{Source}\n\nAuthor: %^{Author}\nTitle: ${title}\n\n%?"
-        :target
-        (file+head
-         "%(expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory)/${citar-citekey}.org"
-         "#+title: ${citar-citekey} (${citar-date}). ${note-title}.\n#+created: %U\n#+last_modified: %U\n\n")
-        :unnarrowed t)
-       ))
-    :bind (("C-c n f" . org-roam-node-find)
-           (:map org-mode-map
-                 (("C-c n i" . org-roam-node-insert)
-                  ("C-c n I" . org-roam-node-insert-immediate)
-                  ("C-c n l" . org-roam-buffer-toggle)
-                  ("C-c n o" . org-id-get-create)
-                  ("C-c n r" . org-roam-ref-add)
-                  ("C-c n q" . org-roam-tag-add)
-                  ("C-M-i"   . completion-at-point)
-                  )))
-    :config
-    (org-roam-db-autosync-enable)
-    ;; for org-roam-buffer-toggle
-    ;; Recommendation in the official manual
-    (add-to-list 'display-buffer-alist
-                 '("\\*org-roam\\*"
-                   (display-buffer-in-direction)
-                   (direction . right)
-                   (window-width . 0.33)
-                   (window-height . fit-window-to-buffer)))
-    (setq org-roam-graph-executable "/usr/bin/dot"))
+    (use-package f) ;; Dependency
+    (use-package org-roam
+      :ensure t
+      :pin melpa
+      :custom
+      (org-roam-directory "~/org-roam/")
+      ;; Show tags column in node list
+      (org-roam-node-display-template
+       (concat "${title:*} "
+               (propertize "${tags:10}" 'face 'org-tag)))
+      (org-roam-completion-everywhere t)
+      (org-roam-mode-section-functions
+       (list #'org-roam-backlinks-section
+             #'org-roam-reflinks-section
+             ;; #'org-roam-unlinked-references-section
+             ))
+      ;; org-roam-db-autosync-mode must be enabled in Easy Customization ;;
+      (org-roam-capture-templates
+       '(("d" "default" plain
+          "%?"
+          :target
+          (file+head
+           "%<%Y%m%d%H%M%S>-${slug}.org"
+           "#+title: ${title}\n")
+          :unnarrowed t)
+         ("p" "project" plain
+          "* Tasks\n\n** TODO %?\n\n"
+          :target
+          (file+head
+           "%<%Y%m%d%H%M%S>-${slug}.org"
+           "#+title: ${title}\n#+category: ${title}\n#+filetags: PROJECT\n")
+          :jump-to-captured t
+          :unnarrowed t)
+         ("z" "zettel" plain
+          "%?"
+          :target
+          (file+head
+           "%<%Y%m%d%H%M%S>-${slug}.org"
+           "#+title: ${title}\n#+filetags: :ZETTEL:\n")
+          :jump-to-captured t
+          :unnarrowed t)
+         ("s" "structure" plain
+          "%?"
+          :target
+          (file+head
+           "%<%Y%m%d%H%M%S>-${slug}.org"
+           "#+title: ${title}\n#+filetags: :STRUCTURE:\n")
+          :jump-to-captured t
+          :unnarrowed t)
+         ("l" "literature reference" plain
+          "\nSource: %^{Source}\n\nAuthor: %^{Author}\nTitle: ${title}\n\n%?"
+          :target
+          (file+head
+           "%<%Y%m%d%H%M%S>-${slug}.org"
+           "#+title: ${title}\n#+filetags: :LITERATURE:\n")
+          :jump-to-captured t
+          :unnarrowed t)
+         ("n" "literature note" plain
+          "\nSource: %^{Source}\n\nAuthor: %^{Author}\nTitle: ${title}\n\n%?"
+          :target
+          (file+head
+           "%(expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory)/${citar-citekey}.org"
+           "#+title: ${citar-citekey} ${note-title}.\n#+created: %U\n#+last_modified: %U\n#+filetags: :LITERATURE:\n\n")
+          :unnarrowed t)
+         ))
+      :bind (("C-c n f" . org-roam-node-find)
+             (:map org-mode-map
+                   (("C-c n i" . org-roam-node-insert)
+                    ("C-c n I" . org-roam-node-insert-immediate)
+                    ("C-c n R" . citar-create-note)
+                    ("C-c n O" . citar-open-note) ;; open a note directly
+                    ("C-c n l" . org-roam-buffer-toggle)
+                    ("C-c n o" . org-id-get-create)
+                    ("C-c n r" . org-roam-ref-add)
+                    ("C-c n q" . org-roam-tag-add)
+                    ("C-M-i"   . completion-at-point)
+                    )))
+      :config
+      (org-roam-db-autosync-enable)
+      ;; for org-roam-buffer-toggle
+      ;; Recommendation in the official manual
+      (add-to-list 'display-buffer-alist
+                   '("\\*org-roam\\*"
+                     (display-buffer-in-direction)
+                     (direction . right)
+                     (window-width . 0.33)
+                     (window-height . fit-window-to-buffer)))
+      (setq org-roam-graph-executable "/usr/bin/dot"))
 
-  ;; Org roam node from citation lookup
-  ;; from https://www.reddit.com/r/OrgRoam/comments/y8m2h7/problem_creating_org_roam_node_from_cite/
-  (defun mx-org-roam-node-from-cite (citekey)
-    (interactive (list (citar-select-ref)))
-    ;;(message "Selected citekey: %s" citekey)
-    (let* ((entry (citar-get-entry citekey))
-           (title (citar-get-value 'title entry))
-           (author (citar-get-value 'author entry))
-           (type (or (citar-get-value '=type= entry) "reference"))
-           (filepath (format "@%s.org" citekey))
-           (head (format
-  ":PROPERTIES:
-  :ROAM_REFS: [cite:@%s]
-  :END:
-  ,#+title: %s
-  ,#+author: %s
-  ,#+type: %s
-  ,#+filetags: :LITERATURE:\n"
-  citekey title author type)))
-      (org-roam-capture- :templates
-                         `(("r" "reference" plain "%?"
-                            :if-new
-                            (file+head, filepath, head)
-                            :immediate-finish t
-                            :unnarrowed t))
-                         :node (org-roam-node-create :title title)
-                         :props '(:finalize find-file))))
+  ;; integration with citar-create-note to create literature notes
+  ;; see keybindigs above
+  (setq citar-org-roam-capture-template-key "n")
 
-  (require 'org-roam-protocol) ;; provides extensions for capturing content from external applications
 
-  ;; create a new note and insert a link in the current document without opening the new note's buffer. Bound to C-C n I 
-  (defun org-roam-node-insert-immediate (arg &rest args)
-    "create a new note and insert a link in the current document without opening the new note's buffer"
-    (interactive "P")
-    (let ((args (cons arg args))
-          (org-roam-capture-templates (list (append (car org-roam-capture-templates)
-                                                    '(:immediate-finish t)))))
-      (apply #'org-roam-node-insert args)))
+    (require 'org-roam-protocol) ;; provides extensions for capturing content from external applications
 
-  (setq org-roam-file-exclude-regexp
-        (concat "^" (expand-file-name org-roam-directory) "logseq/"))
+    ;; create a new note and insert a link in the current document without opening the new note's buffer. Bound to C-C n I 
+    (defun org-roam-node-insert-immediate (arg &rest args)
+      "create a new note and insert a link in the current document without opening the new note's buffer"
+      (interactive "P")
+      (let ((args (cons arg args))
+            (org-roam-capture-templates (list (append (car org-roam-capture-templates)
+                                                      '(:immediate-finish t)))))
+        (apply #'org-roam-node-insert args)))
 
-  ;;;; org-roam-bibtex ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; replaced by citar-org-roam
+    (setq org-roam-file-exclude-regexp
+          (concat "^" (expand-file-name org-roam-directory) "logseq/"))
 
-  ;; (use-package org-roam-bibtex
-  ;;   :ensure t
-  ;;   :after org-roam
-  ;;   :config
-  ;;   (require 'org-ref))
-  ;; (org-roam-bibtex-mode)                  
+    ;;;; org-roam-bibtex ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; replaced by citar-org-roam
+
+    ;; (use-package org-roam-bibtex
+    ;;   :ensure t
+    ;;   :after org-roam
+    ;;   :config
+    ;;   (require 'org-ref))
+    ;; (org-roam-bibtex-mode)                  
 
 #+end_SRC
 * org-roam-ui
