@@ -201,7 +201,7 @@ from https://www.emacswiki.org/emacs/BackupDirectory
   :ensure t
   :init
   (setq citar-notes-paths '("~/org-roam/") ;; List of directories for reference nodes
-        citar-bibliography org-cite-global-bibliography ;; Set to match org-cite
+        citar-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json") ;; List of directories
         org-cite-insert-processor 'citar
         org-cite-follow-processor 'citar
         org-cite-activate-processor 'citar)
@@ -1474,33 +1474,53 @@ replaced by org-cite for citations. Still used for cross references, labels and 
          ))
   ;; org-roam-db-autosync-mode must be enabled in Easy Customization ;;
   (org-roam-capture-templates
-   '(("d" "default" plain "%?"
-      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                         "#+title: ${title}\n")
+   '(("d" "default" plain
+      "%?"
+      :target
+      (file+head
+       "%<%Y%m%d%H%M%S>-${slug}.org"
+       "#+title: ${title}\n")
       :unnarrowed t)
-     ("p" "project" plain "* Tasks\n\n** TODO %?\n\n"
-      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                         "#+title: ${title}\n#+category: ${title}\n#+filetags: PROJECT\n")
+     ("p" "project" plain
+      "* Tasks\n\n** TODO %?\n\n"
+      :target
+      (file+head
+       "%<%Y%m%d%H%M%S>-${slug}.org"
+       "#+title: ${title}\n#+category: ${title}\n#+filetags: PROJECT\n")
       :jump-to-captured t
       :unnarrowed t)
-     ("z" "zettel" plain "%?"
-      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                         "#+title: ${title}\n#+filetags: :ZETTEL:\n")
+     ("z" "zettel" plain
+      "%?"
+      :target
+      (file+head
+       "%<%Y%m%d%H%M%S>-${slug}.org"
+       "#+title: ${title}\n#+filetags: :ZETTEL:\n")
       :jump-to-captured t
       :unnarrowed t)
-     ("s" "structure" plain ""
-      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                         "#+title: ${title}\n#+filetags: :STRUCTURE:\n")
+     ("s" "structure" plain
+      "%?"
+      :target
+      (file+head
+       "%<%Y%m%d%H%M%S>-${slug}.org"
+       "#+title: ${title}\n#+filetags: :STRUCTURE:\n")
       :jump-to-captured t
       :unnarrowed t)
-     ("l" "literature" plain "\nSource: %^{Source}\n\nAuthor: %^{Author}\nTitle: ${title}\n\n%?"
-      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                         "#+title: ${title}\n#+filetags: :LITERATURE:\n")
+     ("l" "literature reference" plain
+      "\nSource: %^{Source}\n\nAuthor: %^{Author}\nTitle: ${title}\n\n%?"
+      :target
+      (file+head
+       "%<%Y%m%d%H%M%S>-${slug}.org"
+       "#+title: ${title}\n#+filetags: :LITERATURE:\n")
       :jump-to-captured t
       :unnarrowed t)
-     ("r" "bibliography reference" plain "%?"
-      :target (file+head "references/${citekey}.org" "#+title: ${title}\n")
-      :unnarrowed t)))
+     ("n" "literature note" plain
+      "\nSource: %^{Source}\n\nAuthor: %^{Author}\nTitle: ${title}\n\n%?"
+      :target
+      (file+head
+       "%(expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory)/${citar-citekey}.org"
+       "#+title: ${citar-citekey} (${citar-date}). ${note-title}.\n#+created: %U\n#+last_modified: %U\n\n")
+      :unnarrowed t)
+     ))
   :bind (("C-c n f" . org-roam-node-find)
          (:map org-mode-map
                (("C-c n i" . org-roam-node-insert)
@@ -1522,6 +1542,34 @@ replaced by org-cite for citations. Still used for cross references, labels and 
                  (window-width . 0.33)
                  (window-height . fit-window-to-buffer)))
   (setq org-roam-graph-executable "/usr/bin/dot"))
+
+;; Org roam node from citation lookup
+;; from https://www.reddit.com/r/OrgRoam/comments/y8m2h7/problem_creating_org_roam_node_from_cite/
+(defun mx-org-roam-node-from-cite (citekey)
+  (interactive (list (citar-select-ref)))
+  ;;(message "Selected citekey: %s" citekey)
+  (let* ((entry (citar-get-entry citekey))
+         (title (citar-get-value 'title entry))
+         (author (citar-get-value 'author entry))
+         (type (or (citar-get-value '=type= entry) "reference"))
+         (filepath (format "@%s.org" citekey))
+         (head (format
+":PROPERTIES:
+:ROAM_REFS: [cite:@%s]
+:END:
+,#+title: %s
+,#+author: %s
+,#+type: %s
+,#+filetags: :LITERATURE:\n"
+citekey title author type)))
+    (org-roam-capture- :templates
+                       `(("r" "reference" plain "%?"
+                          :if-new
+                          (file+head, filepath, head)
+                          :immediate-finish t
+                          :unnarrowed t))
+                       :node (org-roam-node-create :title title)
+                       :props '(:finalize find-file))))
 
 (require 'org-roam-protocol) ;; provides extensions for capturing content from external applications
 
