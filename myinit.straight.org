@@ -1518,9 +1518,10 @@ replaced by org-cite for citations. Still used for cross references, labels and 
           "\nSource: %^{Source}\n\nAuthor: %^{Author}\nTitle: ${title}\n\n%?"
           :target
           (file+head
-           "%(expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory)/${citar-citekey}.org"
-           "#+title: ${citar-citekey} ${note-title}.\n#+created: %U\n#+last_modified: %U\n#+filetags: :LITERATURE:\n\n")
-          :unnarrowed t)
+          "%(expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory)/${citar-citekey}.org"
+          "#+title: ${citar-citekey} (${citar-date}). ${note-title}.\n#+created: %U\n#+last_modified: %U\n\n")
+          :jump-to-captured t
+           :unnarrowed t)
          ))
       :bind (("C-c n f" . org-roam-node-find)
              (:map org-mode-map
@@ -1549,7 +1550,6 @@ replaced by org-cite for citations. Still used for cross references, labels and 
   ;; integration with citar-create-note to create literature notes
   ;; see keybindigs above
   (setq citar-org-roam-capture-template-key "n")
-
 
     (require 'org-roam-protocol) ;; provides extensions for capturing content from external applications
 
