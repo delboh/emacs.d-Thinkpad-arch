@@ -441,27 +441,6 @@ Version 2017-09-22 2020-09-08"
   (use-package deadgrep
     :ensure t)
 #+end_SRC
-* deft 
-#+begin_src emacs-lisp
-  ;; (use-package deft
-  ;;   :ensure t
-  ;;   :config
-  ;;   (setq deft-directory "~/org-roam/"
-  ;;         deft-recursive t
-  ;;         deft-auto-save-interval 0
-  ;;         deft-extensions '("md" "org" "tex" "txt")
-  ;;         deft-text-mode 'org-mode
-  ;;         deft-default-extension "org"
-  ;;         deft-use-filename-as-title t
-  ;;         deft-strip-summary-regexp
-  ;;         (concat "\\("
-  ;;                 ":PROPERTIES:\n\\(.+\n\\)+:END:\n" ;;properties drawer
-  ;;                 "\\|^#\\+[a-zA-Z_]+:.*$" ;;org-mode metadata
-  ;;                 "\\)")
-  ;;         )
-  ;;   :bind
-  ;;   ("C-c n d" . deft))
-#+end_src
 * delete comments
 from https://emacs.stackexchange.com/questions/5441/function-to-delete-all-comments-from-a-buffer-without-moving-them-to-kill-ring
 #+BEGIN_SRC emacs-lisp
