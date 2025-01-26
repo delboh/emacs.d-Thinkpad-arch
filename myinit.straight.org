@@ -47,7 +47,7 @@ moved to "custom-vars.el"
  vc-follow-symlinks t                             ; Always follow the symlinks
  view-read-only t                                 ; Always open read-only buffers in view-mode
  x-stretch-cursor t                               ; Stretch cursor to the glyph width
- large-file-warning-threshold 25000000            ; nil to turn off completely
+ large-file-warning-threshold nil                 ; nil to turn off completely
  use-dialog-box nil                               ; prevent dialog boxes
  history-length 25)                               ; set minibuffer history length
 
@@ -1413,21 +1413,21 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 #+END_SRC
 * org noter
 #+BEGIN_SRC emacs-lisp
-;; new fork at github.com/org-noter/org-noter
-(use-package org-noter
-  :ensure t
-  :init
-  (setq org-noter-notes-search-path '("~/org-roam/"
-                                      "~/Dropbox/org-pdfs/"
-                                      "~/Dropbox/org-notes")
-        org-noter-doc-split-fraction (quote (0.6 . 0.4)))
-  ;;   (require 'org-noter-pdftools) ;; not currently maintained
-  )
+  ;; new fork at github.com/org-noter/org-noter
+  (use-package org-noter
+    :ensure t
+    :init
+    (setq org-noter-notes-search-path '("~/Dropbox/org-pdfs/"
+                                        "~/Dropbox/org-notes"
+                                        "~/org-roam/")
+          org-noter-doc-split-fraction (quote (0.6 . 0.4)))
+    ;;   (require 'org-noter-pdftools) ;; not currently maintained
+    )
 
-(global-set-key (kbd "<f12>") 'org-noter)
+  (global-set-key (kbd "<f12>") 'org-noter)
 
-(use-package djvu
-  :ensure t)
+  (use-package djvu
+    :ensure t)
 
 #+END_SRC
 * org-ref REPLACED BY ORG-CITE
@@ -1482,7 +1482,7 @@ replaced by org-cite for citations. Still used for cross references, labels and 
            "%<%Y%m%d%H%M%S>-${slug}.org"
            "#+title: ${title}\n")
           :unnarrowed t)
-         ("p" "project" plain
+          ("p" "project" plain
           "* Tasks\n\n** TODO %?\n\n"
           :target
           (file+head
@@ -1510,10 +1510,10 @@ replaced by org-cite for citations. Still used for cross references, labels and 
           "\nSource: %?\n\nAuthor: ${citar-author}\nTitle: ${citar-title}\nDate: ${citar-date}\n\n"
           :target
           (file+head
-          "%(expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory)/${citar-citekey}.org"
-          "#+title: ${note-title}.\n#+created: %U\n#+last_modified: %U\n#+filetags: :LITERATURE:\n\n")
+           "%(expand-file-name org-roam-directory)/${citar-citekey}.org"
+           "#+title: ${note-title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :LITERATURE: \n\n* Notes\n:PROPERTIES:\n:NOTER_DOCUMENT:\n:END:\n\n")
           :jump-to-captured t
-           :unnarrowed t)
+          :unnarrowed t)
          ))
       :bind (("C-c n f" . org-roam-node-find)
              (:map org-mode-map
@@ -1539,10 +1539,10 @@ replaced by org-cite for citations. Still used for cross references, labels and 
                      (window-height . fit-window-to-buffer)))
       (setq org-roam-graph-executable "/usr/bin/dot"))
 
-  ;; integration with citar-create-note to create literature notes
-  ;; see keybindings above
-  (setq citar-org-roam-capture-template-key "n")
-  (setq citar-org-roam-note-title-template "${author} :: ${title}")
+    ;; integration with citar-create-note to create literature notes
+    ;; see keybindings above
+    (setq citar-org-roam-capture-template-key "n")
+    (setq citar-org-roam-note-title-template "${author} :: ${title}")
 
     (require 'org-roam-protocol) ;; provides extensions for capturing content from external applications
 
@@ -1558,7 +1558,7 @@ replaced by org-cite for citations. Still used for cross references, labels and 
     (setq org-roam-file-exclude-regexp
           (concat "^" (expand-file-name org-roam-directory) "logseq/"))
 
-    ;;;; org-roam-bibtex ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+      ;;;; org-roam-bibtex ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; replaced by citar-org-roam
 
     ;; (use-package org-roam-bibtex
