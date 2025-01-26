@@ -1507,7 +1507,7 @@ replaced by org-cite for citations. Still used for cross references, labels and 
           :jump-to-captured t
           :unnarrowed t)
          ("n" "literature note" plain
-          "\nSource: %^{Source}\n\nAuthor: ${citar-author}\nTitle: ${citar-title}\nDate: ${citar-date}\n\n%?"
+          "\nSource: %?\n\nAuthor: ${citar-author}\nTitle: ${citar-title}\nDate: ${citar-date}\n\n"
           :target
           (file+head
           "%(expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory)/${citar-citekey}.org"
