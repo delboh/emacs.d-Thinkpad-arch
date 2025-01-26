@@ -198,34 +198,34 @@ config retained for reference
 * citar
 #+begin_SRC emacs-lisp
 
-(use-package citar
-  :ensure t
-  :init
-  (setq citar-notes-paths '("~/org-roam/") ;; List of directories for reference nodes
-        citar-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json") ;; List of directories
-        org-cite-insert-processor 'citar
-        org-cite-follow-processor 'citar
-        org-cite-activate-processor 'citar)
-  ;; :hook
-  ;; (LaTeX-mode . citar-capf-setup)
-  ;; (org-mode . citar-capf-setup)
-  :bind (:map org-mode-map
-              ;; org-cite-insert is also bound to C-c C-x C-@
-              ("C-c b" . #'org-cite-insert)
-              ("C-c r" . citar-insert-reference)
-              ("C-c o" . citar-open-notes)))
+      (use-package citar
+        :ensure t
+        :init
+        (setq citar-notes-paths '("~/org-roam/") ;; List of directories for reference nodes
+              citar-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json") ;; List of directories
+              org-cite-insert-processor 'citar
+              org-cite-follow-processor 'citar
+              org-cite-activate-processor 'citar)
+        ;; :hook
+        ;; (LaTeX-mode . citar-capf-setup)
+        ;; (org-mode . citar-capf-setup)
+        :bind (:map org-mode-map
+                    ;; org-cite-insert is also bound to C-c C-x C-@
+                    ("C-c b" . #'org-cite-insert)
+                    ("C-c r" . citar-insert-reference)
+                    ("C-c o" . citar-open-notes)))
 
-(use-package citar-embark
-  :ensure t
-  :after citar embark
-  :init
-  (setq citar-at-point-function 'embark-act) ;; Open embark menu with org-open-at-point
-  :config (citar-embark-mode))
+      (use-package citar-embark
+        :ensure t
+        :after citar embark
+        :init
+        (setq citar-at-point-function 'embark-act) ;; Open embark menu with org-open-at-point
+        :config (citar-embark-mode))
 
-(use-package citar-org-roam
-  :ensure t
-  :after (citar org-roam)
-  :config (citar-org-roam-mode))
+      (use-package citar-org-roam
+        :ensure t
+        :config (citar-org-roam-mode))
+   ;;     :after ((citar org-roam)) ; seems to cause problems with the mode loading
 
 #+END_SRC
 * clean empty lines
@@ -1506,20 +1506,12 @@ replaced by org-cite for citations. Still used for cross references, labels and 
            "#+title: ${title}\n#+filetags: :STRUCTURE:\n")
           :jump-to-captured t
           :unnarrowed t)
-         ("l" "literature reference" plain
-          "\nSource: %^{Source}\n\nAuthor: %^{Author}\nTitle: ${title}\n\n%?"
-          :target
-          (file+head
-           "%<%Y%m%d%H%M%S>-${slug}.org"
-           "#+title: ${title}\n#+filetags: :LITERATURE:\n")
-          :jump-to-captured t
-          :unnarrowed t)
          ("n" "literature note" plain
-          "\nSource: %^{Source}\n\nAuthor: %^{Author}\nTitle: ${title}\n\n%?"
+          "\nSource: %^{Source}\n\nAuthor: ${citar-author}\nTitle: ${citar-title}\nDate: ${citar-date}\n\n%?"
           :target
           (file+head
           "%(expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory)/${citar-citekey}.org"
-          "#+title: ${citar-citekey} (${citar-date}). ${note-title}.\n#+created: %U\n#+last_modified: %U\n\n")
+          "#+title: ${note-title}.\n#+created: %U\n#+last_modified: %U\n#+filetags: :LITERATURE:\n\n")
           :jump-to-captured t
            :unnarrowed t)
          ))
@@ -1548,8 +1540,9 @@ replaced by org-cite for citations. Still used for cross references, labels and 
       (setq org-roam-graph-executable "/usr/bin/dot"))
 
   ;; integration with citar-create-note to create literature notes
-  ;; see keybindigs above
+  ;; see keybindings above
   (setq citar-org-roam-capture-template-key "n")
+  (setq citar-org-roam-note-title-template "${author} :: ${title}")
 
     (require 'org-roam-protocol) ;; provides extensions for capturing content from external applications
 
