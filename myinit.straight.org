@@ -1495,7 +1495,7 @@ replaced by org-cite for citations. Still used for cross references, labels and 
         :target
         (file+head
          "%(expand-file-name org-roam-directory)/${citar-citekey}.org"
-         "#+title: ${note-title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :LITERATURE: \n\n* Notes\n:PROPERTIES:\n:NOTER_DOCUMENT:\n:END:\n\n")
+         "#+title: ${note-title}\n#+created: %U\n#+last_modified: %U\n#+filetags: :LITERATURE: \n\n* ${citar-title}\n:PROPERTIES:\n:NOTER_DOCUMENT:\n:END:\n\n")
         :empty-lines 1
         :jump-to-captured t
         :unnarrowed t)
