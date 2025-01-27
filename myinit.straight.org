@@ -68,7 +68,7 @@ moved to "custom-vars.el"
     (savehist-mode 1)                                 ; Persist history over Emacs restarts. Vertico sorts by history position.
     (show-paren-mode 1)                               ; Show the parent
     (save-place-mode 1)                               ; Open file with point in previous location
-    (toggle-scroll-bar 0)                             ; Hide scroll bar
+    (scroll-bar-mode 0)                               ; Hide scroll bar
     (tool-bar-mode 0)                                 ; Hide tool bar
     (menu-bar-mode 0)                                 ; Hide menu bar
 
