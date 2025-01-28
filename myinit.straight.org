@@ -1158,7 +1158,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 
   ;;       ;;;;;
   ;;;;;;;;;;;;;;;;;;;;;;;;; org-agenda options ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; org-agenda-files '("~/Dropbox/org/")                                       ; set in custom-vars.el
+  ;; org-agenda-files '("~/Dropbox/org/")                                       ; set dynamically in custom-vars.el
   (setq  org-agenda-custom-commands                                                               ; org-agenda custom commands
          '(("1" "Hoggery" tags-todo "project1")
            ("2" "Hoggery" tags-todo "project2")
