@@ -62,8 +62,6 @@ moved to "custom-vars.el"
     ;; (setq global-auto-revert-non-file-buffers nil)       ; Revert Dired and other buffers-bad idea!
     (global-visual-line-mode 1)                       ; Sane line wrapping
     (global-hl-line-mode 0)                           ; Hightlight current line
-    (recentf-mode 1)                                  ; show list of recent files with M-x recentf-open-files
-    (global-set-key (kbd "M-o") 'recentf-open-files)  ; keybinding for recentf
     (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
     (savehist-mode 1)                                 ; Persist history over Emacs restarts. Vertico sorts by history position.
     (show-paren-mode 1)                               ; Show the parent
@@ -1400,7 +1398,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
     :init
     (setq org-noter-notes-search-path '("~/Dropbox/org-pdfs/"
                                         "~/Dropbox/org-notes"
-                                        "~/org-roam/")
+                                        )
           org-noter-doc-split-fraction (quote (0.6 . 0.4)))
     ;;   (require 'org-noter-pdftools) ;; not currently maintained
     )
@@ -1965,6 +1963,15 @@ The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
         (org-superstar-mode -1))))
 
   :bind ("C-|" . prot/olivetti-mode))
+#+END_SRC
+* recentf mode
+#+BEGIN_SRC emacs-lisp
+  
+  (recentf-mode 1)                                  ; show list of recent files with M-x recentf-open-files
+  (global-set-key (kbd "M-o") 'recentf-open-files)  ; keybinding for recentf
+  (setq recentf-max-saved-items 10
+        recentf-max-menu-items 10)
+
 #+END_SRC
 * Reftex DISABLED
 config retained for clarity
