@@ -73,7 +73,7 @@ moved to "custom-vars.el"
     (menu-bar-mode 0)                                 ; Hide menu bar
 
     ;; Don't ask before killing buffer
-    (global-set-key (kbd "C-x k") 'kill-this-buffer)
+    (global-set-key (kbd "C-x k") 'kill-current-buffer)
 
     ;;turn off visual-line-mode in org-agenda buffers
     (add-hook 'org-agenda-mode-hook (lambda () (visual-line-mode -1) (setq truncate-lines 1)))
