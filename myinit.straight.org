@@ -76,6 +76,9 @@ moved to "custom-vars.el"
     ;;turn off visual-line-mode in org-agenda buffers
     (add-hook 'org-agenda-mode-hook (lambda () (visual-line-mode -1) (setq truncate-lines 1)))
 
+    ;; open dired in hide-details mode
+    (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+
 
 #+end_SRC
 * abbrev-mode
@@ -198,34 +201,34 @@ config retained for reference
 * citar
 #+begin_SRC emacs-lisp
 
-      (use-package citar
-        :ensure t
-        :init
-        (setq citar-notes-paths '("~/org-roam/") ;; List of directories for reference nodes
-              citar-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json") ;; List of directories
-              org-cite-insert-processor 'citar
-              org-cite-follow-processor 'citar
-              org-cite-activate-processor 'citar)
-        ;; :hook
-        ;; (LaTeX-mode . citar-capf-setup)
-        ;; (org-mode . citar-capf-setup)
-        :bind (:map org-mode-map
-                    ;; org-cite-insert is also bound to C-c C-x C-@
-                    ("C-c b" . #'org-cite-insert)
-                    ("C-c r" . citar-insert-reference)
-                    ("C-c o" . citar-open-notes)))
+        (use-package citar
+          :ensure t
+          :init
+          (setq citar-notes-paths '("~/org-roam/") ;; List of directories for reference nodes
+                citar-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json") ;; List of directories
+                org-cite-insert-processor 'citar
+                org-cite-follow-processor 'citar
+                org-cite-activate-processor 'citar)
+          ;; :hook
+          ;; (LaTeX-mode . citar-capf-setup)
+          ;; (org-mode . citar-capf-setup)
+          :bind (("C-c r" . citar-insert-reference) ; functions outside of org-mode
+                 :map org-mode-map
+                      ;; org-cite-insert is also bound to C-c C-x C-@
+                      ("C-c ]" . #'org-cite-insert) ; org-mode specific
+                      ("C-c o" . citar-open-notes)))
 
-      (use-package citar-embark
-        :ensure t
-        :after citar embark
-        :init
-        (setq citar-at-point-function 'embark-act) ;; Open embark menu with org-open-at-point
-        :config (citar-embark-mode))
+        (use-package citar-embark
+          :ensure t
+          :after citar embark
+          :init
+          (setq citar-at-point-function 'embark-act) ;; Open embark menu with org-open-at-point
+          :config (citar-embark-mode))
 
-      (use-package citar-org-roam
-        :ensure t
-        :config (citar-org-roam-mode))
-   ;;     :after ((citar org-roam)) ; seems to cause problems with the mode loading
+        (use-package citar-org-roam
+          :ensure t
+          :config (citar-org-roam-mode))
+     ;;     :after ((citar org-roam)) ; seems to cause problems with the mode loading
 
 #+END_SRC
 * clean empty lines
@@ -280,7 +283,7 @@ Version 2017-09-22 2020-09-08"
   	     ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
   	     ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
   	     ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-  	     ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
+  	     ("C-c b" . consult-bookmark)            ;; orig. bookmark-jump
   	     ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
   	     ;; Custom M-# bindings for fast register access
   	     ("M-#" . consult-register-load)
@@ -1414,6 +1417,8 @@ replaced by org-cite for citations. Still used for cross references, labels and 
 #+BEGIN_SRC emacs-lisp
     (use-package org-ref
       :ensure t)
+  
+  (setq org-ref-insert-cite-function (lambda () (org-cite-insert nil))) ; don't use org-ref for citations
 
   ;;;Deprecated in org-ref v3
     ;; (setq org-ref-bibliography-notes "C:\\Users\\delbo\\Dropbox\\bibliography\\notes.org"
@@ -1427,7 +1432,7 @@ replaced by org-cite for citations. Still used for cross references, labels and 
     ;;       org-ref-default-citation-link "autocite"
     ;;       org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
     
-    (setq org-ref-insert-cite-function (lambda () (org-cite-insert nil)))
+    
 
     ;; (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
     ;; (define-key org-mode-map (kbd "s-[") 'org-ref-insert-link-hydra/body)
