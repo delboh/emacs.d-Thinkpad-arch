@@ -47,23 +47,19 @@ moved to "custom-vars.el"
    large-file-warning-threshold nil                 ; nil to turn off completely
    use-dialog-box nil                               ; prevent dialog boxes
    set-default-coding-systems 'utf-8                ; Default to utf-8 encoding
-   history-length 25                                ; set minibuffer history length
-   column-number-mode 1                             ; Show the column number
-   display-time-mode 1                              ; Enable time in the mode-line
-   electric-pair-mode 1                             ; type parens in pairs
-   global-visual-line-mode 1                        ; Sane line wrapping
-   global-hl-line-mode 0)                           ; Hightlight current line
+   history-length 25)                               ; set minibuffer history length
 
+  (column-number-mode 1)                            ; Show the column number
+  (display-time-mode 1)                             ; Enable time in the mode-line
+  (electric-pair-mode 1)                            ; type parens in pairs
+  (global-visual-line-mode 1)                       ; Sane line wrapping
+  (global-hl-line-mode 0)                           ; Hightlight current line
   (indent-tabs-mode nil)                            ; Prefers spaces over tabs
   (savehist-mode 1)                                 ; Persist history over Emacs restarts. Vertico sorts by history position.
   (show-paren-mode 1)                               ; Show the parent
   (save-place-mode 1)                               ; Open file with point in previous location
-  (scroll-bar-mode 0)                               ; Hide scroll bar
-  (tool-bar-mode 0)                                 ; Hide tool bar
-  (menu-bar-mode 0)                                 ; Hide menu bar
 
   ;; window appearance settings
-  (save-place-mode 1)                               ; Open file with point in previous location
   (scroll-bar-mode 0)                               ; Hide scroll bar
   (tool-bar-mode 0)                                 ; Hide tool bar
   (menu-bar-mode 0)                                 ; Hide menu bar
