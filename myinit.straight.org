@@ -54,7 +54,6 @@ moved to "custom-vars.el"
   (electric-pair-mode 1)                            ; type parens in pairs
   (global-visual-line-mode 1)                       ; Sane line wrapping
   (global-hl-line-mode 0)                           ; Hightlight current line
-  (indent-tabs-mode nil)                            ; Prefers spaces over tabs
   (savehist-mode 1)                                 ; Persist history over Emacs restarts. Vertico sorts by history position.
   (show-paren-mode 1)                               ; Show the parent
   (save-place-mode 1)                               ; Open file with point in previous location
