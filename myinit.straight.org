@@ -209,7 +209,7 @@ config retained for reference
         (use-package citar
           :ensure t
           :init
-          (setq citar-notes-paths '("~/org-roam/") ;; List of directories for reference nodes
+          (setq citar-notes-paths '("~/Dropbox/org-roam/") ;; List of directories for reference nodes
                 citar-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json") ;; List of directories
                 org-cite-insert-processor 'citar
                 org-cite-follow-processor 'citar
@@ -217,7 +217,7 @@ config retained for reference
           ;; :hook
           ;; (LaTeX-mode . citar-capf-setup)
           ;; (org-mode . citar-capf-setup)
-          :bind (("C-c r" . citar-insert-reference) ; functions outside of org-mode
+          :bind (("C-c r" . citar-insert-reference) ; functions outside of org-modea minor mode globally in my init file
                  :map org-mode-map
                       ;; org-cite-insert is also bound to C-c C-x C-@
                       ("C-c ]" . #'org-cite-insert) ; org-mode specific
@@ -1451,7 +1451,7 @@ replaced by org-cite for citations. Still used for cross references, labels and 
     :ensure t
     :pin melpa
     :custom
-    (org-roam-directory "~/org-roam/")
+    (org-roam-directory "~/Dropbox/org-roam/")
     ;; Show tags column in node list
     (org-roam-node-display-template
      (concat "${title:*} "
