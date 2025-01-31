@@ -502,10 +502,6 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
               (kill-buffer)))
       (message "Not a file visiting buffer!"))))
 #+END_SRC
-* dictionary
-#+BEGIN_SRC emacs-lisp
-  (use-package dictionary)
-#+END_SRC
 * denote
 #+begin_SRC emacs-lisp
     (use-package denote
@@ -609,6 +605,24 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
     ;; Also check the commands `denote-link-after-creating',
     ;; `denote-link-or-create'.  You may want to bind them to keys as well.
 #+end_SRC
+* dired-subtree
+#+begin_example
+(use-package dired-subtree
+  :ensure t
+  :after dired
+  :bind
+  ( :map dired-mode-map
+    ("<tab>" . dired-subtree-toggle)
+    ("TAB" . dired-subtree-toggle)
+    ("<backtab>" . dired-subtree-remove)
+    ("S-TAB" . dired-subtree-remove))
+  :config
+  (setq dired-subtree-use-backgrounds nil))
+#+end_example
+* dictionary
+#+BEGIN_SRC emacs-lisp
+  (use-package dictionary)
+#+END_SRC
 * ediff
 #+BEGIN_SRC emacs-lisp
 (setq ediff-keep-vaiants nil)
