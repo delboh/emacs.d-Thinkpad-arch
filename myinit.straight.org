@@ -84,6 +84,9 @@ moved to "custom-vars.el"
   ;; open dired in hide-details mode
   (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 
+  ;; group directories at top of dired buffers
+  (setq dired-listing-switches "-alhp --group-directories-first")
+
 
 #+end_SRC
 * abbrev-mode
