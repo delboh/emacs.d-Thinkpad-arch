@@ -278,7 +278,7 @@ Version 2017-09-22 2020-09-08"
 
   (global-set-key (kbd "C-x C-;") 'comment-or-uncomment-region-or-line)
 #+END_SRC
-* COMMENT consult / vertico / orderless /marginalia
+* consult / vertico / orderless /marginalia
 #+BEGIN_SRC emacs-lisp
       
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
