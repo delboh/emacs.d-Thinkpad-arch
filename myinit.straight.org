@@ -412,7 +412,7 @@ Version 2017-09-22 2020-09-08"
     ;; (setq vertico-scroll-margin 0)
 
     ;; Show more candidates
-    (setq vertico-count 30)
+    (setq vertico-count 45)
 
     ;; Grow and shrink the Vertico minibuffer
     (setq vertico-resize t)
@@ -1406,9 +1406,10 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
     :ensure t
     :init
     (setq org-noter-notes-search-path '("~/Dropbox/org-pdfs/"
-                                        "~/Dropbox/org-notes"
-                                        )
-          org-noter-doc-split-fraction (quote (0.6 . 0.4)))
+                                        "~/Dropbox/org-notes")
+          org-noter-doc-split-fraction (quote (0.6 . 0.4))
+  		org-noter-highlight-selected-text t
+  		org-noter-max-short-selected-text-length 80) ;default value 80
     ;;   (require 'org-noter-pdftools) ;; not currently maintained
     )
 
