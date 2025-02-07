@@ -47,3 +47,4 @@ abbrev_defs
 /.elfeed/
 /prot-eww-visited-history
 /image-dired/
+/.cache/
