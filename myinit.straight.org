@@ -21,77 +21,85 @@ moved to "custom-vars.el"
 #+end_SRC
 * better defaults
 #+begin_SRC emacs-lisp
-        (setq-default
-         ad-redefinition-action 'accept                   ; Silence warnings for function redefinitions
-         cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
-         display-time-default-load-average nil            ; Don't display load average
-         fill-column 80                                   ; Set width for automatic line breaks
-         help-window-select t                             ; Focus new help windows when opened
-         history-length 25                                ; set minibuffer history length
-         inhibit-startup-screen t                         ; Disable start-up screen
-         initial-major-mode 'org-mode                     ; set scratch buffer to org-mode
-         initial-scratch-message ""                       ; Empty the initial *scratch* buffer
-         kill-ring-max 128                                ; Maximum length of kill ring
-         large-file-warning-threshold nil                 ; nil to turn off completely
-         load-prefer-newer t                              ; Prefers the newest version of a file
-         mark-ring-max 128                                ; Maximum length of mark ring
-         read-process-output-max (* 1024 1024)            ; Increase the amount of data read from subprocesses to 1mb
-         scroll-conservatively most-positive-fixnum       ; Always scroll by one line
-         select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
-         sentence-end-double-space nil                    ; Recognise a single space after dots as sentence end
-         set-default-coding-systems 'utf-8                ; Default to utf-8 encoding
-         split-width-threshold 1                          ; split window horizontally (nil for vertical) 
-         tab-width 4                                      ; Set width for tabs
-         use-dialog-box nil                               ; prevent dialog boxes
-         user-full-name "Iain Harvie"                     ; Set the full name of the current user
-         user-mail-address "iharvie@rcs.ac.uk"            ; Set the email address of the current user
-         vc-follow-symlinks t                             ; Always follow the symlinks
-         view-read-only t                                 ; Always open read-only buffers in view-mode
-         x-stretch-cursor t                               ; Stretch cursor to the glyph width
-         )
+  (setq-default
+   ad-redefinition-action 'accept                   ; Silence warnings for function redefinitions
+   cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
+   display-time-default-load-average nil            ; Don't display load average
+   fill-column 80                                   ; Set width for automatic line breaks
+   help-window-select t                             ; Focus new help windows when opened
+   history-length 25                                ; set minibuffer history length
+   inhibit-startup-screen t                         ; Disable start-up screen
+   initial-major-mode 'org-mode                     ; set scratch buffer to org-mode
+   initial-scratch-message ""                       ; Empty the initial *scratch* buffer
+   kill-ring-max 128                                ; Maximum length of kill ring
+   large-file-warning-threshold nil                 ; nil to turn off completely
+   load-prefer-newer t                              ; Prefers the newest version of a file
+   mark-ring-max 128                                ; Maximum length of mark ring
+   read-process-output-max (* 1024 1024)            ; Increase the amount of data read from subprocesses to 1mb
+   scroll-conservatively most-positive-fixnum       ; Always scroll by one line
+   select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
+   sentence-end-double-space nil                    ; Recognise a single space after dots as sentence end
+   set-default-coding-systems 'utf-8                ; Default to utf-8 encoding
+   split-width-threshold 1                          ; split window horizontally (nil for vertical) 
+   tab-width 4                                      ; Set width for tabs
+   use-dialog-box nil                               ; prevent dialog boxes
+   user-full-name "Iain Harvie"                     ; Set the full name of the current user
+   user-mail-address "iharvie@rcs.ac.uk"            ; Set the email address of the current user
+   vc-follow-symlinks t                             ; Always follow the symlinks
+   view-read-only t                                 ; Always open read-only buffers in view-mode
+   x-stretch-cursor t                               ; Stretch cursor to the glyph width
+   )
 
-        (column-number-mode 1)                            ; Show the column number
-        (display-time-mode 1)                             ; Enable time in the mode-line
-        (electric-pair-mode 1)                            ; type parens in pairs
-        (global-visual-line-mode 1)                       ; Sane line wrapping
-        (global-hl-line-mode 0)                           ; Hightlight current line
-        (savehist-mode 1)                                 ; Persist history over Emacs restarts. Vertico sorts by history position.
-        (save-place-mode 1)                               ; Open file with point in previous location
-        (show-paren-mode 1)                               ; Show the parent
+  (column-number-mode 1)                            ; Show the column number
+  (display-time-mode 1)                             ; Enable time in the mode-line
+  (electric-pair-mode 1)                            ; type parens in pairs
+  (global-visual-line-mode 1)                       ; Sane line wrapping
+  (global-hl-line-mode 0)                           ; Hightlight current line
+  (savehist-mode 1)                                 ; Persist history over Emacs restarts. Vertico sorts by history position.
+  (save-place-mode 1)                               ; Open file with point in previous location
+  (show-paren-mode 1)                               ; Show the parent
 
-        ;; window appearance settings
-        (scroll-bar-mode 0)                               ; Hide scroll bar
-        (tool-bar-mode 0)                                 ; Hide tool bar
-        (menu-bar-mode 0)                                 ; Hide menu bar
+  ;; window appearance settings
+  (scroll-bar-mode 0)                               ; Hide scroll bar
+  (tool-bar-mode 0)                                 ; Hide tool bar
+  (menu-bar-mode 0)                                 ; Hide menu bar
 
-        (add-to-list 'default-frame-alist '((vertical-scroll-bars . nil)))
-        (add-to-list 'default-frame-alist '(fullscreen . fullboth)) ; make new frames fullscreen
-        (add-to-list 'default-frame-alist '(undecorated . t)) ; Hide window name and controls
+  (add-to-list 'default-frame-alist '((vertical-scroll-bars . nil)))
+  (add-to-list 'default-frame-alist '(fullscreen . fullboth)) ; make new frames fullscreen
+  (add-to-list 'default-frame-alist '(undecorated . t)) ; Hide window name and controls
 
-        ;; Ensure new frames also have scroll bars disabled
-        (add-hook 'after-make-frame-functions
-                  (lambda (frame)
-                    (modify-frame-parameters frame '((vertical-scroll-bars . nil)))))
+  ;; Ensure new frames also have scroll bars disabled
+  (add-hook 'after-make-frame-functions
+            (lambda (frame)
+              (modify-frame-parameters frame '((vertical-scroll-bars . nil)))))
 
-        ;; Replace yes/no prompts with y/n
-        (fset 'yes-or-no-p 'y-or-n-p)                      
+  ;; Replace yes/no prompts with y/n
+  (fset 'yes-or-no-p 'y-or-n-p)                      
 
-        ;; Don't ask before killing buffer
-        (global-set-key (kbd "C-x k") 'kill-current-buffer)
+  ;; Don't ask before killing buffer
+  (global-set-key (kbd "C-x k") 'kill-current-buffer)
 
-        ;;turn off visual-line-mode in org-agenda buffers
-        (add-hook 'org-agenda-mode-hook (lambda () (visual-line-mode -1) (setq truncate-lines 1)))
+  ;;turn off visual-line-mode in org-agenda buffers
+  (add-hook 'org-agenda-mode-hook (lambda () (visual-line-mode -1) (setq truncate-lines 1)))
 
-        ;; open dired in hide-details mode
-        (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+  ;; open dired in hide-details mode
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 
-        ;; group directories at top of dired buffers
-        (setq dired-listing-switches "-alhp --group-directories-first")
+  ;; group directories at top of dired buffers
+  (setq dired-listing-switches "-alhp --group-directories-first")
 
-        ;; cleaner bookmarks
-        (setq org-bookmark-names-plist '((org-capture-last-stored . nil))
-  			bookmark-set-fringe-mark nil)
-          
+  ;; cleaner bookmarks
+  (setq org-bookmark-names-plist '((org-capture-last-stored . nil))
+  	bookmark-set-fringe-mark nil)
+
+  ;; explicitly set indent for lisp-mode
+  ;; to suppress copilot wornings
+  (add-hook 'lisp-mode-hook
+          (lambda ()
+            (setq tab-width 2)
+            (setq indent-tabs-mode nil)))
+
+    
 #+end_SRC
 * abbrev-mode
 #+begin_src emacs-lisp
@@ -880,10 +888,18 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
 #+BEGIN_SRC emacs-lisp
   (use-package copilot
     :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
-    :ensure t)
-  
-  (use-package copilot-chat
-  :ensure t)
+    :ensure t
+    :hook (prog-mode . copilot-mode)
+    :bind (("C-c M-f" . copilot-complete)
+  		 :map copilot-completion-map
+  		 ("C-g" . 'copilot-clear-overlay)
+  		 ("M-p" . 'copilot-previous-completion)
+  		 ("M-n" . 'copilot-next-completion)
+  		 ("<tab>" . 'copilot-accept-completion)
+  		 ("M-f" . 'copilot-accept-completion-by-word)
+  		 ("M-<return>" . 'copilot-accept-completion-by-line)))
+
+  ;; (add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
 #+END_SRC
 
 * google scholar lookup f8
