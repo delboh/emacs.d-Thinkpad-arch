@@ -21,11 +21,14 @@ moved to "custom-vars.el"
 #+end_SRC
 * better defaults
 #+begin_SRC emacs-lisp
-  (setq-default
-   ad-redefinition-action 'accept                   ; Silence warnings for function redefinitions
+  (setq-default ;; buffer local variables
    cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
-   display-time-default-load-average nil            ; Don't display load average
    fill-column 80                                   ; Set width for automatic line breaks
+   tab-width 4)                                     ; Set width for tabs
+
+  (setq
+   ad-redefinition-action 'accept                   ; Silence warnings for function redefinitions
+   display-time-default-load-average nil            ; Don't display load average
    help-window-select t                             ; Focus new help windows when opened
    history-length 25                                ; set minibuffer history length
    inhibit-startup-screen t                         ; Disable start-up screen
@@ -39,9 +42,7 @@ moved to "custom-vars.el"
    scroll-conservatively most-positive-fixnum       ; Always scroll by one line
    select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
    sentence-end-double-space nil                    ; Recognise a single space after dots as sentence end
-   set-default-coding-systems 'utf-8                ; Default to utf-8 encoding
-   split-width-threshold 1                          ; split window horizontally (nil for vertical) 
-   tab-width 4                                      ; Set width for tabs
+   split-width-threshold 160                        ; split window horizontally (nil for vertical) 
    use-dialog-box nil                               ; prevent dialog boxes
    user-full-name "Iain Harvie"                     ; Set the full name of the current user
    user-mail-address "iharvie@rcs.ac.uk"            ; Set the email address of the current user
