@@ -1,3 +1,4 @@
+#+STARTUP: content
 * package archives
 moved to "custom-vars.el"
 #+BEGIN_SRC emacs-lisp
@@ -1073,7 +1074,7 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
   (let* ((input-file (expand-file-name (read-file-name "Input Markdown file: " nil nil t)))
          (output-file (expand-file-name (read-file-name "Output Org file: " nil nil nil
                                                         (concat (file-name-base input-file) ".org"))))
-         (command (format "pandoc -f markdown -t org --wrap=preserve %s -o  %s"
+         (command (format "pandoc -f markdown -t org --lua-filter=/home/ebo/.pandoc/filters/remove-header-attr.lua --wrap=preserve %s -o  %s"
                           (shell-quote-argument input-file)
                           (shell-quote-argument output-file)))
          (result (shell-command-to-string command)))
@@ -1203,7 +1204,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
           org-src-fontify-natively t
           org-export-html-postamble nil
           org-hide-leading-stars t
-          org-startup-folded t
+          org-startup-folded nil
           org-startup-indented t
           org-src-window-setup 'current-window                                                     ; org src in the current window.
           org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))                    ; no blank line before new headings
