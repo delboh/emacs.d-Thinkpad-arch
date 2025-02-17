@@ -1081,8 +1081,7 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
         (progn
           (find-file output-file)
           (message "Conversion complete: %s -> %s" input-file output-file))
-      (message "Conversion failed. Command output: %s" result))
-	))
+      (message "Conversion failed. Command output: %s" result))))
 
 #+END_SRC
 * move-text
@@ -1194,250 +1193,249 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 
 * Org mode
 #+BEGIN_SRC emacs-lisp 
-(use-package org
-  :init
-  (setq org-directory "~/org"
-        org-archive-subtree-save-file-p nil                                                      ; avoids permission error when archiving in Dropbox
-        org-default-notes-file (concat org-directory "/notes.org")
-        org-use-speed-commands t                                                                 ; activate single letter commands on headlines
-        org-return-follows-link t                                                                ; return opens link at point
-        org-src-fontify-natively t
-        org-export-html-postamble nil
-        org-hide-leading-stars t
-        org-startup-folded t
-        org-startup-indented t
-        org-src-window-setup 'current-window                                                     ; org src in the current window.
-        org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))                    ; no blank line before new headings
-        org-fontify-quote-and-verse-blocks t                                                     ; fontify quote and verse blocks
-        org-hide-emphasis-markers nil                                                            ; Show / hide emphasis markers
-        org-list-description-max-indent 5                                                        ; set maximum indentation for description lists
-        ;; org-icalendar-combined-agenda-file "C:\\Users\\delbo\\Dropbox\\org\\gtd\\gtd.ics"        ; calendar export to google / ical
-        org-icalendar-use-deadline (quote (event-if-not-todo event-if-todo))
-        org-icalendar-use-scheduled (quote (event-if-not-todo event-if-todo)))
+  (use-package org
+    :init
+    (setq org-directory "~/org"
+          org-archive-subtree-save-file-p nil                                                      ; avoids permission error when archiving in Dropbox
+          org-default-notes-file (concat org-directory "/notes.org")
+          org-use-speed-commands t                                                                 ; activate single letter commands on headlines
+          org-return-follows-link t                                                                ; return opens link at point
+          org-src-fontify-natively t
+          org-export-html-postamble nil
+          org-hide-leading-stars t
+          org-startup-folded t
+          org-startup-indented t
+          org-src-window-setup 'current-window                                                     ; org src in the current window.
+          org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))                    ; no blank line before new headings
+          org-fontify-quote-and-verse-blocks t                                                     ; fontify quote and verse blocks
+          org-hide-emphasis-markers nil                                                            ; Show / hide emphasis markers
+          org-list-description-max-indent 5                                                        ; set maximum indentation for description lists
+          ;; org-icalendar-combined-agenda-file "C:\\Users\\delbo\\Dropbox\\org\\gtd\\gtd.ics"        ; calendar export to google / ical
+          org-icalendar-use-deadline (quote (event-if-not-todo event-if-todo))
+          org-icalendar-use-scheduled (quote (event-if-not-todo event-if-todo)))
+     :config
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; org-cite ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    (setq org-cite-global-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json")
+          org-cite-csl-styles-dir "~/Dropbox/Zotero_Libraries/styles/"
+          org-cite-export-processors '((t csl))) ; fallback
 
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; org-cite ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  (setq org-cite-global-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json")
-        org-cite-csl-styles-dir "~/Dropbox/Zotero_Libraries/styles/"
-        org-cite-export-processors '((t csl))) ; fallback
+     ;;;;;;;;;;;;;;;;;;;;;;;;; org-agenda options ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; org-agenda-files '("~/Dropbox/org/")                                       ; set dynamically in custom-vars.el
+    (setq  org-agenda-custom-commands                                             ; org-agenda custom commands
+           '(("1" "Hoggery" tags-todo "project1")
+             ("2" "Hoggery" tags-todo "project2")
+             ("3" "Hoggery" tags-todo "project3")
+             ("D" "Hoggery" tags-todo "development")
+             ("r" "Hoggery" tags-todo "reading")
+             ("c" "Hoggery" tags-todo "reference")
+             ("f" "Hoggery" tags-todo "footnote")
+             ("e" "emacs" tags-todo "emacs")
+             ("w" "website" tags-todo "website")
+             ("z" "zettel" tags-todo "zettel")))
+    (setq org-todo-keywords
+          '((sequence "TODO" "INPROGRESS" "DONE")))
+    (setq org-capture-templates                                                                    ; org-capture-templates
+          '(("i" "inbox" entry
+             (file+olp "~/Dropbox/org/gtd.org" "INBOX")
+             "** TODO %?\n %^G")          
+            ("t" "gtd scheduled" entry
+             (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Scheduled Tasks")
+             "*** TODO %?\n SCHEDULED: %^t")
+            ("s" "gtd scheduled with deadline" entry
+             (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Scheduled Tasks")
+             "*** TODO %?\n SCHEDULED: %^t DEADLINE: %^t")          
+            ("D" "gtd scheduled dels" entry
+             (file+olp "~/Dropbox/org/gtd.org" "DELS")
+             "** %? :dels:\n  SCHEDULED: %^t")
+            ("e" "gtd scheduled Event" entry
+             (file+olp "~/Dropbox/org/gtd.org" "EVENTS")
+             "** %?\n SCHEDULED: %^t")
+            ("O " "gtd Oxford" entry
+             (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Maintenance" "Argyle Street")
+             "**** TODO %? :Oxford:")
+            ("M" "gtd Millbrae" entry
+             (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Maintenance" "Millbrae")
+             "**** TODO %? :Glasgow:")
+            ("S" "gtd Studio Maintenance" entry
+             (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Maintenance" "Studio")
+             "**** TODO %? :Studio:")          
+            ("j" "Journal" entry
+             (file+olp+datetree "~\Dropbox\org\jurnal.org" "JURNAL")
+             "** %?\nEntered on %U\n  %a" :empty-lines 1)
+            ("1" "project1 TODO" entry
+             (file+olp "~/Dropbox/org/gtd.org" "PROJECT1")
+             "** TODO %? :project1: ")
+            ("2" "project2 TODO" entry
+             (file+olp "~/Dropbox/org/gtd.org" "PROJECT2")
+             "** TODO %? :project2: ")
+            ("3" "project3 TODO" entry
+             (file+olp "~\Dropbox\org\gtr.org" "PROJECT3")
+             "** TODO %? :project3:")
+            ("d" "development TODO" entry
+             (file+olp "~/Dropbox/org/gtd.org" "DEVELOPMENT PROJECT")
+             "** TODO %? :development: ")
+            ("r" "reading TODO" entry
+             (file+olp "~/Dropbox/org/gtd.org" "READING")
+             "** TODO %? :reading: ")          
+            ("w" "website TODO" entry
+             (file+olp "~/Dropbox/org/gtd.org" "WEBSITE")
+             "** TODO %? :website: ")
+            ("c" "reference TODO" entry
+             (file+olp "~/Dropbox/org/gtd.org" "WRITING" "references")
+             "** TODO %? :reference: ")
+            ("f" "footnote TODO" entry
+             (file+olp "~/Dropbox/org/gtd.org" "WRITING" "footnotes")
+             "** TODO %? :footnote:")
+            ("z" "zettel TODO" entry
+             (file+olp "~/Dropbox/org/gtd.org" "ZETTEL")
+             "** TODO %? :zettel: ")
+            ("b" "blog TODO" entry
+             (file+olp "~/Dropbox/org/gtd.org" "BLOG")
+             "** TODO %? :blog:")))
+    (setq org-tag-alist                                                                            ; org-tag-alist
+          '((:startgroup . nil)
+            ("dels" . ?D) ("HOGGERY" . ?H) ("SJoP" . ?S) ("MAINTENANCE" . ?M)
+            (:endgroup . nil)
+            (:startgroup . nil)
+            ("Oxford" . ?o) ("Glasgow" . ?g) ("Studio" . ?s)
+            (:endgroup . nil)
+            (:startgroup . nil)
+            ("project1" . ?1)
+            ("project2" . ?2)
+            ("project3" . ?3)
+            ("development" . ?d)
+            (:endgroup . nil)
+            ("writing" . ?w)
+            ("reading" . ?r)
+            ("reference" . ?c)
+            ("footnote" . ?f)
+            ("emacs" . ?e)
+            ("zettel" . ?z)
+            ("website" . ?y)
+            ("blog" . ?b)
+            ("ignore" . ?i)
+            ("noexport" . ?n)))
+    (setq org-structure-template-alist                                                              ; org-structure-templates
+          '(("me" . "mesostic")
+            ("fi" . "figure")
+            ("fl" . "flushright")
+            ("sh" . "SRC sh")
+            ("el" . "SRC emacs-lisp")
+            ("a" . "export ascii")
+            ("c" . "center")
+            ("C" . "comment")
+            ("ex" . "example")
+            ("E" . "export")
+            ("h" . "export html")
+            ("l" . "export latex")
+            ("q" . "quote")
+            ("s" . "src")
+            ("v" . "verse")))
+    :bind (("C-c a" . org-agenda)
+           :map org-mode-map
+           ("C-c l" . org-store-link)                                                               ; default key binding not working!
+           ("C-c c" . org-capture)
+           ("C-c [" . nil)
+           ("C-<f12>" . org-agenda-file-to-front)))                                                ; disable org-agenda-file-to-front
+  ;; END OF USEPACKAGE SETTINGS ;;;;;;;;;;;;;;;;;;;;;
 
-  ;;       ;;;;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;; org-agenda options ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; org-agenda-files '("~/Dropbox/org/")                                       ; set dynamically in custom-vars.el
-  (setq  org-agenda-custom-commands                                                               ; org-agenda custom commands
-         '(("1" "Hoggery" tags-todo "project1")
-           ("2" "Hoggery" tags-todo "project2")
-           ("3" "Hoggery" tags-todo "project3")
-           ("D" "Hoggery" tags-todo "development")
-           ("r" "Hoggery" tags-todo "reading")
-           ("c" "Hoggery" tags-todo "reference")
-           ("f" "Hoggery" tags-todo "footnote")
-           ("e" "emacs" tags-todo "emacs")
-           ("w" "website" tags-todo "website")
-           ("z" "zettel" tags-todo "zettel")))
-  (setq org-todo-keywords
-        '((sequence "TODO" "INPROGRESS" "DONE")))
-  (setq org-capture-templates                                                                    ; org-capture-templates
-        '(("i" "inbox" entry
-           (file+olp "~/Dropbox/org/gtd.org" "INBOX")
-           "** TODO %?\n %^G")          
-          ("t" "gtd scheduled" entry
-           (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Scheduled Tasks")
-           "*** TODO %?\n SCHEDULED: %^t")
-          ("s" "gtd scheduled with deadline" entry
-           (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Scheduled Tasks")
-           "*** TODO %?\n SCHEDULED: %^t DEADLINE: %^t")          
-          ("D" "gtd scheduled dels" entry
-           (file+olp "~/Dropbox/org/gtd.org" "DELS")
-           "** %? :dels:\n  SCHEDULED: %^t")
-          ("e" "gtd scheduled Event" entry
-           (file+olp "~/Dropbox/org/gtd.org" "EVENTS")
-           "** %?\n SCHEDULED: %^t")
-          ("O " "gtd Oxford" entry
-           (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Maintenance" "Argyle Street")
-           "**** TODO %? :Oxford:")
-          ("M" "gtd Millbrae" entry
-           (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Maintenance" "Millbrae")
-           "**** TODO %? :Glasgow:")
-          ("S" "gtd Studio Maintenance" entry
-           (file+olp "~/Dropbox/org/gtd.org" "TASKS" "Maintenance" "Studio")
-           "**** TODO %? :Studio:")          
-          ("j" "Journal" entry
-           (file+olp+datetree "~\Dropbox\org\jurnal.org" "JURNAL")
-           "** %?\nEntered on %U\n  %a" :empty-lines 1)
-          ("1" "project1 TODO" entry
-           (file+olp "~/Dropbox/org/gtd.org" "PROJECT1")
-           "** TODO %? :project1: ")
-          ("2" "project2 TODO" entry
-           (file+olp "~/Dropbox/org/gtd.org" "PROJECT2")
-           "** TODO %? :project2: ")
-          ("3" "project3 TODO" entry
-           (file+olp "~\Dropbox\org\gtr.org" "PROJECT3")
-           "** TODO %? :project3:")
-          ("d" "development TODO" entry
-           (file+olp "~/Dropbox/org/gtd.org" "DEVELOPMENT PROJECT")
-           "** TODO %? :development: ")
-          ("r" "reading TODO" entry
-           (file+olp "~/Dropbox/org/gtd.org" "READING")
-           "** TODO %? :reading: ")          
-          ("w" "website TODO" entry
-           (file+olp "~/Dropbox/org/gtd.org" "WEBSITE")
-           "** TODO %? :website: ")
-          ("c" "reference TODO" entry
-           (file+olp "~/Dropbox/org/gtd.org" "WRITING" "references")
-           "** TODO %? :reference: ")
-          ("f" "footnote TODO" entry
-           (file+olp "~/Dropbox/org/gtd.org" "WRITING" "footnotes")
-           "** TODO %? :footnote:")
-          ("z" "zettel TODO" entry
-           (file+olp "~/Dropbox/org/gtd.org" "ZETTEL")
-           "** TODO %? :zettel: ")
-          ("b" "blog TODO" entry
-           (file+olp "~/Dropbox/org/gtd.org" "BLOG")
-           "** TODO %? :blog:")))
-  (setq org-tag-alist                                                                            ; org-tag-alist
-        '((:startgroup . nil)
-          ("dels" . ?D) ("HOGGERY" . ?H) ("SJoP" . ?S) ("MAINTENANCE" . ?M)
-          (:endgroup . nil)
-          (:startgroup . nil)
-          ("Oxford" . ?o) ("Glasgow" . ?g) ("Studio" . ?s)
-          (:endgroup . nil)
-          (:startgroup . nil)
-          ("project1" . ?1)
-          ("project2" . ?2)
-          ("project3" . ?3)
-          ("development" . ?d)
-          (:endgroup . nil)
-          ("writing" . ?w)
-          ("reading" . ?r)
-          ("reference" . ?c)
-          ("footnote" . ?f)
-          ("emacs" . ?e)
-          ("zettel" . ?z)
-          ("website" . ?y)
-          ("blog" . ?b)
-          ("ignore" . ?i)
-          ("noexport" . ?n)))
-  (setq org-structure-template-alist                                                              ; org-structure-templates
-        '(("me" . "mesostic")
-          ("fi" . "figure")
-          ("fl" . "flushright")
-          ("sh" . "SRC sh")
-          ("el" . "SRC emacs-lisp")
-          ("a" . "export ascii")
-          ("c" . "center")
-          ("C" . "comment")
-          ("ex" . "example")
-          ("E" . "export")
-          ("h" . "export html")
-          ("l" . "export latex")
-          ("q" . "quote")
-          ("s" . "src")
-          ("v" . "verse")))
-  :bind (("C-c a" . org-agenda)
-         :map org-mode-map
-         ("C-c l" . org-store-link)                                                               ; default key binding not working!
-         ("C-c c" . org-capture)
-         ("C-c [" . nil)
-         ("C-<f12>" . org-agenda-file-to-front)))                                                ; disable org-agenda-file-to-front
-;; END OF USEPACKAGE SETTINGS ;;;;;;;;;;;;;;;;;;;;;
+  ;; org-file-apps ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  (setq org-file-apps '((auto-mode . emacs) ; applications for opening ‘file:path’ items in a document
+                        (directory . emacs)
+                        ("\\.mm\\'" . default)
+                        ("\\.x?html?\\'" . default)
+                        ("\\.pdf\\'" . emacs)))
 
-;; org-file-apps ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq org-file-apps '((auto-mode . emacs)
-                      (directory . emacs)
-                      ("\\.mm\\'" . default)
-                      ("\\.x?html?\\'" . default)
-                      ("\\.pdf\\'" . emacs)))
+  ;; ADDED FUNCTIONNS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; ;; After inserting an org-structure-template, also open a line.
+  ;; (defun org-structure-template-and-open-line (orig-func &rest args)
+  ;;   (apply orig-func args)
+  ;;   (unless mark-active
+  ;;     (open-line 1)))
 
-;; ADDED FUNCTIONNS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;; After inserting an org-structure-template, also open a line.
-;; (defun org-structure-template-and-open-line (orig-func &rest args)
-;;   (apply orig-func args)
-;;   (unless mark-active
-;;     (open-line 1)))
+  ;; (advice-add 'org-insert-structure-template
+  ;;             :around #'org-structure-template-and-open-line)
 
-;; (advice-add 'org-insert-structure-template
-;;             :around #'org-structure-template-and-open-line)
+  ;; ;; GTD functions for org-agenda-custom-commands. From https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html
+  ;; (defun my-org-agenda-skip-all-siblings-but-first ()
+  ;;   "Skip all but the first non-done entry."
+  ;;   (let (should-skip-entry)
+  ;;     (unless (org-current-is-todo)
+  ;;       (setq should-skip-entry t))
+  ;;     (save-excursion
+  ;;       (while (and (not should-skip-entry) (org-goto-sibling t))
+  ;;         (when (org-current-is-todo)
+  ;;           (setq should-skip-entry t))))
+  ;;     (when should-skip-entry
+  ;;       (or (outline-next-heading)
+  ;;           (goto-char (point-max))))))
 
-;; ;; GTD functions for org-agenda-custom-commands. From https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html
-;; (defun my-org-agenda-skip-all-siblings-but-first ()
-;;   "Skip all but the first non-done entry."
-;;   (let (should-skip-entry)
-;;     (unless (org-current-is-todo)
-;;       (setq should-skip-entry t))
-;;     (save-excursion
-;;       (while (and (not should-skip-entry) (org-goto-sibling t))
-;;         (when (org-current-is-todo)
-;;           (setq should-skip-entry t))))
-;;     (when should-skip-entry
-;;       (or (outline-next-heading)
-;;           (goto-char (point-max))))))
+  ;; (defun org-current-is-todo ()
+  ;;   (string= "TODO" (org-get-todo-state)))
 
-;; (defun org-current-is-todo ()
-;;   (string= "TODO" (org-get-todo-state)))
+  ;; ADDED ORG-HUGO FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; (defun org-hugo-new-subtree-post-capture-template ()
+  ;;   "Returns `org-capture' template string for new Hugo post.
+  ;; See `org-capture-templates' for more information."
+  ;;   (let* ((title (read-from-minibuffer "Post Title: ")) ;Prompt to enter the post title
+  ;;          (fname (org-hugo-slug title)))
+  ;;     (mapconcat #'identity
+  ;;                `(
+  ;;                  ,(concat "* TODO " title)
+  ;;                  ":PROPERTIES:"
+  ;;                  ":EXPORT_DATE: #+CALL: org-time-stamp"
+  ;;                  ,(concat ":EXPORT_FILE_NAME: " fname)
+  ;;                  ":END:"
+  ;;                  "%?\n" ;Place the cursor here finally
+  ;;                  "[[https://never-get-off-the-bus.ghost.io/#/portal/][You can subcribe to Never Get Off The Bus here]]" )          
+  ;;                "\n")))
 
-;; ADDED ORG-HUGO FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun org-hugo-new-subtree-post-capture-template ()
-;;   "Returns `org-capture' template string for new Hugo post.
-;; See `org-capture-templates' for more information."
-;;   (let* ((title (read-from-minibuffer "Post Title: ")) ;Prompt to enter the post title
-;;          (fname (org-hugo-slug title)))
-;;     (mapconcat #'identity
-;;                `(
-;;                  ,(concat "* TODO " title)
-;;                  ":PROPERTIES:"
-;;                  ":EXPORT_DATE: #+CALL: org-time-stamp"
-;;                  ,(concat ":EXPORT_FILE_NAME: " fname)
-;;                  ":END:"
-;;                  "%?\n" ;Place the cursor here finally
-;;                  "[[https://never-get-off-the-bus.ghost.io/#/portal/][You can subcribe to Never Get Off The Bus here]]" )          
-;;                "\n")))
+  ;; Populates the EXPORT_ FILE_NAME property and EXPORT_DATE in the inserted headline.
+  (with-eval-after-load 'org-capture
+    (defun org-hugo-new-subtree-post-capture-template ()
+      "Returns `org-capture' template string for new Hugo post.
+      See `org-capture-templates' for more information."
+      (let* ((date (format-time-string (org-time-stamp-format :long :inactive) (org-current-time)))
+             (title (read-from-minibuffer "Post Title: ")) ;Prompt to enter the post title
+             (fname (org-hugo-slug title)))
+        (mapconcat #'identity
+                   `(
+                     ,(concat "* TODO " title)
+                     ":PROPERTIES:"
+                     ,(concat ":EXPORT_FILE_NAME: " fname)
+                     ,(concat ":EXPORT_DATE: " date) ;Enter current date and time
+                     ":END:"
+                     "\%?\n" ;Place the cursor here finally
+                     "[[https://never-get-off-the-bus.ghost.io/#/portal/][You can subcribe to Never Get Off The Bus here]]"
+                     )                
+                   "\n")))
 
-;; Populates the EXPORT_ FILE_NAME property and EXPORT_DATE in the inserted headline.
-(with-eval-after-load 'org-capture
-  (defun org-hugo-new-subtree-post-capture-template ()
-    "Returns `org-capture' template string for new Hugo post.
-    See `org-capture-templates' for more information."
-    (let* ((date (format-time-string (org-time-stamp-format :long :inactive) (org-current-time)))
-           (title (read-from-minibuffer "Post Title: ")) ;Prompt to enter the post title
-           (fname (org-hugo-slug title)))
-      (mapconcat #'identity
-                 `(
-                   ,(concat "* TODO " title)
-                   ":PROPERTIES:"
-                   ,(concat ":EXPORT_FILE_NAME: " fname)
-                   ,(concat ":EXPORT_DATE: " date) ;Enter current date and time
-                   ":END:"
-                   "\%?\n" ;Place the cursor here finally
-                   "[[https://never-get-off-the-bus.ghost.io/#/portal/][You can subcribe to Never Get Off The Bus here]]"
-                   )                
-                 "\n")))
-
-  (add-to-list 'org-capture-templates
-               '("h"                ;`org-capture' binding + h
-                 "Hugo post"
-                 entry
-                 ;; It is assumed that below file is present
-                 ;; and that it has a "Never get off the bus" heading. It can even be a
-                 ;; symlink pointing to the actual location of all-posts.org!
-                 ;; (file+olp "C:\\Users\\delbo\\blogs\\nevergetoffthebus.blog\\content-org\\nevergetoffthebus.org" "Never get off the bus")
-                 (function org-hugo-new-subtree-post-capture-template))))
+    (add-to-list 'org-capture-templates
+                 '("h"                ;`org-capture' binding + h
+                   "Hugo post"
+                   entry
+                   ;; It is assumed that below file is present
+                   ;; and that it has a "Never get off the bus" heading. It can even be a
+                   ;; symlink pointing to the actual location of all-posts.org!
+                   ;; (file+olp "C:\\Users\\delbo\\blogs\\nevergetoffthebus.blog\\content-org\\nevergetoffthebus.org" "Never get off the bus")
+                   (function org-hugo-new-subtree-post-capture-template))))
 
 
-;; ;; remove comments from org document for use with export hook. From https://emacs.stackexchange.com/questions/22574/orgmode-export-how-to-prevent-a-new-line-for-comment-lines
-;; ;; Probably unncessary - use :igonore: and :noexport: tags instead. Kept for legacy OU files.
-;; (defun delete-org-comments (backend)
-;;   (cl-loop for comment in (reverse (org-element-map (org-element-parse-buffer)
-;;                                        'comment 'identity))
-;;            do
-;;            (setf (buffer-substring (org-element-property :begin comment)
-;;                                    (org-element-property :end comment))
-;;                  "")))
+  ;; ;; remove comments from org document for use with export hook. From https://emacs.stackexchange.com/questions/22574/orgmode-export-how-to-prevent-a-new-line-for-comment-lines
+  ;; ;; Probably unncessary - use :igonore: and :noexport: tags instead. Kept for legacy OU files.
+  ;; (defun delete-org-comments (backend)
+  ;;   (cl-loop for comment in (reverse (org-element-map (org-element-parse-buffer)
+  ;;                                        'comment 'identity))
+  ;;            do
+  ;;            (setf (buffer-substring (org-element-property :begin comment)
+  ;;                                    (org-element-property :end comment))
+  ;;                  "")))
 
-;; ;; add to export hook
-;; (add-hook 'org-export-before-processing-hook 'delete-org-comments)
-                              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; ;; add to export hook
+  ;; (add-hook 'org-export-before-processing-hook 'delete-org-comments)
+                                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-#+END_SCR	
+#+END_SRC
 
 * org-present
 #+BEGIN_SRC emacs-lisp
