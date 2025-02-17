@@ -1199,7 +1199,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
     :init
     (setq-default ;; buffer local variables
      org-startup-folded 'content                      ; Show headings when opening org files
-     org-hide-leading-stars t
+     org-hide-leading-stars nil
      org-startup-indented t
      )
     (setq org-directory "~/org"
