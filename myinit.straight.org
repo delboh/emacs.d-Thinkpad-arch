@@ -1204,7 +1204,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
           org-src-fontify-natively t
           org-export-html-postamble nil
           org-hide-leading-stars t
-          org-startup-folded nil
+          org-startup-folded 'showeverything
           org-startup-indented t
           org-src-window-setup 'current-window                                                     ; org src in the current window.
           org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))                    ; no blank line before new headings
