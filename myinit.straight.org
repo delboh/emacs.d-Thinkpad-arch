@@ -1197,6 +1197,8 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 #+BEGIN_SRC emacs-lisp 
   (use-package org
     :init
+    (setq org-export-backends '(html latex md))
+    :config
     (setq-default ;; buffer local variables
      org-startup-folded 'content                      ; Show headings when opening org files
      org-hide-leading-stars nil
@@ -1207,17 +1209,16 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
           org-default-notes-file (concat org-directory "/notes.org")
           org-use-speed-commands t                                                                 ; activate single letter commands on headlines
           org-return-follows-link t                                                                ; return opens link at point
-          org-src-fontify-natively t		                                                      ; fontify code in code blocks
+          org-src-fontify-natively t		                                                     ; fontify code in code blocks
           org-export-html-postamble nil
           org-src-window-setup 'current-window                                                     ; org src in the current window.
           org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))                    ; no blank line before new headings
           org-fontify-quote-and-verse-blocks t                                                     ; fontify quote and verse blocks
           org-hide-emphasis-markers nil                                                            ; Show / hide emphasis markers
           org-list-description-max-indent 5                                                        ; set maximum indentation for description lists
-          ;; org-icalendar-combined-agenda-file "C:\\Users\\delbo\\Dropbox\\org\\gtd\\gtd.ics"        ; calendar export to google / ical
+          ;; org-icalendar-combined-agenda-file "C:\\Users\\delbo\\Dropbox\\org\\gtd\\gtd.ics"       ; calendar export to google / ical
           org-icalendar-use-deadline (quote (event-if-not-todo event-if-todo))
           org-icalendar-use-scheduled (quote (event-if-not-todo event-if-todo)))
-    :config
       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; org-cite ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (setq org-cite-global-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json")
           org-cite-csl-styles-dir "~/Dropbox/Zotero_Libraries/styles/"
