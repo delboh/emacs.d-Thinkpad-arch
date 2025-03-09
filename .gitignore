@@ -48,3 +48,5 @@ abbrev_defs
 /prot-eww-visited-history
 /image-dired/
 /.cache/
+quicklisp.lisp
+/eln-cache/
