@@ -1914,10 +1914,11 @@ LaTeX output from org-mode files
 #+end_src
 * pdf-tools
 #+BEGIN_SRC emacs-lisp
-(use-package pdf-tools
-  :ensure t)
+    (use-package pdf-tools
+      :ensure t
+  	:pin melpa)
 
-(pdf-tools-install)
+  ;;  (pdf-tools-install)  ; run explicitly as needed otherwise reinstalls every startup
 #+END_SRC
 * pop to mark
 #+begin_SRC emacs-lisp
