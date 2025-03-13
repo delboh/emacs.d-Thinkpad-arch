@@ -455,7 +455,7 @@ Version 2017-09-22 2020-09-08"
 * copilot.el
 #+BEGIN_SRC emacs-lisp
   (use-package copilot
-    :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
+    :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
     :ensure t
     :init (setq copilot-indent-offset-warning-disable 1) ; suppress indent warnings
     :hook (prog-mode . copilot-mode)
@@ -1643,7 +1643,7 @@ replaced by org-cite for citations. Still used for cross references, labels and 
     (setq org-roam-ui-sync-theme t
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t
+          org-roam-ui-open-on-start nil
           org-roam-ui-browser-function 'browse-url-generic))
 #+end_SRC
 * org-web-tools
