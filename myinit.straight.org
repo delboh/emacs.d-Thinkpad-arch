@@ -2123,8 +2123,7 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
 #+BEGIN_SRC emacs-lisp
 (use-package slime
   :init 
-  (setq inferior-lisp-program "sbcl.exe"))
-(load (expand-file-name "~/.emacs.d/quicklisp/slime-helper.el"))
+  (setq inferior-lisp-program "/usr/bin/sbcl"))
 (setq slime-contribs '(slime-fancy))
 #+END_SRC
 * string to slug
