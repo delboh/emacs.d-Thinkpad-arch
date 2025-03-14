@@ -650,6 +650,53 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
 #+BEGIN_SRC emacs-lisp
   (use-package dictionary)
 #+END_SRC
+* disable mouse & arrow keys
+from https://github.com/jamescherti/inhibit-mouse.el
+#+BEGIN_SRC emacs-lisp
+  (use-package inhibit-mouse
+    :ensure t
+    :config
+    (inhibit-mouse-mode))
+
+  ;; List of mouse button to be inhibited.
+  (setq inhibit-mouse-button-numbers '(1 2 3 4 5))
+
+  ;; List of mouse button events to be inhibited.
+  (setq inhibit-mouse-button-events '("mouse"
+                                      "up-mouse"
+                                      "down-mouse"
+                                      "drag-mouse"))
+
+  ;; List of miscellaneous mouse events to be inhibited.
+  (setq inhibit-mouse-misc-events '("wheel-up"
+                                    "wheel-down"
+                                    "wheel-left"
+                                    "wheel-right"
+                                    "pinch"))
+
+  ;; List of mouse multiplier events to be inhibited.
+  (setq inhibit-mouse-multipliers '("double" "triple"))
+
+  ;; List of key modifier combinations to be inhibited for mouse events.
+  ;; (setq inhibit-mouse-key-modifiers '((control)
+  ;;                                     (meta)
+  ;;                                     (shift)
+  ;;                                     (control meta shift)
+  ;;                                     (control meta)
+  ;;                                     (control shift)
+  ;;                                     (meta shift)))
+
+  ;; controls whether clickable text, such as URLs or hyperlinks, is highlighted when the mouse hovers over them.
+  ;; By default, it is set to t (enabled)
+  (setq inhibit-mouse-adjust-mouse-highlight t)
+
+  (use-package emacs
+    :bind (("<left>" . ignore)
+           ("<right>" . ignore)
+           ("<up>" . ignore)
+           ("<down>" . ignore)))
+
+#+END_SRC
 * ediff
 #+BEGIN_SRC emacs-lisp
 (setq ediff-keep-vaiants nil)
@@ -990,19 +1037,19 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
 #+end_SRC
 * key bindings
 #+BEGIN_SRC emacs-lisp
-;; ;; make PC keyboard's Win key or other to type Super or Hyper, for emacs running on Windows.
-(setq w32-pass-lwindow-to-system nil)
-(setq w32-lwindow-modifier 'super) ; Left Windows key
+  ;; ;; make PC keyboard's Win key or other to type Super or Hyper, for emacs running on Windows.
+  ;; (setq w32-pass-lwindow-to-system nil)
+  ;; (setq w32-lwindow-modifier 'super) ; Left Windows key
 
-;; (setq w32-pass-rwindow-to-system nil)
-;; (setq w32-rwindow-modifier 'super) ; Right Windows key
+  ;; (setq w32-pass-rwindow-to-system nil)
+  ;; (setq w32-rwindow-modifier 'super) ; Right Windows key
 
-;; (setq w32-pass-apps-to-system nil)
-;; (setq w32-apps-modifier 'hyper) ; Menu/App key
+  ;; (setq w32-pass-apps-to-system nil)
+  ;; (setq w32-apps-modifier 'hyper) ; Menu/App key
 
-;; (setq w32-register-hot-key [M-tab]) ;;not working in W10
+  ;; (setq w32-register-hot-key [M-tab]) ;;not working in W10
 
-;; zap-up-to-char
+  ;; zap-up-to-char
   (global-set-key "\M-z" 'zap-up-to-char)
   (global-set-key "\M-/" 'hippie-expand)
 
@@ -1022,6 +1069,9 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
   ;; org-forward-element (default M-}/{)
   (global-set-key (kbd "M-]") 'org-forward-element)
   (global-set-key (kbd "M-[") 'org-backward-element)
+
+  ;; find-file-a-point
+  (global-set-key (kbd "C-x f") 'find-file-at-point)
 
   ;; User Activated keybindings
   (put 'downcase-region 'disabled nil)
