@@ -1080,8 +1080,12 @@ from https://github.com/jamescherti/inhibit-mouse.el
   (global-set-key (kbd "M-%") 'replace-string)
   (global-set-key (kbd "C-M-%") 'replace-regexp)
 
-  (fset 'eol-and-return
-        (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([5 return] 0 "%d")) arg)))
+(defun eol-and-return ()
+  "Move to end of line and then to the beginning of the next line without inserting a newline."
+  (interactive)
+  (end-of-line)
+  (forward-char))
+
   (global-set-key (kbd "C-M-]") 'eol-and-return)
 
   (fset 'rerecenter
