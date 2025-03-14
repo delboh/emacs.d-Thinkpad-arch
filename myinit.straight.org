@@ -10,7 +10,7 @@ moved to "custom-vars.el"
 * ELPA certificates
 #+begin_SRC emacs-lisp
   (use-package gnu-elpa-keyring-update
-    :ensure t)
+    :ensure f)
 #+end_SRC
 * load path
 #+BEGIN_SRC emacs-lisp
@@ -107,12 +107,12 @@ moved to "custom-vars.el"
 * academic-phrases
 #+BEGIN_SRC emacs-lisp
 (use-package academic-phrases
-  :ensure t)
+  :ensure f)
 #+END_SRC
 * AUCTeX
 #+begin_src emacs-lisp
 (use-package auctex
-  :ensure t)
+  :ensure f)
 ;; make AUCTeX aware of the multi-file document structure.
   ;; Each time you open a new file, AUCTeX will then ask you for a master file.
   (setq-default TeX-master nil)
@@ -120,11 +120,11 @@ moved to "custom-vars.el"
 * Autocomplete
 #+BEGIN_SRC emacs-lisp
   (use-package auto-complete
-    :ensure t)
+    :ensure f)
   (use-package ac-slime
-    :ensure t)
+    :ensure f)
   ;; (use-package auto-complete-auctex  
-  ;;   :ensure t)  ;; requires a Tex install
+  ;;   :ensure f)  ;; requires a Tex install
 
   (add-hook 'slime-mode-hook 'set-up-slime-ac)
   (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
@@ -156,10 +156,10 @@ This is in contrast to the auto-save-mode, which automatically saves such  buffe
 * auto virtualenv
 #+BEGIN_SRC emacs-lisp
 (use-package auto-virtualenv
-  :ensure t
+  :ensure f
   :init
   (use-package pyvenv
-    :ensure t)
+    :ensure f)
   :config
   (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
 ;;  (add-hook 'projectile-after-switch-project-hook 'auto-virtualenv-set-virtualenv) ;; If using projectile
@@ -168,7 +168,7 @@ This is in contrast to the auto-save-mode, which automatically saves such  buffe
 * avy
 #+begin_SRC emacs-lisp
     (use-package avy
-      :ensure t)
+      :ensure f)
 #+end_SRC
 * back-up files
 from https://www.emacswiki.org/emacs/BackupDirectory
@@ -217,7 +217,7 @@ config retained for reference
 #+begin_SRC emacs-lisp
 
         (use-package citar
-          :ensure t
+          :ensure f
           :init
           (setq citar-notes-paths '("~/org-roam/") ;; List of directories for reference nodes
                 citar-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json") ;; List of directories
@@ -234,14 +234,14 @@ config retained for reference
                       ("C-c o" . citar-open-notes)))
 
         (use-package citar-embark
-          :ensure t
+          :ensure f
           :after citar embark
           :init
           (setq citar-at-point-function 'embark-act) ;; Open embark menu with org-open-at-point
           :config (citar-embark-mode))
 
         (use-package citar-org-roam
-          :ensure t
+          :ensure f
           :config (citar-org-roam-mode))
      ;;     :after ((citar org-roam)) ; seems to cause problems with the mode loading
 
@@ -287,7 +287,7 @@ Version 2017-09-22 2020-09-08"
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; CONSULT provides a collection of useful search and navigation commands that leverage the enhanced completion system
   (use-package consult
-    :ensure t
+    :ensure f
     ;; Replace bindings. Lazily loaded due by `use-package'.  C-c bindings in mode-specific-map
     :bind (("C-c M-x" . consult-mode-command)
            ("C-c h" . consult-history)
@@ -407,7 +407,7 @@ Version 2017-09-22 2020-09-08"
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; VERTICO provides a vertical completion UI for the minibuffer
   (use-package vertico
-    :ensure t
+    :ensure f
     :config
     (vertico-mode)
 
@@ -428,7 +428,7 @@ Version 2017-09-22 2020-09-08"
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; ORDERLESS advanced completion style for Vertico allowing input of multiple space-separated components to match candidates in any order
   (use-package orderless
-    :ensure t
+    :ensure f
     :init
     (setq completion-styles '(orderless basic)
           completion-category-overrides '((file (styles basic partial-completion)))))
@@ -437,7 +437,7 @@ Version 2017-09-22 2020-09-08"
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; MARGINALIA adds annotations to the completion candidates in the minibuffer
   (use-package marginalia
-    :ensure t
+    :ensure f
     ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
     ;; available in the *Completions* buffer, add it to the
     ;; `completion-list-mode-map'.
@@ -456,7 +456,7 @@ Version 2017-09-22 2020-09-08"
 #+BEGIN_SRC emacs-lisp
   (use-package copilot
     :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-    :ensure t
+    :ensure f
     :init (setq copilot-indent-offset-warning-disable 1) ; suppress indent warnings
     :hook (prog-mode . copilot-mode)
     :bind (("C-c M-f" . copilot-complete)
@@ -474,7 +474,7 @@ Version 2017-09-22 2020-09-08"
 * deadgrep search using ripgrep
 #+begin_SRC emacs-lisp
   (use-package deadgrep
-    :ensure t)
+    :ensure f)
 #+end_SRC
 * delete comments
 from https://emacs.stackexchange.com/questions/5441/function-to-delete-all-comments-from-a-buffer-without-moving-them-to-kill-ring
@@ -532,7 +532,7 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
 * denote
 #+begin_SRC emacs-lisp
     (use-package denote
-      :ensure t)
+      :ensure f)
 
     ;; Remember to check the doc strings of those variables.
     (setq denote-directory "~/Dropbox/org-notes")
@@ -635,7 +635,7 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
 * dired-subtree
 #+begin_example
 (use-package dired-subtree
-  :ensure t
+  :ensure f
   :after dired
   :bind
   ( :map dired-mode-map
@@ -654,7 +654,7 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
 from https://github.com/jamescherti/inhibit-mouse.el
 #+BEGIN_SRC emacs-lisp
   (use-package inhibit-mouse
-    :ensure t
+    :ensure f
     :config
     (inhibit-mouse-mode))
 
@@ -710,7 +710,7 @@ from https://github.com/jamescherti/inhibit-mouse.el
 * elfeed
 #+BEGIN_SRC emacs-lisp
 (use-package elfeed
-  :ensure t
+  :ensure f
   :defer t)
 (setq elfeed-use-curl nil
       elfeed-curl-max-connections 10
@@ -858,12 +858,12 @@ from https://github.com/jamescherti/inhibit-mouse.el
 * elpy python support
 #+BEGIN_SRC emacs-lisp
   ;; (use-package elpy
-  ;;   :ensure t
+  ;;   :ensure f
   ;;   :init
   ;;   (elpy-enable))
 
   ;; (use-package blacken
-  ;;   :ensure t)
+  ;;   :ensure f)
 
   ;; (when (load "flycheck" t t)
   ;;   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
@@ -884,7 +884,7 @@ from https://github.com/jamescherti/inhibit-mouse.el
 #+BEGIN_SRC emacs-lisp
 (use-package embark
   :after vertico
-  :ensure t
+  :ensure f
 
   :bind
   (("C-`" . embark-act)         ;; pick some comfortable binding
@@ -911,21 +911,21 @@ from https://github.com/jamescherti/inhibit-mouse.el
 
 ;; Consult users will also want the embark-consult package.
 (use-package embark-consult
-  :ensure t ; only need to install it, embark loads it after consult if found
+  :ensure f ; only need to install it, embark loads it after consult if found
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 #+END_SRC
 * expand the marked region in semantic increments 
 #+BEGIN_SRC emacs-lisp
   (use-package expand-region
-    :ensure t
+    :ensure f
     :bind (("C-+" . er/contract-region)
            ("C-=" . er/expand-region)))
 #+END_SRC
 * Flycheck
 #+BEGIN_SRC emacs-lisp
 (use-package flycheck
-  :ensure t
+  :ensure f
   :init
   (global-flycheck-mode t))
 
@@ -934,12 +934,12 @@ from https://github.com/jamescherti/inhibit-mouse.el
 * free-keys
 #+begin_src emacs-lisp
   (use-package free-keys
-    :ensure t)
+    :ensure f)
 #+end_src
 * magit
 #+BEGIN_SRC emacs-lisp 
 (use-package magit
-  :ensure t
+  :ensure f
   :config
   (setq magit-define-global-key-bindings 'recommended
     ))
@@ -967,7 +967,7 @@ from https://github.com/jamescherti/inhibit-mouse.el
 * gptel: A simple LLM client for Emacs
 #+BEGIN_SRC emacs-lisp
   (use-package gptel
-    :ensure t)
+    :ensure f)
 
   (gptel-make-perplexity "Perplexity"     ;Any name you want
     :key "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"                   ;can be a function that returns the key
@@ -976,13 +976,13 @@ from https://github.com/jamescherti/inhibit-mouse.el
 * htmlize
 #+begin_src emacs-lisp
   (use-package htmlize
-    :ensure t)
+    :ensure f)
 #+end_src
 
 * ibuffer
 #+BEGIN_SRC emacs-lisp
   (use-package ibuffer
-    :ensure t
+    :ensure f
     :custom
     (ibuffer-saved-filter-groups
      (quote (("default"
@@ -1027,7 +1027,7 @@ from https://github.com/jamescherti/inhibit-mouse.el
   (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
 
   (use-package flycheck-lilypond
-    :ensure t)
+    :ensure f)
 
 #+END_SRC
 
@@ -1095,7 +1095,7 @@ from https://github.com/jamescherti/inhibit-mouse.el
 * markdown mode
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
-    :ensure t
+    :ensure f
     :commands (markdown-mode gfm-mode)
     :mode (("README\\.md\\'" . gfm-mode)
            ("\\.md\\'" . markdown-mode)
@@ -1139,7 +1139,7 @@ from https://github.com/jamescherti/inhibit-mouse.el
 * move-text
 #+begin_SRC emacs-lisp
   (use-package move-text
-    :ensure t
+    :ensure f
     :bind (("M-p" . move-text-up)
            ("M-n" . move-text-down))
     :config (move-text-default-bindings))
@@ -1167,7 +1167,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 * nov.el epub mode
 #+begin_SRC emacs-lisp
 (use-package nov
-  :ensure t
+  :ensure f
   :straight (nov :type git :host nil :repo "https://depp.brause.cc/nov.el.git")
   :custom
   (nov-unzip-program "/usr/bin/unzip"))
@@ -1215,7 +1215,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 * org-cliplink
 #+begin_src emacs-lisp
   (use-package org-cliplink
-    :ensure t
+    :ensure f
     :bind ("C-c C-|" . org-cliplink))
 #+end_src
 * org-inline-tasks
@@ -1495,7 +1495,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 * org-present
 #+BEGIN_SRC emacs-lisp
   (use-package org-present
-    :ensure t)
+    :ensure f)
   (autoload 'org-present "org-present" nil t)
 
   (add-hook 'org-present-mode-hook
@@ -1513,7 +1513,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 #+BEGIN_SRC emacs-lisp
           ;; new fork at github.com/org-noter/org-noter
           (use-package org-noter
-            :ensure t
+            :ensure f
             :init
             (setq org-noter-notes-search-path '("~/Dropbox/org-pdfs/"
                                                 "~/Dropbox/org-notes")
@@ -1527,14 +1527,14 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 
           ;;;; ebook reader  
           (use-package djvu
-            :ensure t)
+            :ensure f)
 
 #+END_SRC
 * org-ref REPLACED BY ORG-CITE
 replaced by org-cite for citations. Still used for cross references, labels and glossary functions.
 #+BEGIN_SRC emacs-lisp
     (use-package org-ref
-      :ensure t)
+      :ensure f)
   
   (setq org-ref-insert-cite-function (lambda () (org-cite-insert nil))) ; don't use org-ref for citations
 
@@ -1561,7 +1561,7 @@ replaced by org-cite for citations. Still used for cross references, labels and 
 #+begin_SRC emacs-lisp
   (use-package f) ;; Dependency
   (use-package org-roam
-    :ensure t
+    :ensure f
     :pin melpa
     :custom
     (org-roam-directory "~/org-roam/")
@@ -1669,7 +1669,7 @@ replaced by org-cite for citations. Still used for cross references, labels and 
   ;; replaced by citar-org-roam
 
   ;; (use-package org-roam-bibtex
-  ;;   :ensure t
+  ;;   :ensure f
   ;;   :after org-roam
   ;;   :config
   ;;   (require 'org-ref))
@@ -1679,9 +1679,9 @@ replaced by org-cite for citations. Still used for cross references, labels and 
 * org-roam-ui
 #+begin_SRC emacs-lisp
 (use-package simple-httpd
-  :ensure t)
+  :ensure f)
 (use-package websocket
-  :ensure t)
+  :ensure f)
 (use-package org-roam-ui
   :straight
     (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
@@ -1700,7 +1700,7 @@ replaced by org-cite for citations. Still used for cross references, labels and 
 * org-web-tools
 #+begin_SRC emacs-lisp
 (use-package org-web-tools
-  :ensure t)
+  :ensure f)
 #+end_SRC
 * os quotes
 #+BEGIN_SRC emacs-lisp
@@ -1917,7 +1917,7 @@ replaced by org-cite for citations. Still used for cross references, labels and 
 * ox-hugo
 #+begin_src emacs-lisp
   (use-package ox-hugo
-    :ensure t)
+    :ensure f)
 #+end_src
 * ox-latex
 LaTeX output from org-mode files
@@ -1966,7 +1966,7 @@ LaTeX output from org-mode files
 * pdf-tools
 #+BEGIN_SRC emacs-lisp
     (use-package pdf-tools
-      :ensure t
+      :ensure f
   	:pin melpa)
 
   ;;  (pdf-tools-install)  ; run explicitly as needed otherwise reinstalls every startup
@@ -2030,7 +2030,7 @@ https://protesilaos.com/codelog/2020-07-18-emacs-concept-org-tweaked-focus/
       (variable-pitch-mode -1))))
 
 (use-package org-superstar              ; supersedes `org-bullets'
-  :ensure t
+  :ensure f
   :after org
   :config
   (setq org-superstar-remove-leading-stars t)
@@ -2049,7 +2049,7 @@ https://protesilaos.com/codelog/2020-07-18-emacs-concept-org-tweaked-focus/
   (window-divider-mode -1))
 
 (use-package olivetti
-  :ensure t
+  :ensure f
   :diminish
   :config
   (setq olivetti-body-width 0.65)
@@ -2247,7 +2247,7 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
 * TeX
 #+BEGIN_SRC emacs-lisp
   (use-package tex
-    :ensure t
+    :ensure f
     :defer t
     :config
     (setq TeX-auto-save t
@@ -2259,7 +2259,7 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
 * thesaurus
 #+BEGIN_SRC emacs-lisp
   ;; (use-package synosaurus
-  ;;   :ensure t
+  ;;   :ensure f
   ;;   :init
   ;;   (setq synosaurus-backend 'synosaurus-backend-wordnet
   ;;         synosaurus-choose-and-replace 'popup
@@ -2320,7 +2320,7 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
 ;; Config from https://elpa.gnu.org/packages/vertico.html
 
 (use-package vertico
-  :ensure t
+  :ensure f
   :init
   (vertico-mode)
 
@@ -2371,7 +2371,7 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
-  :ensure t
+  :ensure f
   :init
   ;; Configure a custom style dispatcher (see the Consult wiki)
   ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
@@ -2418,7 +2418,7 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
 * Visual Fill Column
 #+BEGIN_SRC emacs-lisp
   (use-package visual-fill-column
-    :ensure t)
+    :ensure f)
   ;;; center-text set in Customize:
   ;;    (setq visual-fill-column-center-text t)
 #+END_SRC
@@ -2426,7 +2426,7 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
 Brings up some help
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
-    :ensure t
+    :ensure f
     :config
     (which-key-mode))
 #+END_SRC
@@ -2456,7 +2456,7 @@ Brings up some help
 * Wiki-summary in separate buffer
 #+begin_SRC emacs-lisp
   (use-package wiki-summary
-    :ensure t
+    :ensure f
     :defer 1
     :preface
     (defun my/format-summary-in-buffer (summary)
@@ -2476,7 +2476,7 @@ Brings up some help
 fullscreen effect disabled in customize
 #+begin_SRC emacs-lisp
 ;; (use-package writeroom-mode
-;;   :ensure t
+;;   :ensure f
 ;;   :after org
 ;;   :bind
 ;;   (("C-|" . writeroom-mode)
