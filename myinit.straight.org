@@ -1565,6 +1565,7 @@ replaced by org-cite for citations. Still used for cross references, labels and 
     :pin melpa
     :custom
     (org-roam-directory "~/org-roam/")
+    (org-roam-db-location (expand-file-name "~/.emacs.d/org-roam.db"))
     ;; Show tags column in node list
     (org-roam-node-display-template
      (concat "${title:*} "
