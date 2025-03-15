@@ -2277,31 +2277,31 @@ https://github.com/SavchenkoValeriy/emacs-powerthesaurus
 #+END_SRC
 * theme & fonts
 #+BEGIN_SRC emacs-lisp
-(set-face-attribute 'default nil :font "Hack-12")
-(set-face-attribute 'fixed-pitch nil :font "Hack-12")
-(set-face-attribute 'variable-pitch nil :font "Alegreya-14")
+  (set-face-attribute 'default nil :family "Hack" :height 120)
+  (set-face-attribute 'fixed-pitch nil :family "Hack" :height 120)
+  (set-face-attribute 'variable-pitch nil :family "Alegreya" :height 140)
 
-(dolist (face '(default fixed-pitch))
-  (set-face-attribute `,face nil :font "Hack-12"))
+  (dolist (face '(default fixed-pitch))
+    (set-face-attribute `,face nil :font "Hack-12"))
 
-(setq-default line-spacing 0.2)
+  (setq-default line-spacing 0.2)
 
-;; (require 'plain-theme)
-;; (load-theme 'plain t)
+  ;; (require 'plain-theme)
+  ;; (load-theme 'plain t)
 
-;; From https://gitlab.com/protesilaos/modus-themes
-;; Use in conjunction with <Focused Editing Tools>
-(use-package emacs  ;;modus themes are now part of Emacs
-  :config
-  (require-theme 'modus-themes)
-  ;; Add all your customizations prior to loading the themes
-  (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs nil
-        modus-themes-disable-other-themes t)
-  :bind ("<S-f5>" . modus-themes-toggle))
+  ;; From https://gitlab.com/protesilaos/modus-themes
+  ;; Use in conjunction with <Focused Editing Tools>
+  (use-package emacs  ;;modus themes are now part of Emacs
+    :config
+    (require-theme 'modus-themes)
+    ;; Add all your customizations prior to loading the themes
+    (setq modus-themes-italic-constructs t
+          modus-themes-bold-constructs nil
+          modus-themes-disable-other-themes t)
+    :bind ("<S-f5>" . modus-themes-toggle))
 
-(load-theme 'modus-operandi t) ;; light
-;;  (load-theme 'modus-vivendi t) ;; dark
+  (load-theme 'modus-operandi t) ;; light
+  ;;  (load-theme 'modus-vivendi t) ;; dark
 
 #+END_SRC  
 * Unfill region and paragraph
