@@ -1040,25 +1040,47 @@ from https://github.com/jamescherti/inhibit-mouse.el
   (use-package logos
     :config
     (setq-default logos-hide-cursor nil
-    				logos-hide-mode-line t
-    				logos-hide-header-line t
-    				logos-hide-buffer-boundaries t
-    				logos-hide-fringe t
-    				logos-variable-pitch nil
-    				logos-buffer-read-only nil
-    				logos-scroll-lock nil
-    				logos-olivetti t)
+     				logos-hide-mode-line t
+     				logos-hide-header-line t
+     				logos-hide-buffer-boundaries t
+     				logos-hide-fringe t
+     				logos-variable-pitch nil
+     				logos-buffer-read-only nil
+     				logos-scroll-lock nil
+     				logos-olivetti t)
     (setq logos-outlines-are-pages t
-    		logos-outline-regexp-alist
-    		`((emacs-lisp-mode . "^;;;+ ")
-    		  (org-mode . "^\\*+ +")
-    		  (markdown-mode . "^\\#+ +"))))
+     		logos-outline-regexp-alist
+     		`((emacs-lisp-mode . ,(format "\\(^;;;+ \\|%s\\)" logos-page-delimiter))
+     		  (org-mode . ,(format "\\(^\\*\\{1,5\\} +\\|^-\\{5\\}$\\|%s\\)" logos-page-delimiter))
+     		  (markdown-mode . "^\\#+ +")))
+    :bind (:map logos-focus-mode-map
+  			  ("<prior>" . backward-page)
+  			  ("<next>" . forward-page)))
 
   (let ((map global-map))
     (define-key map [remap narrow-to-region] #'logos-narrow-dwim)
     (define-key map [remap forward-page] #'logos-forward-page-dwim)
     (define-key map [remap backward-page] #'logos-backward-page-dwim)
     (define-key map (kbd "<f9>") #'logos-focus-mode))
+
+  (with-eval-after-load 'logos-mode
+    (keymap-set logos-focus-mode-map "<prior>" 'backward-page)
+    (keymap-set logos-focus-mode-map "<next>" 'forward-page))
+
+  ;; Make EWW look like the rest of Emacs
+  (setq shr-max-width fill-column)
+  (setq shr-use-fonts nil)
+
+  ;; Expand org subheadings
+  (defun logos-reveal-entry ()
+    "Reveal Org or Outline entry."
+    (cond
+     ((and (eq major-mode 'org-mode)
+           (org-at-heading-p))
+      (org-show-subtree))
+     ((or (eq major-mode 'outline-mode)
+          (bound-and-true-p outline-minor-mode))
+      (outline-show-subtree))))
 
 #+END_SRC
 * key bindings
