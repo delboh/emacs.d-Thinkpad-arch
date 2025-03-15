@@ -1037,18 +1037,7 @@ from https://github.com/jamescherti/inhibit-mouse.el
 #+end_SRC
 * key bindings
 #+BEGIN_SRC emacs-lisp
-  ;; ;; make PC keyboard's Win key or other to type Super or Hyper, for emacs running on Windows.
-  ;; (setq w32-pass-lwindow-to-system nil)
-  ;; (setq w32-lwindow-modifier 'super) ; Left Windows key
-
-  ;; (setq w32-pass-rwindow-to-system nil)
-  ;; (setq w32-rwindow-modifier 'super) ; Right Windows key
-
-  ;; (setq w32-pass-apps-to-system nil)
-  ;; (setq w32-apps-modifier 'hyper) ; Menu/App key
-
-  ;; (setq w32-register-hot-key [M-tab]) ;;not working in W10
-
+  
   ;; zap-up-to-char
   (global-set-key "\M-z" 'zap-up-to-char)
   (global-set-key "\M-/" 'hippie-expand)
@@ -1080,21 +1069,13 @@ from https://github.com/jamescherti/inhibit-mouse.el
   (global-set-key (kbd "M-%") 'replace-string)
   (global-set-key (kbd "C-M-%") 'replace-regexp)
 
-(defun eol-and-return ()
-  "Move to end of line and then to the beginning of the next line without inserting a newline."
-  (interactive)
-  (end-of-line)
-  (forward-char))
-
+  (defun eol-and-return ()
+    "Move to end of line and insert a newline."
+    (interactive)
+    (end-of-line)
+    (newline))
   (global-set-key (kbd "C-M-]") 'eol-and-return)
-
-  (fset 'rerecenter
-        (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([134217848 114 101 99 101 116 backspace 110 116 101 114 return] 0 "%d")) arg)))
-  (global-set-key (kbd "C-M-q") 'rerecenter)
-
-  (fset 'select-sentence
-        (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([67108896 134217829 6] 0 "%d")) arg)))
-  (global-set-key (kbd "M-E") 'select-sentence)
+  
 #+END_SRC
 * markdown mode
 #+BEGIN_SRC emacs-lisp
@@ -2260,13 +2241,13 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
   ;; (add-hook 'LaTeX-mode-hook 'pandoc-mode)
 #+END_SRC
 * thesaurus
+https://github.com/SavchenkoValeriy/emacs-powerthesaurus
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package synosaurus
-  ;;   :ensure f
-  ;;   :init
-  ;;   (setq synosaurus-backend 'synosaurus-backend-wordnet
-  ;;         synosaurus-choose-and-replace 'popup
-  ;;         exec-path (append exec-path (list "C:\\Program Files (x86)\\WordNet\\2.1\\bin"))))
+(use-package powerthesaurus
+  :init
+  (require 'transient)
+  :bind
+  ("C-c t" . powerthesaurus-transient))
 #+END_SRC
 * theme & fonts
 #+BEGIN_SRC emacs-lisp

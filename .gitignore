@@ -50,3 +50,4 @@ abbrev_defs
 /.cache/
 quicklisp.lisp
 /eln-cache/
+/tramp
