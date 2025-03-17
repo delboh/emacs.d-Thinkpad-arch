@@ -1449,7 +1449,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
              ("C-c c" . org-capture)
              ("C-c [" . nil)
              ("C-<f12>" . org-agenda-file-to-front)
-  		   ("M-h". backward-kill-word)))
+  		   ("M-h". backward-kill-word))) ; disable org-agenda-file-to-front
     ;; END OF USEPACKAGE SETTINGS ;;;;;;;;;;;;;;;;;;;;;
 
     ;; org-file-apps ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2243,6 +2243,40 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
     :bind (:map flyspell-mode-map
                 ("C-M-i" . nil))) ;; reserve for org-roam completion
 
+  (with-eval-after-load 'flyspell
+  (defun flyspell-goto-previous-error ()
+    "Move point to previous Flyspell error."
+    (interactive)
+    (let ((pos (point))
+          (min (point-min)))
+      ;; Handle position tracking
+      (when (and (eq (current-buffer) flyspell-old-buffer-error)
+                 (eq pos flyspell-old-pos-error))
+        (if (= pos min)
+            (progn
+              (message "Restarting from end of buffer")
+              (goto-char (point-max)))
+          (backward-word 1))
+        (setq pos (point)))
+
+      ;; Search backward through buffer
+      (catch 'found
+        (while (>= pos min)
+          (dolist (ov (overlays-at pos))
+            (when (flyspell-overlay-p ov)
+              (setq flyspell-old-pos-error pos)
+              (setq flyspell-old-buffer-error (current-buffer))
+              (goto-char pos)
+              (throw 'found t)))
+          (setq pos (1- pos))))
+
+      ;; Final position handling
+      (if (= pos min)
+          (message "No more misspelled words!")
+  		(goto-char pos))))
+  (define-key flyspell-mode-map (kbd "M-,") #'flyspell-goto-previous-error))
+
+
     ;;; Hunspell
   ;; ;;; Spell checking using hunspell
   ;; (setq1 ispell-local-dictionary-alist
@@ -2528,6 +2562,16 @@ Brings up some help
 
   (advice-add 'wiki-summary/format-summary-in-buffer :override #'my/format-summary-in-buffer)
 #+end_SRC
+* word count
+#+BEGIN_SRC emacs-lisp
+(defun my-org-word-count ()
+  "Count words in Org buffer excluding comments and TODOs."
+  (interactive)
+  (let ((words (count-words-region (point-min) (point-max))))
+    ;; Adjust logic here to exclude specific elements.
+    (message "Word count: %d" words)))
+
+#+END_SRC
 * writeroom mode
 fullscreen effect disabled in customize
 #+begin_SRC emacs-lisp
