@@ -2236,21 +2236,14 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
   (global-set-key (kbd "M-£") 'dictionary-lookup-definition)
 
 
-  ;; (use-package flyspell
-  ;;   :init
-  ;;   (setq ispell-program-name "hunspell"
-  ;;         ispell-local-dictionary "en_GB")
-  ;;   :hook ((markdown-mode org-mode text-mode LaTeX-mode latex-mode) . flyspell-mode)
-  ;;   (prog-mode . flyspell-prog-mode)
-  ;;   :custom
-  ;;   (flyspell-abbrev-p t)
-  ;;   (flyspell-issue-message-flag nil)
-  ;;   (flyspell-issue-welcome-flag nil)
-  ;;   :bind (:map flyspell-mode-map
-  ;;               ("C-M-i" . nil))) ;; reserve for org-roam completion
+  (use-package flyspell
+    :hook (((markdown-mode org-mode text-mode LaTeX-mode latex-mode) . flyspell-mode)
+  		 (prog-mode . flyspell-prog-mode))
+    :bind (:map flyspell-mode-map
+                ("C-M-i" . nil))) ;; reserve for org-roam completion
 
-  ;;   ;;; Hunspell
-  ;; ;; ;;; Spell checking using hunspell
+    ;;; Hunspell
+  ;; ;;; Spell checking using hunspell
   ;; (setq1 ispell-local-dictionary-alist
   ;;   '((nil "[A-Za-z]" "[^A-Za-z]" "[']" t
   ;;      ("-d" "en_GB" "-i" "utf-8") nil utf-8)
