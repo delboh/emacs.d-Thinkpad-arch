@@ -654,7 +654,10 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
 #+END_SRC
 * dictionary
 #+BEGIN_SRC emacs-lisp
-  (use-package dictionary)
+  (use-package dictionary
+    :config
+    (setq dictionary-server "dict.org"))
+
 
   (global-set-key (kbd "M-£") 'dictionary-lookup-definition)
 
