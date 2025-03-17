@@ -1097,7 +1097,7 @@ from https://github.com/jamescherti/inhibit-mouse.el
 #+END_SRC
 * key bindings
 #+BEGIN_SRC emacs-lisp
-  
+
   ;; zap-up-to-char
   (global-set-key "\M-z" 'zap-up-to-char)
   (global-set-key "\M-/" 'hippie-expand)
@@ -1134,8 +1134,19 @@ from https://github.com/jamescherti/inhibit-mouse.el
     (interactive)
     (end-of-line)
     (newline))
+
   (global-set-key (kbd "C-M-]") 'eol-and-return)
-  
+
+  (defun move-to-paragraph-end ()
+    "Move point to the end of the current paragraph."
+    (interactive)
+    (forward-paragraph)
+    (backward-char))
+
+  (global-set-key (kbd "C-c e") 'move-to-paragraph-end)
+
+
+
 #+END_SRC
 * markdown mode
 #+BEGIN_SRC emacs-lisp
