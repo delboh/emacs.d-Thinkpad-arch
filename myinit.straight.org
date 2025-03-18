@@ -2375,22 +2375,16 @@ https://github.com/SavchenkoValeriy/emacs-powerthesaurus
 
   (setq-default line-spacing 0.2)
 
-  ;; (require 'plain-theme)
-  ;; (load-theme 'plain t)
-
   ;; From https://gitlab.com/protesilaos/modus-themes
-  ;; Use in conjunction with <Focused Editing Tools>
   (use-package emacs  ;;modus themes are now part of Emacs
-    :config
-    (require-theme 'modus-themes)
-    ;; Add all your customizations prior to loading the themes
+    :init
+    ;; Add customizations prior to loading the themes
     (setq modus-themes-italic-constructs t
           modus-themes-bold-constructs nil
-          modus-themes-disable-other-themes t)
+  	   modus-themes-region '(bg-only no-extend))
+       (load-theme 'modus-operandi t) ; light
+;;       (load-theme 'modus-vivendi t) ; dark
     :bind ("<S-f5>" . modus-themes-toggle))
-
-  (load-theme 'modus-operandi t) ;; light
-  ;;  (load-theme 'modus-vivendi t) ;; dark
 
 #+END_SRC  
 * Unfill region and paragraph
@@ -2525,7 +2519,6 @@ https://github.com/SavchenkoValeriy/emacs-powerthesaurus
 Brings up some help
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
-    :ensure f
     :config
     (which-key-mode))
 #+END_SRC
