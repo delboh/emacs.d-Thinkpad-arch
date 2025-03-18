@@ -2366,25 +2366,26 @@ https://github.com/SavchenkoValeriy/emacs-powerthesaurus
 #+END_SRC
 * theme & fonts
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :family "Hack" :height 120)
-  (set-face-attribute 'fixed-pitch nil :family "Hack" :height 120)
-  (set-face-attribute 'variable-pitch nil :family "Alegreya" :height 140)
+    ;; (set-face-attribute 'default nil :font "Hack" :height 120)
+    ;; (set-face-attribute 'fixed-pitch nil :font "Hack" :height 120)
+    ;; (set-face-attribute 'variable-pitch nil :font "Alegreya" :height 140)
 
-  (dolist (face '(default fixed-pitch))
-    (set-face-attribute `,face nil :font "Hack-12"))
+    (set-face-attribute 'default nil :font "Iosevka-12")
+    (set-face-attribute 'fixed-pitch nil :font "Iosevka-14")
+    (set-face-attribute 'variable-pitch nil :font "Iosevka Aile-14")
 
-  (setq-default line-spacing 0.2)
+;;    (setq-default line-spacing nil) ;default. Set to percent floating point to change
 
-  ;; From https://gitlab.com/protesilaos/modus-themes
-  (use-package emacs  ;;modus themes are now part of Emacs
-    :init
-    ;; Add customizations prior to loading the themes
-    (setq modus-themes-italic-constructs t
-          modus-themes-bold-constructs nil
-  	   modus-themes-region '(bg-only no-extend))
-       (load-theme 'modus-operandi t) ; light
-;;       (load-theme 'modus-vivendi t) ; dark
-    :bind ("<S-f5>" . modus-themes-toggle))
+    ;; From https://gitlab.com/protesilaos/modus-themes
+    (use-package emacs  ;;modus themes are now part of Emacs
+      :init
+      ;; Add customizations prior to loading the themes
+      (setq modus-themes-italic-constructs t
+            modus-themes-bold-constructs nil
+    	   modus-themes-region '(bg-only no-extend))
+         (load-theme 'modus-operandi t) ; light
+  ;;       (load-theme 'modus-vivendi t) ; dark
+      :bind ("<S-f5>" . modus-themes-toggle))
 
 #+END_SRC  
 * Unfill region and paragraph
