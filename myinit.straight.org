@@ -125,27 +125,34 @@ moved to "custom-vars.el"
 #+END_SRC
 * AUCTeX
 #+begin_src emacs-lisp
-(use-package auctex
-  :ensure f)
-;; make AUCTeX aware of the multi-file document structure.
-  ;; Each time you open a new file, AUCTeX will then ask you for a master file.
-  (setq-default TeX-master nil)
-#+end_src
-* Autocomplete
-#+BEGIN_SRC emacs-lisp
-  (use-package auto-complete
-    :ensure f)
-  (use-package ac-slime
-    :ensure f)
-  ;; (use-package auto-complete-auctex  
-  ;;   :ensure f)  ;; requires a Tex install
+  (use-package auctex
+    :ensure nil)
 
-  (add-hook 'slime-mode-hook 'set-up-slime-ac)
-  (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
-  (eval-after-load "auto-complete"
-    '(add-to-list 'ac-modes 'slime-repl-mode))
-  (eval-after-load "auto-complete"
-    '(add-to-list 'ac-modes 'org-mode))
+  (use-package company-auctex
+  :ensure nil
+  :after (company auctex)  ; Ensure auctex is loaded before company-auctex
+  :config
+  (add-to-list 'company-backends 'company-auctex))
+
+  ;; make AUCTeX aware of the multi-file document structure.
+    ;; Each time you open a new file, AUCTeX will then ask you for a master file.
+    (setq-default TeX-master nil)
+#+end_src
+* Autocomplete-superseded by company
+#+BEGIN_SRC emacs-lisp
+  ;; (use-package auto-complete
+  ;;   :ensure f)
+  ;; (use-package ac-slime
+  ;;   :ensure f)
+  ;; ;; (use-package auto-complete-auctex  
+  ;; ;;   :ensure f)  ;; requires a Tex install
+
+  ;; (add-hook 'slime-mode-hook 'set-up-slime-ac)
+  ;; (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+  ;; (eval-after-load "auto-complete"
+  ;;   '(add-to-list 'ac-modes 'slime-repl-mode))
+  ;; (eval-after-load "auto-complete"
+  ;;   '(add-to-list 'ac-modes 'org-mode))
 
 #+END_SRC
 
@@ -464,6 +471,19 @@ Version 2017-09-22 2020-09-08"
     ;; the mode gets enabled right away. Note that this forces loading the
     ;; package.
     (marginalia-mode))
+
+#+END_SRC
+* company autocompletion
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :ensure nil
+    :config
+    (setq company-backends '((company-files
+                              company-capf
+                              company-yasnippet)
+                             (company-dabbrev-code
+                              company-gtags)))
+    (global-company-mode 1))  ; Enable globally after configuring
 
 #+END_SRC
 * copilot.el
@@ -2327,13 +2347,13 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
 #+END_SRC
 * switch to minibuffer with f5
 #+BEGIN_SRC emacs-lisp
-  (defun switch-to-minibuffer-window ()
-    "switch to minibuffer window (if active)"
+  (defun my/move-to-minibuffer ()
+    "Move point to the active minibuffer if it exists."
     (interactive)
     (when (active-minibuffer-window)
-      (select-frame-set-input-focus (window-frame (active-minibuffer-window)))
       (select-window (active-minibuffer-window))))
-  (global-set-key (kbd "<f5>") 'switch-to-minibuffer-window)
+  (global-set-key (kbd "<f5>") 'my/move-to-minibuffer)
+
 #+END_SRC
 * Today's Date function
 #+begin_SRC emacs-lisp
