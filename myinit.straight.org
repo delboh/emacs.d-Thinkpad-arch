@@ -112,10 +112,26 @@ moved to "custom-vars.el"
 #+end_SRC
 * abbrev-mode
 #+begin_src emacs-lisp
-(setq abbrev-file-name "~/.emacs.d/abbrev_defs"   ;; tell emacs which file to use
-      save-abbrevs 'silent                        ;; save abbrevs silently in buffer
-      only-global-abbrevs 1)                      ;; and save to global-abbrevs                         
-(set-default 'abbrev-mode t)
+  (setq abbrev-file-name "~/.emacs.d/abbrev_defs"   ;; tell emacs which file to use
+        save-abbrevs 'silent                        ;; save abbrevs silently in buffer
+        only-global-abbrevs 1)                      ;; and save to global-abbrevs                         
+  (set-default 'abbrev-mode t)
+
+  (use-package company-abbrev
+  :ensure t
+  :after company
+  :config
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (setq-local company-abbrev--table 'company-abbrev-table)
+              (add-to-list 'company-backends 'company-abbrev))))
+
+  (define-abbrev-table 'company-abbrev-table
+  '(
+    ("TPM" "The Private Memoirs and Confessions of a Justified Sinner")
+    ("TPM+" "The Private Memoirs and Confessions of a Justified Sinner: written by Himself with a detail of curious traditionary facts and other evidence by the Editor ")
+  ))
+
 #+end_src
 
 * academic-phrases
@@ -131,8 +147,10 @@ moved to "custom-vars.el"
   (use-package company-auctex
   :ensure nil
   :after (company auctex)  ; Ensure auctex is loaded before company-auctex
+  :hook (org-mode . company-auctex-init)
   :config
-  (add-to-list 'company-backends 'company-auctex))
+  (add-to-list 'company-backends 'company-auctex)
+  (setq company-auctex-doc-delay 0.3))  ;; Adjust delay for documentation popups
 
   ;; make AUCTeX aware of the multi-file document structure.
     ;; Each time you open a new file, AUCTeX will then ask you for a master file.
@@ -475,15 +493,16 @@ Version 2017-09-22 2020-09-08"
 #+END_SRC
 * company autocompletion
 #+BEGIN_SRC emacs-lisp
-  (use-package company
-    :ensure nil
-    :config
-    (setq company-backends '((company-files
-                              company-capf
-                              company-yasnippet)
-                             (company-dabbrev-code
-                              company-gtags)))
-    (global-company-mode 1))  ; Enable globally after configuring
+    (use-package company
+      :ensure nil
+      :after orderless
+  	:config
+      (setq company-backends '((company-files
+                                company-capf
+                                company-yasnippet)
+                               (company-dabbrev-code
+                                company-gtags)))
+      (global-company-mode))  ; Enable globally after configuring
 
 #+END_SRC
 * copilot.el
@@ -2386,27 +2405,33 @@ https://github.com/SavchenkoValeriy/emacs-powerthesaurus
 #+END_SRC
 * theme & fonts
 #+BEGIN_SRC emacs-lisp
-    ;; (set-face-attribute 'default nil :font "Hack" :height 120)
-    ;; (set-face-attribute 'fixed-pitch nil :font "Hack" :height 120)
-    ;; (set-face-attribute 'variable-pitch nil :font "Alegreya" :height 140)
+  ;; (set-face-attribute 'default nil :font "Hack" :height 120)
+  ;; (set-face-attribute 'fixed-pitch nil :font "Hack" :height 120)
+  ;; (set-face-attribute 'variable-pitch nil :font "Alegreya" :height 140)
 
-    (set-face-attribute 'default nil :font "Iosevka-12")
-    (set-face-attribute 'fixed-pitch nil :font "Iosevka-14")
-    (set-face-attribute 'variable-pitch nil :font "Iosevka Aile-14")
+  ;;    (setq-default line-spacing nil) ;default. Set to percent floating point to change
 
-;;    (setq-default line-spacing nil) ;default. Set to percent floating point to change
+  ;; From https://gitlab.com/protesilaos/modus-themes
+  (use-package emacs
+    :config
+    (require-theme 'modus-themes) ; `require-theme' is ONLY for the built-in Modus themes
+    ;; Add customizations prior to loading the themes
+    (setq modus-themes-italic-constructs t
+          modus-themes-bold-constructs t
+          modus-themes-region '(bg-only no-extend))
+    ;; load theme
+    (load-theme 'modus-operandi t) ;light. (load-theme 'modus-vivendi t) for dark
+    :bind ("<S-f5>" . modus-themes-toggle))
 
-    ;; From https://gitlab.com/protesilaos/modus-themes
-    (use-package emacs  ;;modus themes are now part of Emacs
-      :init
-      ;; Add customizations prior to loading the themes
-      (setq modus-themes-italic-constructs t
-            modus-themes-bold-constructs nil
-    	   modus-themes-region '(bg-only no-extend))
-         (load-theme 'modus-operandi t) ; light
-  ;;       (load-theme 'modus-vivendi t) ; dark
-      :bind ("<S-f5>" . modus-themes-toggle))
+  ;; from https://protesilaos.com/emacs/modus-themes
+  ;; set faces in modus themes function. Still don't load at startup!!
+  (defun my/modus-themes-faces (&rest _)
+    	(set-face-attribute 'default nil :font "Iosevka-12")
+    	(set-face-attribute 'fixed-pitch nil :font "Iosevka-14")
+    	(set-face-attribute 'variable-pitch nil :font "Iosevka Aile-14"))  
 
+  ;; and here is the hook
+  (add-hook 'modus-themes-after-load-theme-hook #'my/modus-themes-faces)
 #+END_SRC  
 * Unfill region and paragraph
 #+BEGIN_SRC emacs-lisp
