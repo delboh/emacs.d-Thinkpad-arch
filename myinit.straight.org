@@ -107,7 +107,7 @@ moved to "custom-vars.el"
     (customize-save-variable 'package-selected-packages package-selected-packages))
 
   ;; Automatically run the function after initialization
-  (add-hook 'after-init-hook #'my-update-package-selected-packages)
+  (add-hook 'package-activate-hook #'my-update-package-selected-packages)
 
 #+end_SRC
 * abbrev-mode
