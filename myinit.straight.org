@@ -121,11 +121,7 @@ moved to "custom-vars.el"
     (quietly-read-abbrev-file)      ;; Load abbrevs
     (global-abbrev-mode 1)  ;; Enable everywhere
     :hook
-  (text-mode . my/text-mode-abbrev-setup)) ;; Use function to set text mode files to use global
-
-  (defun my/text-mode-abbrev-setup ()
-  "Ensure text-mode and derived modes use the global abbrev table."
-  (setq-local abbrev-table global-abbrev-table))
+    (text-mode-hook . (lambda () (setq local-abbrev-table global-abbrev-table))))
 
   (define-abbrev global-abbrev-table "TPM" "/The Private Memoirs and Confessions of a Justified Sinner/")
   (define-abbrev global-abbrev-table "TPML" "/The Private Memoirs and Confessions of a Justified Sinner: written by Himself with a detail of curious traditionary facts and other evidence by the Editor/")
