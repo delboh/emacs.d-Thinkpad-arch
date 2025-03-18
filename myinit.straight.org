@@ -2564,16 +2564,50 @@ Brings up some help
 #+end_SRC
 * word count
 #+BEGIN_SRC emacs-lisp
-(defun my-org-word-count ()
-  "Count words in Org buffer excluding comments and TODOs."
-  (interactive)
-  (let ((words (count-words-region (point-min) (point-max))))
-    ;; Adjust logic here to exclude specific elements.
-    (message "Word count: %d" words)))
+  (with-eval-after-load 'org
+    (defun my-org-count-words ()
+  	"Count words in the current Org buffer, excluding headings, properties drawers, block comments, captions, and bibliography."
+  	(interactive)
+  	(let ((word-count 0)
+            (in-drawer nil)
+            (in-comment-block nil))
+        (save-excursion
+  		(goto-char (point-min))
+  		(while (not (eobp))
+            (let ((line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
+  			(cond
+  			 ;; Detect start of property drawer
+  			 ((string-match-p "^:PROPERTIES:$" line)
+                (setq in-drawer t))
+  			 ;; Detect end of property drawer
+  			 ((and in-drawer (string-match-p "^:END:$" line))
+                (setq in-drawer nil))
+  			 ;; Detect start of block comment
+  			 ((string-match-p "^#\\+BEGIN_COMMENT" line)
+                (setq in-comment-block t))
+  			 ;; Detect end of block comment
+  			 ((and in-comment-block (string-match-p "^#\\+END_COMMENT" line))
+                (setq in-comment-block nil))
+  			 ;; Ignore headings
+  			 ((string-match-p "^\\*+ " line))
+  			 ;; Ignore captions
+  			 ((string-match-p "^#\\+CAPTION:" line))
+  			 ((string-match-p "^#\\+caption:" line))
+  			 ;; Ignore bibliography
+  			 ((string-match-p "^#\\+print_bibliography" line))
+  			 ;; Ignore inline comments
+  			 ((string-match-p "^# " line))
+  			 ;; Process normal lines if not inside a drawer or comment block
+  			 ((not (or in-drawer in-comment-block))
+                (setq word-count (+ word-count
+                                    (length (split-string line "\\W+" t)))))))
+            (forward-line 1)))
+        (message "Word count: %d" word-count)))
+    (define-key org-mode-map (kbd "<f10>") #'my-org-count-words))
 
 #+END_SRC
 * writeroom mode
-fullscreen effect disabled in customize
+replaced by olivetti-mode /  logos-mode
 #+begin_SRC emacs-lisp
 ;; (use-package writeroom-mode
 ;;   :ensure f
