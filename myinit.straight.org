@@ -80,7 +80,7 @@ moved to "custom-vars.el"
   (setq scroll-margin 1)
   (setq recenter-positions '(0.4 0.05 1.0)) ; Default (middle top bottom)
   (set-frame-parameter nil 'internal-border-width 10)
-  
+
   ;; Replace yes/no prompts with y/n
   (fset 'yes-or-no-p 'y-or-n-p)                      
 
@@ -100,6 +100,15 @@ moved to "custom-vars.el"
   (setq org-bookmark-names-plist '((org-capture-last-stored . nil))
   	bookmark-set-fringe-mark nil)
     
+  ;; manually update package-alist to stop autoremove deleting used packages
+  (defun my-update-package-selected-packages ()
+    "Update `package-selected-packages` to include all installed packages."
+    (setq package-selected-packages (mapcar #'car package-alist))
+    (customize-save-variable 'package-selected-packages package-selected-packages))
+
+  ;; Automatically run the function after initialization
+  (add-hook 'after-init-hook #'my-update-package-selected-packages)
+
 #+end_SRC
 * abbrev-mode
 #+begin_src emacs-lisp
