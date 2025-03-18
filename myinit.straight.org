@@ -127,8 +127,8 @@ moved to "custom-vars.el"
   "Ensure text-mode and derived modes use the global abbrev table."
   (setq-local abbrev-table global-abbrev-table))
 
-  (define-abbrev global-abbrev-table "TPM" "The Private Memoirs and Confessions of a Justified Sinner")
-  (define-abbrev global-abbrev-table "TPML" "The Private Memoirs and Confessions of a Justified Sinner: written by Himself with a detail of curious traditionary facts and other evidence by the Editor ")
+  (define-abbrev global-abbrev-table "TPM" "/The Private Memoirs and Confessions of a Justified Sinner/")
+  (define-abbrev global-abbrev-table "TPML" "/The Private Memoirs and Confessions of a Justified Sinner: written by Himself with a detail of curious traditionary facts and other evidence by the Editor/")
 
 #+end_src
 
