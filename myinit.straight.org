@@ -26,6 +26,8 @@ moved to "custom-vars.el"
    cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
    fill-column 80                                   ; Set width for automatic line breaks
    tab-width 4                                      ; Set width for tabs
+   left-window-margin nil
+   right-window-margin nil
    )
    
   (setq
@@ -67,7 +69,7 @@ moved to "custom-vars.el"
   (tool-bar-mode 0)                                 ; Hide tool bar
   (menu-bar-mode 0)                                 ; Hide menu bar
 
-  (add-to-list 'default-frame-alist '((vertical-scroll-bars . nil)))
+  (add-to-list 'default-frame-alist '(vertical-scroll-bars . nil))
   (add-to-list 'default-frame-alist '(fullscreen . fullboth)) ; make new frames fullscreen
   (add-to-list 'default-frame-alist '(undecorated . t)) ; Hide window name and controls
 
@@ -77,9 +79,9 @@ moved to "custom-vars.el"
               (modify-frame-parameters frame '((vertical-scroll-bars . nil)))))
 
   ;; screen margins and recenter
-  (setq scroll-margin 1)
+  (setq scroll-margin 1) ; number of lines left visible when scrolling
   (setq recenter-positions '(0.4 0.05 1.0)) ; Default (middle top bottom)
-  (set-frame-parameter nil 'internal-border-width 10)
+;;  (setq-default header-line-format " ")  ;; Adds an empty header line: bit of a hack!!
 
   ;; Replace yes/no prompts with y/n
   (fset 'yes-or-no-p 'y-or-n-p)                      
@@ -258,34 +260,34 @@ config retained for reference
 * citar
 #+begin_SRC emacs-lisp
 
-        (use-package citar
-          :ensure nil
-          :init
-          (setq citar-notes-paths '("~/org-roam/") ;; List of directories for reference nodes
-                citar-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json") ;; List of directories
-                org-cite-insert-processor 'citar
-                org-cite-follow-processor 'citar
-                org-cite-activate-processor 'citar)
-          ;; :hook
-          ;; (LaTeX-mode . citar-capf-setup)
-          ;; (org-mode . citar-capf-setup)
-          :bind (("C-c r" . citar-insert-reference) ; functions outside of org-modea minor mode globally in my init file
-                 :map org-mode-map
-                      ;; org-cite-insert is also bound to C-c C-x C-@
-                      ("C-c ]" . #'org-cite-insert) ; org-mode specific
-                      ("C-c o" . citar-open-notes)))
+     (use-package citar
+       :ensure nil
+       :init
+       (setq citar-notes-paths '("~/org-roam/") ;; List of directories for reference nodes
+             citar-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json") ;; List of directories
+             org-cite-insert-processor 'citar
+             org-cite-follow-processor 'citar
+             org-cite-activate-processor 'citar)
+       ;; :hook
+       ;; (LaTeX-mode . citar-capf-setup)
+       ;; (org-mode . citar-capf-setup)
+       :bind (("C-c r" . citar-insert-reference) ; functions outside of org-modea minor mode globally in my init file
+              :map org-mode-map
+                   ;; org-cite-insert is also bound to C-c C-x C-@
+                   ("C-c ]" . #'org-cite-insert) ; org-mode specific
+                   ("C-c o" . citar-open-notes)))
 
-        (use-package citar-embark
-          :ensure nil
-          :after citar embark
-          :init
-          (setq citar-at-point-function 'embark-act) ;; Open embark menu with org-open-at-point
-          :config (citar-embark-mode))
+     (use-package citar-embark
+       :ensure nil
+       :after citar embark
+       :init
+       (setq citar-at-point-function 'embark-act) ;; Open embark menu with org-open-at-point
+       :config (citar-embark-mode))
 
-        (use-package citar-org-roam
-          :ensure nil
-          :config (citar-org-roam-mode))
-     ;;     :after ((citar org-roam)) ; seems to cause problems with the mode loading
+     (use-package citar-org-roam
+       :ensure nil
+       :config (citar-org-roam-mode))
+  ;;     :after ((citar org-roam)) ; seems to cause problems with the mode loading
 
 #+END_SRC
 * clean empty lines
@@ -496,15 +498,16 @@ Version 2017-09-22 2020-09-08"
 #+END_SRC
 * company autocompletion
 #+BEGIN_SRC emacs-lisp
-    (use-package company
-      :ensure nil
-  	:config
-      (setq company-backends '((company-files
-                                company-capf
-                                company-yasnippet)
-                               (company-dabbrev-code
-                                company-gtags)))
-      (global-company-mode))  ; Enable globally after configuring
+  (use-package company
+    :diminish company-mode
+    :ensure nil
+    :config
+    (setq company-backends '((company-files
+                              company-capf
+                              company-yasnippet)
+                             (company-dabbrev-code
+                              company-gtags)))
+    (global-company-mode))  ; Enable globally after configuring
 
 #+END_SRC
 * copilot.el
@@ -688,6 +691,18 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
     ;; Also check the commands `denote-link-after-creating',
     ;; `denote-link-or-create'.  You may want to bind them to keys as well.
 #+end_SRC
+* diminish
+hide mode line indicators
+#+BEGIN_SRC emacs-lisp
+  (use-package diminish
+    :ensure nil)
+  (use-package eldoc
+    :diminish eldoc-mode)
+  (use-package org-indent
+    :diminish org-indent-mode)
+  (use-package which-key
+    :diminish which-key-mode)
+#+END_SRC
 * dired-subtree
 #+BEGIN_SRC emacs-lisp
 (use-package dired-subtree
@@ -716,6 +731,7 @@ from https://gist.github.com/hyOzd/23b87e96d43bca0f0b52
 from https://github.com/jamescherti/inhibit-mouse.el
 #+BEGIN_SRC emacs-lisp
   (use-package inhibit-mouse
+    :diminish inhibit-mouse-mode
     :ensure nil
     :config
     (inhibit-mouse-mode))
@@ -1097,9 +1113,10 @@ from https://github.com/jamescherti/inhibit-mouse.el
 #+begin_SRC emacs-lisp
 (global-set-key [S-f7] 'display-line-numbers-mode)
 #+end_SRC
-* logos
+* logos / olivetti
 #+BEGIN_SRC emacs-lisp
   (use-package logos
+    :diminish logos-mode
     :config
     (setq-default logos-hide-cursor nil
      				logos-hide-mode-line t
@@ -1143,6 +1160,13 @@ from https://github.com/jamescherti/inhibit-mouse.el
      ((or (eq major-mode 'outline-mode)
           (bound-and-true-p outline-minor-mode))
       (outline-show-subtree))))
+
+    (use-package olivetti
+      :diminish)
+      ;; :config
+      ;; (setq olivetti-body-width 0.7)
+      ;; (setq olivetti-minimum-body-width 72)
+      ;; (setq olivetti-recall-visual-line-mode-entry-state t))
 
 #+END_SRC
 * key bindings
@@ -1786,24 +1810,25 @@ replaced by org-cite for citations. Still used for cross references, labels and 
 #+end_SRC
 * org-roam-ui
 #+begin_SRC emacs-lisp
-(use-package simple-httpd
-  :ensure nil)
-(use-package websocket
-  :ensure nil)
-(use-package org-roam-ui
-  :straight
-    (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
-    :after org-roam
-;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-;;         a hookable mode anymore, you're advised to pick something yourself
-;;         if you don't care about startup time, use
-    :hook (after-init . org-roam-ui-mode)
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start nil
-          org-roam-ui-browser-function 'browse-url-generic))
+  (use-package simple-httpd
+    :ensure nil)
+  (use-package websocket
+    :ensure nil)
+  (use-package org-roam-ui
+    :diminish org-roam-ui-mode
+    :straight
+      (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
+      :after org-roam
+  ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+  ;;         a hookable mode anymore, you're advised to pick something yourself
+  ;;         if you don't care about startup time, use
+      :hook (after-init . org-roam-ui-mode)
+      :config
+      (setq org-roam-ui-sync-theme t
+            org-roam-ui-follow t
+            org-roam-ui-update-on-save t
+            org-roam-ui-open-on-start nil
+            org-roam-ui-browser-function 'browse-url-generic))
 #+end_SRC
 * org-web-tools
 #+begin_SRC emacs-lisp
@@ -2152,19 +2177,12 @@ https://protesilaos.com/codelog/2020-07-18-emacs-concept-org-tweaked-focus/
             (?- . ?–)))
     (org-superstar-mode -1))
 
-  (use-package emacs
-    :config
-    (setq window-divider-default-right-width 1)
-    (setq window-divider-default-bottom-width 1)
-    (setq window-divider-default-places t)
-    (window-divider-mode -1))
-
-  (use-package olivetti
-    :diminish
-    :config
-    (setq olivetti-body-width 0.7)
-    (setq olivetti-minimum-body-width 72)
-    (setq olivetti-recall-visual-line-mode-entry-state t))
+  ;; (use-package emacs
+  ;;   :config
+  ;;   (setq window-divider-default-right-width 1)
+  ;;   (setq window-divider-default-bottom-width 1)
+  ;;   (setq window-divider-default-places t)
+  ;;   (window-divider-mode -1))
 
   ;; (define-minor-mode prot/olivetti-mode
   ;;   "Toggle buffer-local `olivetti-mode' with additional parameters.
