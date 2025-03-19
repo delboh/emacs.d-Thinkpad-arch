@@ -113,19 +113,28 @@ moved to "custom-vars.el"
 * abbrev-mode
 #+begin_src emacs-lisp
 
-  (use-package abbrev
+  (use-package abbrev-mode
     :init
+    (setq-default abbrev-mode t)
+    
+    :config 
     (setq abbrev-file-name "~/.emacs.d/abbrev_defs"
-          save-abbrevs 'silently   ;; Save without confirmation
-    		only-local-abbrevs nil)  ;; save abbrevs mode specific
+    		save-abbrevs 'silently   ;; Save without confirmation
+      	only-local-abbrevs nil)  ;; save abbrevs mode specific
     (quietly-read-abbrev-file)      ;; Load abbrevs
-    (global-abbrev-mode 1)  ;; Enable everywhere
+
     :hook
-    (text-mode-hook . (lambda () (setq local-abbrev-table global-abbrev-table))))
+    (abbrev-mode . mwp-set-text-mode-abbrev-table)) ; Uses function below to set local-abbrev-table in text-mode files
+
+  ;; a hook funtion that sets the abbrev-table to global-abbrev-table
+  ;; whenever the major mode is a text mode
+  (defun mwp-set-text-mode-abbrev-table ()
+    (if (derived-mode-p 'text-mode)
+    	  (setq local-abbrev-table global-abbrev-table)))
 
   (define-abbrev global-abbrev-table "TPM" "/The Private Memoirs and Confessions of a Justified Sinner/")
   (define-abbrev global-abbrev-table "TPML" "/The Private Memoirs and Confessions of a Justified Sinner: written by Himself with a detail of curious traditionary facts and other evidence by the Editor/")
-
+  (define-abbrev global-abbrev-table "AJM" "/A Justified Movie/")
 #+end_src
 
 * academic-phrases
