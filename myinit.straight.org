@@ -504,13 +504,17 @@ Version 2017-09-22 2020-09-08"
     :diminish company-mode
     :ensure nil
     :config
-    (setq company-backends '((company-files
+    (setq company-backends '((
+  							company-files
                               company-capf
                               company-yasnippet)
                              (company-dabbrev-code
-                              company-gtags)))
+                              company-gtags)
+  						   ))
+    ;;  :hook
+    ;;  (after-init-hook . company-tng-mode) ;completion with tab
     (global-company-mode))  ; Enable globally after configuring
-
+  )
 #+END_SRC
 * copilot.el
 #+BEGIN_SRC emacs-lisp
