@@ -1348,7 +1348,7 @@ Adapted From https://gist.github.com/xahlee/d364cbbff9b3abd12d29
 #+begin_src emacs-lisp
   (use-package org-cliplink
     :ensure nil
-    :bind ("C-c C-|" . org-cliplink))
+    :bind ("C-c y" . org-cliplink))
 #+end_src
 * org-inline-tasks
 #+begin_SRC emacs-lisp
@@ -2249,6 +2249,19 @@ from http://xahlee.info/emacs/emacs/emacs_auto_save.html
     (interactive)
     (save-some-buffers t ))
 #+end_SRC
+* sclang / tidalcycles
+#+BEGIN_SRC emacs-lisp
+  (use-package sclang-mode
+    :ensure nil
+    :config
+    (setq sclang-program  "/usr/bin/sclang"))
+
+  (add-to-list 'auto-mode-alist '("\\.sc$" . sclang-mode))
+  (add-to-list 'auto-mode-alist '("\\.scd$" . sclang-mode))
+
+  (use-package tidal
+    :ensure t)
+#+END_SRC
 * slime
 #+BEGIN_SRC emacs-lisp
 (use-package slime
