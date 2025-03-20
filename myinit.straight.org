@@ -514,7 +514,6 @@ Version 2017-09-22 2020-09-08"
     ;;  :hook
     ;;  (after-init-hook . company-tng-mode) ;completion with tab
     (global-company-mode))  ; Enable globally after configuring
-  )
 #+END_SRC
 * copilot.el
 #+BEGIN_SRC emacs-lisp
