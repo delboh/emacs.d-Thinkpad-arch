@@ -1126,9 +1126,9 @@ from https://github.com/jamescherti/inhibit-mouse.el
   (global-set-key (kbd "C-c e") 'my-move-to-paragraph-end)
   (global-set-key (kbd "M-<return>") #'my-end-of-line-and-newline)
   (global-set-key (kbd "<f5>") 'my-move-to-minibuffer)
+  (global-set-key (kbd "<f6>") 'my-lookup-wikipedia)
   (global-set-key (kbd "<f7>") 'my-lookup-oed)
   (global-set-key (kbd "<f8>") 'my-lookup-googlescholar)
-  (global-set-key (kbd "<f9>") 'my-lookup-wikipedia)
   (define-key org-mode-map (kbd "<f10>") #'my-org-count-words)
 
 
