@@ -16,6 +16,9 @@ moved to "custom-vars.el"
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/site-lisp")
   (add-to-list 'load-path "~/.emacs.d/lisp")
+  (require 'my-utils)
+  (load "my-text-functions")
+  (load "add-latex-acronym")
 #+END_SRC
 * default directory
 #+begin_SRC emacs-lisp
@@ -82,7 +85,7 @@ moved to "custom-vars.el"
                 (modify-frame-parameters frame '((vertical-scroll-bars . nil)))))
 
     ;; screen margins and recenter
-    (setq scroll-margin 1) ; number of lines left visible when scrolling
+;;    (setq scroll-margin 1) ; seems to cause issues when scolling past end of file
     (setq recenter-positions '(0.4 0.05 1.0)) ; Default (middle top bottom)
   ;;  (setq-default header-line-format " ")  ;; Adds an empty header line: bit of a hack!!
 
@@ -1088,43 +1091,47 @@ from https://github.com/jamescherti/inhibit-mouse.el
 * key bindings
 #+BEGIN_SRC emacs-lisp
 
-    ;; zap-up-to-char
-    (global-set-key "\M-z" 'zap-up-to-char)
-    (global-set-key "\M-/" 'hippie-expand)
+  ;; zap-up-to-char
+  (global-set-key "\M-z" 'zap-up-to-char)
+  (global-set-key "\M-/" 'hippie-expand)
 
-    ;; enable cut paste from clipboard
-    (global-set-key [(shift delete)] 'clipboard-kill-region)
-    (global-set-key [(control insert)] 'clipboard-kill-ring-save)
-    (global-set-key [(shift insert)] 'clipboard-yank)
+  ;; enable cut paste from clipboard
+  (global-set-key [(shift delete)] 'clipboard-kill-region)
+  (global-set-key [(control insert)] 'clipboard-kill-ring-save)
+  (global-set-key [(shift insert)] 'clipboard-yank)
 
-    ;; C-h as delete-backword and C-/ as help
-    (global-set-key (kbd "C-?") 'help-command)
-    (global-set-key (kbd "M-?") 'mark-paragraph)
-    (global-set-key (kbd "C-h") 'delete-backward-char)
-    (global-set-key (kbd "M-h") 'backward-kill-word)
-    ;; make backspace work with the above !!
-    (normal-erase-is-backspace-mode 1)
+  ;; C-h as delete-backword and C-/ as help
+  (global-set-key (kbd "C-?") 'help-command)
+  (global-set-key (kbd "M-?") 'mark-paragraph)
+  (global-set-key (kbd "C-h") 'delete-backward-char)
+  (global-set-key (kbd "M-h") 'backward-kill-word)
+  ;; make backspace work with the above !!
+  (normal-erase-is-backspace-mode 1)
 
-    ;; org-forward-element (default M-}/{)
-    (global-set-key (kbd "M-]") 'org-forward-element)
-    (global-set-key (kbd "M-[") 'org-backward-element)
+  ;; org-forward-element (default M-}/{)
+  (global-set-key (kbd "M-]") 'org-forward-element)
+  (global-set-key (kbd "M-[") 'org-backward-element)
 
-    ;; find-file-a-point
-    (global-set-key (kbd "C-x f") 'find-file-at-point)
+  ;; find-file-a-point
+  (global-set-key (kbd "C-x f") 'find-file-at-point)
 
-    ;; User Activated keybindings
-    (put 'downcase-region 'disabled nil)
-    (put 'upcase-region 'disabled nil)
+  ;; User Activated keybindings
+  (put 'downcase-region 'disabled nil)
+  (put 'upcase-region 'disabled nil)
 
-    (global-set-key (kbd "M-%") 'replace-string)
-    (global-set-key (kbd "C-M-%") 'replace-regexp)
+  (global-set-key (kbd "M-%") 'replace-string)
+  (global-set-key (kbd "C-M-%") 'replace-regexp)
 
   ;; keybindings for my- functions in ~/lisp/
-    (global-set-key (kbd "C-c e") 'my-move-to-paragraph-end)
+  (global-set-key (kbd "C-c e") 'my-move-to-paragraph-end)
   (global-set-key (kbd "M-<return>") #'my-end-of-line-and-newline)
-    (global-set-key (kbd "<f8>") 'my-lookup-googlescholar)
-    (global-set-key (kbd "<f7>") 'my-lookup-oed)
-  
+  (global-set-key (kbd "<f5>") 'my-move-to-minibuffer)
+  (global-set-key (kbd "<f7>") 'my-lookup-oed)
+  (global-set-key (kbd "<f8>") 'my-lookup-googlescholar)
+  (global-set-key (kbd "<f9>") 'my-lookup-wikipedia)
+  (define-key org-mode-map (kbd "<f10>") #'my-org-count-words)
+
+
 #+END_SRC
 * markdown mode
 #+BEGIN_SRC emacs-lisp
@@ -2094,19 +2101,6 @@ config retained for clarity
   (setq inferior-lisp-program "/usr/bin/sbcl"))
 (setq slime-contribs '(slime-fancy))
 #+END_SRC
-* sort words
-#+begin_SRC emacs-lisp
-  (defun my-sort-words (reverse beg end)
-    "Sort words in region alphabetically, in REVERSE if negative.
-  Prefixed with negative \\[universal-argument], sorts in reverse.
-
-  The variable `sort-fold-case' determines whether alphabetic case
-  affects the sort order.
-
-  See `sort-regexp-fields'."
-    (interactive "*P\nr")
-    (sort-regexp-fields reverse "\\w+" "\\&" beg end))
-#+end_SRC
 * spell checking
 #+BEGIN_SRC emacs-lisp
   (setq ispell-program-name "aspell")
@@ -2194,24 +2188,6 @@ config retained for clarity
   ;;          nil utf-8)
   ;;         ))
 #+END_SRC
-* switch to minibuffer with f5
-#+BEGIN_SRC emacs-lisp
-  (defun my/move-to-minibuffer ()
-    "Move point to the active minibuffer if it exists."
-    (interactive)
-    (when (active-minibuffer-window)
-      (select-window (active-minibuffer-window))))
-  (global-set-key (kbd "<f5>") 'my/move-to-minibuffer)
-
-#+END_SRC
-* Today's Date function
-#+begin_SRC emacs-lisp
-  (defun insert-todays-date (arg)
-    (interactive "P")
-    (insert (if arg
-                (format-time-string "%d-%m-%Y")
-              (format-time-string "%Y-%m-%d"))))
-#+end_SRC
 * TeX
 #+BEGIN_SRC emacs-lisp
   (use-package tex
@@ -2263,27 +2239,6 @@ https://github.com/SavchenkoValeriy/emacs-powerthesaurus
   ;; and here is the hook
   (add-hook 'modus-themes-after-load-theme-hook #'my/modus-themes-faces)
 #+END_SRC  
-* Unfill region and paragraph
-#+BEGIN_SRC emacs-lisp
-    ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph    
-  (defun unfill-paragraph (&optional region)
-    "Takes a multi-line paragraph and makes it into a single line of text."
-    (interactive (progn (barf-if-buffer-read-only) '(t)))
-    (let ((fill-column (point-max))
-          ;; This would override `fill-column' if it's an integer.
-          (emacs-lisp-docstring-fill-column t))
-      (fill-paragraph nil region)))
-
-  (defun unfill-region (beg end)
-    "Unfill the region, joining text paragraphs into a single
-      logical line.  This is useful, e.g., for use with
-      `visual-line-mode'."
-    (interactive "*r")
-    (let ((fill-column (point-max)))
-      (fill-region beg end)))
-
-
-#+END_SRC
 * vertico / corfu minimalistic vertical completion UI 
 #+BEGIN_SRC emacs-lisp
   ;; ;; Config from https://elpa.gnu.org/packages/vertico.html
@@ -2398,28 +2353,6 @@ Brings up some help
     (which-key-mode))
 #+END_SRC
 
-* Wiki look up with f9
-#+begin_src emacs-lisp
-  (require 'browse-url) ; part of gnu emacs
-
-  (defun my-lookup-wikipedia ()
-    "Look up the word under cursor in Wikipedia.
-  If there is a text selection (a phrase), use that.
-
-  This command switches to browser."
-    (interactive)
-    (let (word)
-      (setq word
-            (if (use-region-p)
-                (buffer-substring-no-properties (region-beginning) (region-end))
-              (current-word)))
-      (setq word (replace-regexp-in-string " " "_" word))
-;;      (browse-url (concat "http://en.wikipedia.org/wiki/" word))
-      (eww (concat "http://en.wikipedia.org/wiki/" word))
-      ))
-;;  (global-set-key (kbd "<f9>") 'my-lookup-wikipedia)
-#+end_src
-
 * Wiki-summary in separate buffer
 #+begin_SRC emacs-lisp
   (use-package wiki-summary
@@ -2438,51 +2371,8 @@ Brings up some help
         (pop-to-buffer buf))))
 
   (advice-add 'wiki-summary/format-summary-in-buffer :override #'my/format-summary-in-buffer)
-#+end_SRC
-* word count
-#+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
-    (defun my-org-count-words ()
-  	"Count words in the current Org buffer, excluding headings, properties drawers, block comments, captions, and bibliography."
-  	(interactive)
-  	(let ((word-count 0)
-            (in-drawer nil)
-            (in-comment-block nil))
-        (save-excursion
-  		(goto-char (point-min))
-  		(while (not (eobp))
-            (let ((line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
-  			(cond
-  			 ;; Detect start of property drawer
-  			 ((string-match-p "^:PROPERTIES:$" line)
-                (setq in-drawer t))
-  			 ;; Detect end of property drawer
-  			 ((and in-drawer (string-match-p "^:END:$" line))
-                (setq in-drawer nil))
-  			 ;; Detect start of block comment
-  			 ((string-match-p "^#\\+BEGIN_COMMENT" line)
-                (setq in-comment-block t))
-  			 ;; Detect end of block comment
-  			 ((and in-comment-block (string-match-p "^#\\+END_COMMENT" line))
-                (setq in-comment-block nil))
-  			 ;; Ignore headings
-  			 ((string-match-p "^\\*+ " line))
-  			 ;; Ignore captions
-  			 ((string-match-p "^#\\+CAPTION:" line))
-  			 ((string-match-p "^#\\+caption:" line))
-  			 ;; Ignore bibliography
-  			 ((string-match-p "^#\\+print_bibliography" line))
-  			 ;; Ignore inline comments
-  			 ((string-match-p "^# " line))
-  			 ;; Process normal lines if not inside a drawer or comment block
-  			 ((not (or in-drawer in-comment-block))
-                (setq word-count (+ word-count
-                                    (length (split-string line "\\W+" t)))))))
-            (forward-line 1)))
-        (message "Word count: %d" word-count)))
-    (define-key org-mode-map (kbd "<f10>") #'my-org-count-words))
+#+end_SCR
 
-#+END_SRC
 * writeroom mode
 replaced by olivetti-mode /  logos-mode
 #+begin_SRC emacs-lisp
