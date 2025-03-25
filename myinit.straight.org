@@ -15,6 +15,7 @@ moved to "custom-vars.el"
 * load path
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/site-lisp")
+  (add-to-list 'load-path "~/.emacs.d/lisp")
 #+END_SRC
 * default directory
 #+begin_SRC emacs-lisp
