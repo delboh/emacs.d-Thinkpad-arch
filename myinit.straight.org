@@ -1108,9 +1108,9 @@ from https://github.com/jamescherti/inhibit-mouse.el
   ;; make backspace work with the above !!
   (normal-erase-is-backspace-mode 1)
 
-  ;; org-forward-element (default M-}/{)
-  (global-set-key (kbd "M-]") 'org-forward-element)
-  (global-set-key (kbd "M-[") 'org-backward-element)
+  ;; org-forward-element (redefined from default M-}/{ for simplicity)
+  (define-key org-mode-map (kbd "M-]") 'org-forward-element)
+  (define-key org-mode-map (kbd "M-[") 'org-backward-element)
 
   ;; find-file-a-point
   (global-set-key (kbd "C-x f") 'find-file-at-point)
