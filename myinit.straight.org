@@ -1949,7 +1949,7 @@ LaTeX output from org-mode files
   (defun my/modus-themes-faces (&rest _)
         (set-face-attribute 'default nil :font "Iosevka-12")
         (set-face-attribute 'fixed-pitch nil :font "Iosevka-14")
-        (set-face-attribute 'variable-pitch nil :font "Iosevka Aile-14"))  
+        (set-face-attribute 'variable-pitch nil :font "Iosevka-14")) ; bit of a hack: increases the font size but is not variable pitch
 
   ;; and here is the hook
   (add-hook 'modus-themes-after-load-theme-hook #'my/modus-themes-faces)
