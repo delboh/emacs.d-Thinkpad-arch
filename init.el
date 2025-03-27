@@ -40,4 +40,3 @@
 
 ;; Load myinit.org
 (org-babel-load-file (expand-file-name "~/.emacs.d/myinit.straight.org"))
-(put 'narrow-to-region 'disabled nil)

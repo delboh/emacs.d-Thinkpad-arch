@@ -1,16 +1,10 @@
 #+STARTUP: content
 * package archives
-moved to "custom-vars.el"
-#+BEGIN_SRC emacs-lisp
-;; (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-;;                          ("melpa" . "http://melpa.org/packages/")
-;;                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-;;                          ("org" . "http://orgmode.org/elpa/")))
-#+END_SRC
+# moved to "custom-vars.el"
 * ELPA certificates
 #+begin_SRC emacs-lisp
   (use-package gnu-elpa-keyring-update
-    :ensure nil)
+    :ensure t)
 #+end_SRC
 * load path
 #+BEGIN_SRC emacs-lisp
@@ -26,96 +20,97 @@ moved to "custom-vars.el"
 #+end_SRC
 * better defaults
 #+begin_SRC emacs-lisp
-    (setq-default ;; buffer local variables
-     cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
-     fill-column 80                                   ; Set width for automatic line breaks
-     tab-width 4                                      ; Set width for tabs
-     left-window-margin nil
-     right-window-margin nil
-     left-margin-width nil
-     right-margin-width nil
-     )
+      (setq-default ;; buffer local variables
+       cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
+       fill-column 80                                   ; Set width for automatic line breaks
+       tab-width 4                                      ; Set width for tabs
+       left-window-margin nil
+       right-window-margin nil
+       left-margin-width nil
+       right-margin-width nil
+       )
      
-    (setq
-     ad-redefinition-action 'accept                   ; Silence warnings for function redefinitions
-     display-time-default-load-average nil            ; Don't display load average
-     help-window-select t                             ; Focus new help windows when opened
-     history-length 25                                ; set minibuffer history length
-     inhibit-startup-screen t                         ; Disable start-up screen
-     initial-major-mode 'org-mode                     ; set scratch buffer to org-mode
-     initial-scratch-message ""                       ; Empty the initial *scratch* buffer
-     kill-ring-max 128                                ; Maximum length of kill ring
-     large-file-warning-threshold nil                 ; nil to turn off completely
-     load-prefer-newer t                              ; Prefers the newest version of a file
-     mark-ring-max 128                                ; Maximum length of mark ring
-     read-process-output-max (* 1024 1024)            ; Increase the amount of data read from subprocesses to 1mb
-     scroll-conservatively 101                        ; don't recenter when scrolling off screen
-     select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
-     sentence-end-double-space nil                    ; Recognise a single space after dots as sentence end
-     split-width-threshold 160                        ; split window horizontally (nil for vertical) 
-     use-dialog-box nil                               ; prevent dialog boxes
-     user-full-name "Iain Harvie"                     ; Set the full name of the current user
-     user-mail-address "iharvie@rcs.ac.uk"            ; Set the email address of the current user
-     vc-follow-symlinks t                             ; Always follow the symlinks
-     view-read-only t                                 ; Always open read-only buffers in view-mode
-     x-stretch-cursor t                               ; Stretch cursor to the glyph width
-     )
+      (setq
+       ad-redefinition-action 'accept                   ; Silence warnings for function redefinitions
+       display-time-default-load-average nil            ; Don't display load average
+       help-window-select t                             ; Focus new help windows when opened
+       history-length 25                                ; set minibuffer history length
+       inhibit-startup-screen t                         ; Disable start-up screen
+       initial-major-mode 'org-mode                     ; set scratch buffer to org-mode
+       initial-scratch-message ""                       ; Empty the initial *scratch* buffer
+       kill-ring-max 128                                ; Maximum length of kill ring
+       large-file-warning-threshold nil                 ; nil to turn off completely
+       load-prefer-newer t                              ; Prefers the newest version of a file
+       mark-ring-max 128                                ; Maximum length of mark ring
+       read-process-output-max (* 1024 1024)            ; Increase the amount of data read from subprocesses to 1mb
+       scroll-conservatively 101                        ; don't recenter when scrolling off screen
+       select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
+       sentence-end-double-space nil                    ; Recognise a single space after dots as sentence end
+       split-width-threshold 160                        ; split window horizontally (nil for vertical) 
+       use-dialog-box nil                               ; prevent dialog boxes
+       user-full-name "Iain Harvie"                     ; Set the full name of the current user
 
-    (column-number-mode 1)                            ; Show the column number
-    (display-time-mode 1)                             ; Enable time in the mode-line
-    (electric-pair-mode 1)                            ; type parens in pairs
-    (global-visual-line-mode 1)                       ; Sane line wrapping
-    (global-hl-line-mode 0)                           ; Hightlight current line
-    (savehist-mode 1)                                 ; Persist history over Emacs restarts. Vertico sorts by history position.
-    (save-place-mode 1)                               ; Open file with point in previous location
-    (show-paren-mode 1)                               ; Show the parent
+       user-mail-address "iharvie@rcs.ac.uk"            ; Set the email address of the current user
+       vc-follow-symlinks t                             ; Always follow the symlinks
+       view-read-only t                                 ; Always open read-only buffers in view-mode
+       x-stretch-cursor t                               ; Stretch cursor to the glyph width
+       )
 
-    ;; window appearance settings
-    (scroll-bar-mode 0)                               ; Hide scroll bar
-    (tool-bar-mode 0)                                 ; Hide tool bar
-    (menu-bar-mode 0)                                 ; Hide menu bar
+      (column-number-mode 1)                            ; Show the column number
+      (display-time-mode 1)                             ; Enable time in the mode-line
+      (electric-pair-mode 1)                            ; type parens in pairs
+      (global-visual-line-mode 1)                       ; Sane line wrapping
+      (global-hl-line-mode 0)                           ; Hightlight current line
+      (savehist-mode 1)                                 ; Persist history over Emacs restarts. Vertico sorts by history position.
+      (save-place-mode 1)                               ; Open file with point in previous location
+      (show-paren-mode 1)                               ; Show the parent
 
-    (add-to-list 'default-frame-alist '(vertical-scroll-bars . nil))
-    (add-to-list 'default-frame-alist '(fullscreen . fullboth)) ; make new frames fullscreen
-    (add-to-list 'default-frame-alist '(undecorated . t)) ; Hide window name and controls
+      ;; window appearance settings
+      (scroll-bar-mode 0)                               ; Hide scroll bar
+      (tool-bar-mode 0)                                 ; Hide tool bar
+      (menu-bar-mode 0)                                 ; Hide menu bar
 
-    ;; Ensure new frames also have scroll bars disabled
-    (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (modify-frame-parameters frame '((vertical-scroll-bars . nil)))))
+      (add-to-list 'default-frame-alist '(vertical-scroll-bars . nil))
+      (add-to-list 'default-frame-alist '(fullscreen . fullboth)) ; make new frames fullscreen
+      (add-to-list 'default-frame-alist '(undecorated . t)) ; Hide window name and controls
 
-    ;; screen margins and recenter
-;;    (setq scroll-margin 1) ; seems to cause issues when scolling past end of file
-    (setq recenter-positions '(0.4 0.05 1.0)) ; Default (middle top bottom)
-  ;;  (setq-default header-line-format " ")  ;; Adds an empty header line: bit of a hack!!
+      ;; Ensure new frames also have scroll bars disabled
+      (add-hook 'after-make-frame-functions
+                (lambda (frame)
+                  (modify-frame-parameters frame '((vertical-scroll-bars . nil)))))
 
-    ;; Replace yes/no prompts with y/n
-    (fset 'yes-or-no-p 'y-or-n-p)                      
+      ;; screen margins and recenter
+  ;;    (setq scroll-margin 1) ; seems to cause issues when scolling past end of file
+      (setq recenter-positions '(0.4 0.05 1.0)) ; Default (middle top bottom)
+    ;;  (setq-default header-line-format " ")  ;; Adds an empty header line: bit of a hack!!
 
-    ;; Don't ask before killing buffer
-    (global-set-key (kbd "C-x k") 'kill-current-buffer)
+      ;; Replace yes/no prompts with y/n
+      (fset 'yes-or-no-p 'y-or-n-p)                      
 
-    ;;turn off visual-line-mode in org-agenda buffers
-    (add-hook 'org-agenda-mode-hook (lambda () (visual-line-mode -1) (setq truncate-lines 1)))
+      ;; Don't ask before killing buffer
+      (global-set-key (kbd "C-x k") 'kill-current-buffer)
 
-    ;; open dired in hide-details mode
-    (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+      ;;turn off visual-line-mode in org-agenda buffers
+      (add-hook 'org-agenda-mode-hook (lambda () (visual-line-mode -1) (setq truncate-lines 1)))
 
-    ;; group directories at top of dired buffers
-    (setq dired-listing-switches "-alhp --group-directories-first")
+      ;; open dired in hide-details mode
+      (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 
-    ;; cleaner bookmarks
-    (setq org-bookmark-names-plist '((org-capture-last-stored . nil))
-    	bookmark-set-fringe-mark nil)
+      ;; group directories at top of dired buffers
+      (setq dired-listing-switches "-alhp --group-directories-first")
+
+      ;; cleaner bookmarks
+      (setq org-bookmark-names-plist '((org-capture-last-stored . nil))
+          bookmark-set-fringe-mark nil)
       
-    ;; manually update package-alist to stop autoremove deleting used packages
-    (defun my-update-package-selected-packages ()
-      "Update `package-selected-packages` to include all installed packages."
-      (setq package-selected-packages (mapcar #'car package-alist))
-      (customize-save-variable 'package-selected-packages package-selected-packages))
+      ;; manually update package-alist to stop autoremove deleting used packages
+      (defun my-update-package-selected-packages ()
+        "Update `package-selected-packages` to include all installed packages."
+        (setq package-selected-packages (mapcar #'car package-alist))
+        (customize-save-variable 'package-selected-packages package-selected-packages))
 
-    ;; Automatically run the function after initialization
-    (add-hook 'package-activate-hook #'my-update-package-selected-packages)
+      ;; Automatically run the function after initialization
+      (add-hook 'package-activate-hook #'my-update-package-selected-packages)
 
 #+end_SRC
 * abbrev-mode
@@ -148,58 +143,51 @@ moved to "custom-vars.el"
 * academic-phrases
 #+BEGIN_SRC emacs-lisp
 (use-package academic-phrases
-  :ensure nil)
+  :ensure t)
 #+END_SRC
-* TeX / AUCTeX
+* AUCTeX / TeX
 #+begin_src emacs-lisp
   (use-package auctex
-    :ensure nil)
-
-  (use-package tex
-    :config
-    (add-to-list 'exec-path "~/texlive/2025/bin/x86_64-linux") 
-    (setenv "PATH" (concat "/home/ebo/texlive/2025/bin/x86_64-linux:" (getenv "PATH")))) ; must be full path
+	:ensure t
+	:defer t
+	:config
+	(setq TeX-auto-save t
+		  TeX-parse-self t
+		  TeX-PDF-mode t)
+	;; Use PDF-tools for previewing
+	(setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+		  TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view)))
+	(add-to-list 'exec-path "~/texlive/2025/bin/x86_64-linux")
+	;; PATH  must be full path
+	(setenv "PATH" (concat "/home/ebo/texlive/2025/bin/x86_64-linux:" (getenv "PATH")))
+	:hook
+	(LaTeX-mode-hook . TeX-source-correlate-mode)
+	(LaTeX-mode-hook . TeX-PDF-mode))
 
   (use-package company-auctex
-  :ensure nil
-  :after (company auctex)  ; Ensure auctex is loaded before company-auctex
-  :hook (org-mode . company-auctex-init)
-  :config
-  (add-to-list 'company-backends 'company-auctex)
-  (setq company-auctex-doc-delay 0.3))  ;; Adjust delay for documentation popups
+	:ensure t
+	:after (company auctex)  ; Ensure auctex is loaded before company-auctex
+	:hook (org-mode . company-auctex-init)
+	:config
+	(add-to-list 'company-backends 'company-auctex)
+	(setq company-auctex-doc-delay 0.3))  ;; Adjust delay for documentation popups
 
   ;; make AUCTeX aware of the multi-file document structure.
-    ;; Each time you open a new file, AUCTeX will then ask you for a master file.
-    (setq-default TeX-master nil)
+  ;; Each time you open a new file, AUCTeX will then ask you for a master file.
+  (setq-default TeX-master nil)
+
+
 #+end_src
-* Autocomplete-superseded by company
-#+BEGIN_SRC emacs-lisp
-  ;; (use-package auto-complete
-  ;;   :ensure nil)
-  ;; (use-package ac-slime
-  ;;   :ensure nil)
-  ;; ;; (use-package auto-complete-auctex  
-  ;; ;;   :ensure nil)  ;; requires a Tex install
-
-  ;; (add-hook 'slime-mode-hook 'set-up-slime-ac)
-  ;; (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
-  ;; (eval-after-load "auto-complete"
-  ;;   '(add-to-list 'ac-modes 'slime-repl-mode))
-  ;; (eval-after-load "auto-complete"
-  ;;   '(add-to-list 'ac-modes 'org-mode))
-
-#+END_SRC
-
 * auto revert
-update the contents of a saved buffer when its underlying file is change externally
+# update the contents of a saved buffer when its underlying file is change externally
 #+BEGIN_SRC emacs-lisp
 ;;;; Auto revert mode
   (setq auto-revert-verbose t)
   (global-auto-revert-mode 1)
 #+END_SRC
 * auto save settings
-file-visiting buffers are automatically saved to their files after auto-save-visited-interval of idleness.
-This is in contrast to the auto-save-mode, which automatically saves such  buffers to a separate file, leaving the original file intact. 
+# file-visiting buffers are automatically saved to their files after auto-save-visited-interval of idleness.
+# This is in contrast to the auto-save-mode, which automatically saves such  buffers to a separate file, leaving the original file intact. 
 #+begin_src emacs-lisp
 ;;;; Auto save buffers visiting files
 (setq auto-save-visited-interval 2)
@@ -208,25 +196,13 @@ This is in contrast to the auto-save-mode, which automatically saves such  buffe
 ;;;; stop creating those #auto-save# files
 (setq auto-save-default nil)
 #+end_src
-* auto virtualenv
-#+BEGIN_SRC emacs-lisp
-(use-package auto-virtualenv
-  :ensure nil
-  :init
-  (use-package pyvenv
-    :ensure nil)
-  :config
-  (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
-;;  (add-hook 'projectile-after-switch-project-hook 'auto-virtualenv-set-virtualenv) ;; If using projectile
-  )
-#+END_SRC
 * avy
 #+begin_SRC emacs-lisp
     (use-package avy
-      :ensure nil)
+      :ensure t)
 #+end_SRC
 * back-up files
-from https://www.emacswiki.org/emacs/BackupDirectory
+# from https://www.emacswiki.org/emacs/BackupDirectory
 #+BEGIN_SRC emacs-lisp
    ;; Backup files are saved to temporary-file-directory /tmp/
      (setq backup-directory-alist
@@ -241,27 +217,6 @@ from https://www.emacswiki.org/emacs/BackupDirectory
   ;;    version-control t)       ; use versioned backups
 
 #+END_SRC
-* bibtex completion config: replaced by citar
-config retained for reference
-#+BEGIN_SRC emacs-lisp
-  ;; (setq bibtex-completion-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.bib")
-  ;;       bibtex-completion-library-path '("~/Dropbox/org-pdfs/")
-  ;;       bibtex-completion-notes-path "~/Dropbox/bibliography/notes/"
-  ;; 	  bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
-  ;; 	  bibtex-completion-additional-search-fields '(keywords)
-  ;; 	  bibtex-completion-display-formats
-  ;; 	  '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
-  ;; 	    (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
-  ;; 	    (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-  ;; 	    (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-  ;; 	    (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
-  ;; 	  bibtex-completion-pdf-open-function
-  ;; 	  (lambda (fpath)
-  ;; 	    (call-process "open" nil 0 nil fpath)))
-    
-  ;;   (setq org-confirm-babel-evaluate nil
-  ;;         org-src-preserve-indentation t)
-#+END_SRC
 * browse-url
 #+BEGIN_SRC emacs-lisp
 (setq browse-url-browser-function 'eww-browse-url
@@ -272,7 +227,7 @@ config retained for reference
 #+begin_SRC emacs-lisp
 
      (use-package citar
-       :ensure nil
+       :ensure t
        :init
        (setq citar-notes-paths '("~/org-roam/") ;; List of directories for reference nodes
              citar-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.json") ;; List of directories
@@ -289,14 +244,14 @@ config retained for reference
                    ("C-c o" . citar-open-notes)))
 
      (use-package citar-embark
-       :ensure nil
+       :ensure t
        :after citar embark
        :init
        (setq citar-at-point-function 'embark-act) ;; Open embark menu with org-open-at-point
        :config (citar-embark-mode))
 
      (use-package citar-org-roam
-       :ensure nil
+       :ensure t
        :config (citar-org-roam-mode))
   ;;     :after ((citar org-roam)) ; seems to cause problems with the mode loading
 
@@ -321,7 +276,7 @@ config retained for reference
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; CONSULT provides a collection of useful search and navigation commands that leverage the enhanced completion system
   (use-package consult
-    :ensure nil
+    :ensure t
     ;; Replace bindings. Lazily loaded due by `use-package'.  C-c bindings in mode-specific-map
     :bind (("C-c M-x" . consult-mode-command)
            ("C-c h" . consult-history)
@@ -441,7 +396,7 @@ config retained for reference
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; VERTICO provides a vertical completion UI for the minibuffer
   (use-package vertico
-    :ensure nil
+    :ensure t
     :config
     (vertico-mode)
 
@@ -462,7 +417,7 @@ config retained for reference
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; ORDERLESS advanced completion style for Vertico allowing input of multiple space-separated components to match candidates in any order
   (use-package orderless
-    :ensure nil
+    :ensure t
     :init
     (setq completion-styles '(orderless basic)
           completion-category-overrides '((file (styles basic partial-completion)))))
@@ -471,7 +426,7 @@ config retained for reference
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; MARGINALIA adds annotations to the completion candidates in the minibuffer
   (use-package marginalia
-    :ensure nil
+    :ensure t
     ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
     ;; available in the *Completions* buffer, add it to the
     ;; `completion-list-mode-map'.
@@ -490,7 +445,7 @@ config retained for reference
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :diminish company-mode
-    :ensure nil
+    :ensure t
     :config
     (setq company-backends '((
   							company-files
@@ -507,7 +462,7 @@ config retained for reference
 #+BEGIN_SRC emacs-lisp
       (use-package copilot
         :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-        :ensure nil
+        :ensure t
         :init (setq copilot-indent-offset-warning-disable 1  ; suppress indent warnings
                     copilot-max-char-warning-disable 1)      ; suppress max-char warnings
         :hook (prog-mode . copilot-mode)
@@ -526,12 +481,12 @@ config retained for reference
 * deadgrep search using ripgrep
 #+begin_SRC emacs-lisp
   (use-package deadgrep
-    :ensure nil)
+    :ensure t)
 #+end_SRC
 * denote
 #+begin_SRC emacs-lisp
     (use-package denote
-      :ensure nil)
+      :ensure t)
 
     ;; Remember to check the doc strings of those variables.
     (setq denote-directory "~/Dropbox/org-notes")
@@ -632,10 +587,10 @@ config retained for reference
     ;; `denote-link-or-create'.  You may want to bind them to keys as well.
 #+end_SRC
 * diminish
-hide mode line indicators
+# hide mode line indicators
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
-    :ensure nil)
+    :ensure t)
   (use-package eldoc
     :diminish eldoc-mode)
   (use-package org-indent
@@ -646,7 +601,7 @@ hide mode line indicators
 * dired-subtree
 #+BEGIN_SRC emacs-lisp
 (use-package dired-subtree
-  :ensure nil
+  :ensure t
   :after dired
   :bind
   ( :map dired-mode-map
@@ -668,11 +623,11 @@ hide mode line indicators
 
 #+END_SRC
 * disable mouse & arrow keys
-from https://github.com/jamescherti/inhibit-mouse.el
+# from https://github.com/jamescherti/inhibit-mouse.el
 #+BEGIN_SRC emacs-lisp
   (use-package inhibit-mouse
     :diminish inhibit-mouse-mode
-    :ensure nil
+    :ensure t
     :config
     (inhibit-mouse-mode))
 
@@ -728,7 +683,7 @@ from https://github.com/jamescherti/inhibit-mouse.el
 * elfeed
 #+BEGIN_SRC emacs-lisp
 (use-package elfeed
-  :ensure nil
+  :ensure t
   :defer t)
 (setq elfeed-use-curl nil
       elfeed-curl-max-connections 10
@@ -770,24 +725,7 @@ from https://github.com/jamescherti/inhibit-mouse.el
     (define-key map (kbd "q") #'prot-elfeed-kill-buffer-close-window-dwim)
     (define-key map (kbd "v") #'prot-elfeed-mpv-dwim)
     (define-key map (kbd "+") #'prot-elfeed-toggle-tag)))
-
-;; (use-package elfeed
-;;   :custom
-;;   (elfeed-db-directory
-;;    (expand-file-name "elfeed" user-emacs-directory))
-;;    (elfeed-show-entry-switch 'display-buffer)
-;;   :bind
-;;   ("C-c w e" . elfeed))
-
-;; ;; Configure Elfeed with org mode
-;; (use-package elfeed-org
-;;   :config
-;;   (elfeed-org)
-;;   :custom
-;;   (rmh-elfeed-org-files '("~/.emacs.d/elfeed.org")))
-
-    #+END_SRC
-
+#+END_SRC
 * eww
 #+BEGIN_SRC emacs-lisp
    ;;; Simple HTML Renderer (shr), Emacs Web Wowser (eww), and prot-eww.el
@@ -873,36 +811,11 @@ from https://github.com/jamescherti/inhibit-mouse.el
   (define-key eww-mode-map (kbd "Q") #'prot-eww-quit))
 
 #+END_SRC
-* elpy python support
-#+BEGIN_SRC emacs-lisp
-  ;; (use-package elpy
-  ;;   :ensure nil
-  ;;   :init
-  ;;   (elpy-enable))
-
-  ;; (use-package blacken
-  ;;   :ensure nil)
-
-  ;; (when (load "flycheck" t t)
-  ;;   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  ;;   (add-hook 'elpy-mode-hook 'flycheck-mode))
-
-
-
-  ;; (add-hook 'elpy-mode-hook (lambda ()
-  ;;                             (add-hook 'before-save-hook
-  ;;                                       'elpy-black-fix-code nil t)))
-
-  ;; (setq flycheck-python-flake8-executable "C:/Users/delbo/AppData/Local/Programs/Python/Python310/Scripts/flake8.exe"
-  ;;       flycheck-python-pylint-executable "C:/Users/delbo/AppData/Local/Programs/Python/Python310/Scripts/pylint.exe"
-  ;;       flycheck-python-mypy-executable "C:/Users/delbo/AppData/Local/Programs/Python/Python310/Scripts/mypy.exe")
-
-#+END_SRC
 * embark minibuffer context menu
 #+BEGIN_SRC emacs-lisp
 (use-package embark
   :after vertico
-  :ensure nil
+  :ensure t
 
   :bind
   (("C-`" . embark-act)         ;; pick some comfortable binding
@@ -929,21 +842,21 @@ from https://github.com/jamescherti/inhibit-mouse.el
 
 ;; Consult users will also want the embark-consult package.
 (use-package embark-consult
-  :ensure nil ; only need to install it, embark loads it after consult if found
+  :ensure t ; only need to install it, embark loads it after consult if found
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 #+END_SRC
 * expand the marked region in semantic increments 
 #+BEGIN_SRC emacs-lisp
   (use-package expand-region
-    :ensure nil
+    :ensure t
     :bind (("C-+" . er/contract-region)
            ("C-=" . er/expand-region)))
 #+END_SRC
 * flycheck
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-    :ensure nil
+    :ensure t
     :hook
     (prog-mode . flycheck-mode))
     
@@ -952,24 +865,21 @@ from https://github.com/jamescherti/inhibit-mouse.el
 * free-keys
 #+begin_src emacs-lisp
   (use-package free-keys
-    :ensure nil)
+    :ensure t)
 #+end_src
 * magit
 #+BEGIN_SRC emacs-lisp 
 (use-package magit
-  :ensure nil
+  :ensure t
   :config
   (setq magit-define-global-key-bindings 'recommended
     ))
 #+END_SRC
 
-* google scholar lookup f8
-#+begin_src emacs-lisp
-#+end_src 
 * gptel: A simple LLM client for Emacs
 #+BEGIN_SRC emacs-lisp
   (use-package gptel
-    :ensure nil)
+    :ensure t)
 
   (gptel-make-perplexity "Perplexity"     ;Any name you want
     :key "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"                   ;can be a function that returns the key
@@ -978,13 +888,13 @@ from https://github.com/jamescherti/inhibit-mouse.el
 * htmlize
 #+begin_src emacs-lisp
   (use-package htmlize
-    :ensure nil)
+    :ensure t)
 #+end_src
 
 * ibuffer
 #+BEGIN_SRC emacs-lisp
   (use-package ibuffer
-    :ensure nil
+    :ensure t
     :custom
     (ibuffer-saved-filter-groups
      (quote (("default"
@@ -1029,7 +939,7 @@ from https://github.com/jamescherti/inhibit-mouse.el
   (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
 
   (use-package flycheck-lilypond
-    :ensure nil)
+    :ensure t)
 
 #+END_SRC
 
@@ -1047,7 +957,7 @@ from https://github.com/jamescherti/inhibit-mouse.el
      				logos-hide-header-line t
      				logos-hide-buffer-boundaries t
      				logos-hide-fringe t
-     				logos-variable-pitch nil
+     				logos-variable-pitch t
      				logos-buffer-read-only nil
      				logos-scroll-lock nil
      				logos-olivetti t)
@@ -1087,10 +997,6 @@ from https://github.com/jamescherti/inhibit-mouse.el
 
     (use-package olivetti
       :diminish)
-      ;; :config
-      ;; (setq olivetti-body-width 0.7)
-      ;; (setq olivetti-minimum-body-width 72)
-      ;; (setq olivetti-recall-visual-line-mode-entry-state t))
 
 #+END_SRC
 * key bindings
@@ -1123,7 +1029,9 @@ from https://github.com/jamescherti/inhibit-mouse.el
   ;; User Activated keybindings
   (put 'downcase-region 'disabled nil)
   (put 'upcase-region 'disabled nil)
+  (put 'narrow-to-region 'disabled nil)
 
+  
   (global-set-key (kbd "M-%") 'replace-string)
   (global-set-key (kbd "C-M-%") 'replace-regexp)
 
@@ -1141,24 +1049,22 @@ from https://github.com/jamescherti/inhibit-mouse.el
 * markdown mode
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
-    :ensure nil
+    :ensure t
     :commands (markdown-mode gfm-mode)
     :mode (("README\\.md\\'" . gfm-mode)
            ("\\.md\\'" . markdown-mode)
            ("\\.markdown\\'" . markdown-mode)
-           ("\\.mkd\\'" .markdown-mode)
-           ("\\.mdown\\'" .markdown-mode)
-           ("\\.mkdn\\'" .markdown-mode)
-           ("\\.mdwn\\'" .markdown-mode))
+           ("\\.mkd\\'" . markdown-mode)
+           ("\\.mdown\\'" . markdown-mode)
+           ("\\.mkdn\\'" . markdown-mode)
+           ("\\.mdwn\\'" . markdown-mode))
     :init (setq markdown-command "pandoc"))
-
-;; '(markdown-command "pandoc") 
 
 #+END_SRC
 * move-text
 #+begin_SRC emacs-lisp
   (use-package move-text
-    :ensure nil
+    :ensure t
     :bind (("M-p" . move-text-up)
            ("M-n" . move-text-down))
     :config (move-text-default-bindings))
@@ -1166,7 +1072,7 @@ from https://github.com/jamescherti/inhibit-mouse.el
 * nov.el epub mode
 #+begin_SRC emacs-lisp
 (use-package nov
-  :ensure nil
+  :ensure t
   :straight (nov :type git :host nil :repo "https://depp.brause.cc/nov.el.git")
   :custom
   (nov-unzip-program "/usr/bin/unzip"))
@@ -1193,7 +1099,7 @@ from https://github.com/jamescherti/inhibit-mouse.el
 * org-cliplink
 #+begin_src emacs-lisp
   (use-package org-cliplink
-    :ensure nil
+    :ensure t
     :bind ("C-c y" . org-cliplink))
 #+end_src
 * org-inline-tasks
@@ -1219,12 +1125,12 @@ from https://github.com/jamescherti/inhibit-mouse.el
     ("C-c n j" . org-journal-new-entry)
     ("C-c n t" . org-journal-today))
 
-  #+end_src
+#+end_src
 
 * Org mode
 #+BEGIN_SRC emacs-lisp 
     (use-package org
-      :ensure nil ; use the built-in version
+      :ensure t ; use the built-in version
       :init
       (setq org-export-backends '(html latex md))
       :config
@@ -1475,7 +1381,7 @@ from https://github.com/jamescherti/inhibit-mouse.el
 * org-present
 #+BEGIN_SRC emacs-lisp
   (use-package org-present
-    :ensure nil)
+    :ensure t)
   (autoload 'org-present "org-present" nil t)
 
   (add-hook 'org-present-mode-hook
@@ -1493,7 +1399,7 @@ from https://github.com/jamescherti/inhibit-mouse.el
 #+BEGIN_SRC emacs-lisp
           ;; new fork at github.com/org-noter/org-noter
           (use-package org-noter
-            :ensure nil
+            :ensure t
             :init
             (setq org-noter-notes-search-path '("~/Dropbox/org-pdfs/"
                                                 "~/Dropbox/org-notes")
@@ -1507,41 +1413,24 @@ from https://github.com/jamescherti/inhibit-mouse.el
 
           ;;;; ebook reader  
           (use-package djvu
-            :ensure nil)
+            :ensure t)
 
 #+END_SRC
 * org-ref REPLACED BY ORG-CITE
 replaced by org-cite for citations. Still used for cross references, labels and glossary functions.
 #+BEGIN_SRC emacs-lisp
     (use-package org-ref
-      :ensure nil)
+      :ensure t)
   
   (setq org-ref-insert-cite-function (lambda () (org-cite-insert nil))) ; don't use org-ref for citations
 
-  ;;;Deprecated in org-ref v3
-    ;; (setq org-ref-bibliography-notes "C:\\Users\\delbo\\Dropbox\\bibliography\\notes.org"
-    ;;       org-ref-default-bibliography '("C:\\Users\\delbo\\Dropbox\\Zotero_Libraries\\MyLibrary.bib");; MUST BE A LIST ;;
-    ;;       org-ref-pdf-directory "C:\\Users\\delbo\\Dropbox\\bibliography\\bibtex-pdfs\\")
-        
-    ;; (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
-    ;;       org-ref-insert-cite-function 'org-ref-cite-insert-ivy
-    ;;       org-ref-insert-label-function 'org-ref-insert-label-link
-    ;;       org-ref-insert-ref-function 'org-ref-insert-ref-link
-    ;;       org-ref-default-citation-link "autocite"
-    ;;       org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
-    
-    
-
-    ;; (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
-    ;; (define-key org-mode-map (kbd "s-[") 'org-ref-insert-link-hydra/body)
-    ;; ;; (global-set-key (kbd "C-c C-]") 'org-ref-insert-cite-with-completion)
     
 #+end_src
 * org-roam
 #+begin_SRC emacs-lisp
   (use-package f) ;; Dependency
   (use-package org-roam
-    :ensure nil
+    :ensure t
     :pin melpa
     :custom
     (org-roam-directory "~/org-roam/")
@@ -1645,23 +1534,13 @@ replaced by org-cite for citations. Still used for cross references, labels and 
   (setq org-roam-file-exclude-regexp
         (concat "^" (expand-file-name org-roam-directory) "logseq/"))
 
-    ;;;; org-roam-bibtex ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; replaced by citar-org-roam
-
-  ;; (use-package org-roam-bibtex
-  ;;   :ensure nil
-  ;;   :after org-roam
-  ;;   :config
-  ;;   (require 'org-ref))
-  ;; (org-roam-bibtex-mode)                  
-
 #+end_SRC
 * org-roam-ui
 #+begin_SRC emacs-lisp
   (use-package simple-httpd
-    :ensure nil)
+    :ensure t)
   (use-package websocket
-    :ensure nil)
+    :ensure t)
   (use-package org-roam-ui
     :diminish org-roam-ui-mode
     :straight
@@ -1681,7 +1560,7 @@ replaced by org-cite for citations. Still used for cross references, labels and 
 * org-web-tools
 #+begin_SRC emacs-lisp
 (use-package org-web-tools
-  :ensure nil)
+  :ensure t)
 #+end_SRC
 * os quotes
 #+BEGIN_SRC emacs-lisp
@@ -1891,7 +1770,7 @@ replaced by org-cite for citations. Still used for cross references, labels and 
 #+END_SRC
 
 * ox-extra
-package extracted from org-plus-contrib
+# package extracted from org-plus-contrib
 #+begin_SRC emacs-lisp
      (require 'ox-extra) ;; activate this package
      (ox-extras-activate '(ignore-headlines)) ;; ignore headlines with <ignore> tag on export
@@ -1900,7 +1779,7 @@ package extracted from org-plus-contrib
 * ox-hugo
 #+begin_src emacs-lisp
   (use-package ox-hugo
-    :ensure nil)
+    :ensure t)
 #+end_src
 * ox-latex
 LaTeX output from org-mode files
@@ -1949,7 +1828,7 @@ LaTeX output from org-mode files
 * pdf-tools
 #+BEGIN_SRC emacs-lisp
     (use-package pdf-tools
-      :ensure nil
+      :ensure t
   	:pin melpa)
 
   ;;  (pdf-tools-install)  ; run explicitly as needed otherwise reinstalls every startup
@@ -1959,112 +1838,7 @@ LaTeX output from org-mode files
   (global-set-key (kbd "C-x p") 'pop-to-mark-command)
   (setq set-mark-command-repeat-pop t)
 #+end_SRC
-* printing
-#+begin_SRC emacs-lisp
 
-#+end_SRC
-* prot/olivetti mode
-https://protesilaos.com/codelog/2020-07-18-emacs-concept-org-tweaked-focus/
-#+BEGIN_SRC emacs-lisp
-  ;; (use-package emacs
-  ;;   :commands prot/hidden-mode-line-mode
-  ;;   :config
-  ;;   (setq mode-line-percent-position '(-3 "%p"))
-  ;;   (setq mode-line-defining-kbd-macro
-  ;;         (propertize " Macro" 'face 'mode-line-emphasis))
-  ;;   (setq-default mode-line-format
-  ;;                 '("%e"
-  ;;                   mode-line-front-space
-  ;;                   mode-line-mule-info
-  ;;                   mode-line-client
-  ;;                   mode-line-modified
-  ;;                   mode-line-remote
-  ;;                   mode-line-frame-identification
-  ;;                   mode-line-buffer-identification
-  ;;                   "  "
-  ;;                   mode-line-position
-  ;;                   (vc-mode vc-mode)
-  ;;                   " "
-  ;;                   mode-line-modes
-  ;;                   " "
-  ;;                   mode-line-misc-info
-  ;;                   mode-line-end-spaces))
-
-  ;;   (define-minor-mode prot/hidden-mode-line-mode
-  ;;     "Toggle modeline visibility in the current buffer."
-  ;;     :init-value nil
-  ;;     :global nil
-  ;;     (if prot/hidden-mode-line-mode
-  ;;         (setq-local mode-line-format nil)
-  ;;       (kill-local-variable 'mode-line-format)
-  ;;       (force-mode-line-update))))
-
-  ;; (use-package face-remap
-  ;;   :diminish buffer-face-mode            ; the actual mode
-  ;;   :commands prot/variable-pitch-mode
-  ;;   :config
-  ;;   (define-minor-mode prot/variable-pitch-mode
-  ;;     "Toggle `variable-pitch-mode', except for `prog-mode'."
-  ;;     :init-value nil
-  ;;     :global nil
-  ;;     (if prot/variable-pitch-mode
-  ;;         (unless (derived-mode-p 'prog-mode)
-  ;;           (variable-pitch-mode 1))
-  ;;       (variable-pitch-
-  ;;  	   mode -1))))
-
-  (use-package org-superstar              ; supersedes `org-bullets'
-    :ensure nil
-    :after org
-    :config
-    (setq org-superstar-remove-leading-stars t)
-    (setq org-superstar-headline-bullets-list '(" ")) ;; '("🞛" "◉" "○" "▷")
-    (setq org-superstar-item-bullet-alist
-          '((?+ . ?•)
-            (?* . ?➤)
-            (?- . ?–)))
-    (org-superstar-mode -1))
-
-  ;; (use-package emacs
-  ;;   :config
-  ;;   (setq window-divider-default-right-width 1)
-  ;;   (setq window-divider-default-bottom-width 1)
-  ;;   (setq window-divider-default-places t)
-  ;;   (window-divider-mode -1))
-
-  ;; (define-minor-mode prot/olivetti-mode
-  ;;   "Toggle buffer-local `olivetti-mode' with additional parameters.
-
-  ;; Fringes are disabled.  The modeline is hidden, except for
-  ;; `prog-mode' buffers (see `prot/hidden-mode-line-mode').  The
-  ;; default typeface is set to a proportionately-spaced family,
-  ;; except for programming modes (see `prot/variable-pitch-mode').
-  ;; The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
-  ;;   :init-value nil
-  ;;   :global nil
-  ;;   (if prot/olivetti-mode
-  ;;       (progn
-  ;;         (olivetti-mode 1)
-  ;;         (set-window-fringes (selected-window) 0 0)
-  ;; 		;;         (prot/variable-pitch-mode 1) 
-  ;; 		;;         (prot/cursor-type-mode 1)
-  ;;         ;; (unless (derived-mode-p 'prog-mode)
-  ;;         ;;   (prot/hidden-mode-line-mode 1))
-  ;;         (window-divider-mode 1)
-  ;;         (when (eq major-mode 'org-mode)
-  ;;           (org-superstar-mode 1)))
-  ;;     (olivetti-mode -1)
-  ;;     (set-window-fringes (selected-window) nil) ; Use default width
-  ;; 	;;      (prot/variable-pitch-mode -1)
-  ;; 	;;      (prot/cursor-type-mode -1)
-  ;;     ;; (unless (derived-mode-p 'prog-mode)
-  ;;     ;;   (prot/hidden-mode-line-mode -1))
-  ;;     (window-divider-mode -1)
-  ;;     (when (eq major-mode "org-mode")
-  ;;       (org-superstar-mode -1))))
-
-
-#+END_SRC
 * recentf mode
 #+BEGIN_SRC emacs-lisp
   
@@ -2074,22 +1848,9 @@ https://protesilaos.com/codelog/2020-07-18-emacs-concept-org-tweaked-focus/
         recentf-max-menu-items 10)
 
 #+END_SRC
-* Reftex DISABLED
-config retained for clarity
-#+begin_src emacs-lisp
-  ;; (use-package reftex
-  ;;   :commands turn-on-reftex
-  ;;   :hook (LaTeX-mode . turn-on-reftex) 
-  ;;   :config
-  ;;   (setq reftex-cite-format 'natbib
-  ;;         reftex-plug-into-AUCTeX t
-  ;;         reftex-default-bibliography '("~/Dropbox/Zotero_Libraries/MyLibrary.bib")
-  ;;         reftex-toc-split-windows-fraction 0.3))
-#+end_src
 * sclang / tidalcycles
 #+BEGIN_SRC emacs-lisp
   (use-package sclang-mode
-    :ensure nil
     :config
     (setq sclang-program  "/usr/bin/sclang"))
 
@@ -2116,101 +1877,50 @@ config retained for clarity
 
   (use-package flyspell
     :hook (((markdown-mode org-mode text-mode LaTeX-mode latex-mode) . flyspell-mode)
-  		 (prog-mode . flyspell-prog-mode))
+           (prog-mode . flyspell-prog-mode))
     :bind (:map flyspell-mode-map
-                ("C-M-i" . nil))) ;; reserve for org-roam completion
-
-  (with-eval-after-load 'flyspell
-  (defun flyspell-goto-previous-error ()
-    "Move point to previous Flyspell error."
-    (interactive)
-    (let ((pos (point))
-          (min (point-min)))
-      ;; Handle position tracking
-      (when (and (eq (current-buffer) flyspell-old-buffer-error)
-                 (eq pos flyspell-old-pos-error))
-        (if (= pos min)
-            (progn
-              (message "Restarting from end of buffer")
-              (goto-char (point-max)))
-          (backward-word 1))
-        (setq pos (point)))
-
-      ;; Search backward through buffer
-      (catch 'found
-        (while (>= pos min)
-          (dolist (ov (overlays-at pos))
-            (when (flyspell-overlay-p ov)
-              (setq flyspell-old-pos-error pos)
-              (setq flyspell-old-buffer-error (current-buffer))
-              (goto-char pos)
-              (throw 'found t)))
-          (setq pos (1- pos))))
-
-      ;; Final position handling
-      (if (= pos min)
-          (message "No more misspelled words!")
-  		(goto-char pos))))
-  (define-key flyspell-mode-map (kbd "M-,") #'flyspell-goto-previous-error))
-
-
-    ;;; Hunspell
-  ;; ;;; Spell checking using hunspell
-  ;; (setq1 ispell-local-dictionary-alist
-  ;;   '((nil "[A-Za-z]" "[^A-Za-z]" "[']" t
-  ;;      ("-d" "en_GB" "-i" "utf-8") nil utf-8)
-  ;;     ("american"
-  ;;      "[A-Za-z]" "[^A-Za-z]" "[']" nil
-  ;;      ("-d" "en_GB") nil utf-8)
-  ;;     ("english"
-  ;;      "[A-Za-z]" "[^A-Za-z]" "[']" nil
-  ;;      ("-d" "en_GB") nil utf-8)
-  ;;     ("british"
-  ;;      "[A-Za-z]" "[^A-Za-z]" "[']" nil
-  ;;      ("-d" "en_GB") nil utf-8)))
-  ;; (eval-after-load "ispell"
-  ;;   (progn
-  ;;     (setq ispell-dictionary "english"
-  ;;           ispell-extra-args '("-a" "-i" "utf-8")
-  ;;           ispell-silently-savep t)))
-  ;; (setq-default ispell-program-name "hunspell")
-
-  ;; (setq ispell-local-dictionary-alist
-  ;;       '((nil "[[:alpha:]]" "[^[:alpha:]]" "[']" t
-  ;;              ("-d" "en_GB" "-p" "C:\Users\delbo\AppData\Roaming\.emacs.d\hunspell\share\hunspell\personal.en")
-  ;;              nil utf-8)
-  ;;         ("american"
-  ;;          "[[:alpha:]]" "[^[:alpha:]]" "[']" t
-  ;;          ("-d" "en_GB" "-p" "C:\\Users\\delbo\\AppData\\Roaming\\.emacs.d\\hunspell\\share\\hunspell\\personal.en")
-  ;;          nil utf-8)
-  ;;         ("deutsch"
-  ;;          "[[:alpha:]ÄÖÜéäöüß]" "[^[:alpha:]ÄÖÜéäöüß]" "[']" t
-  ;;          ("-d" "de_DE_frami" "-p" "C:\\Users\\delbo\\AppData\\Roaming\\.emacs.d\\hunspell\\share\\hunspell\\personal.de")
-  ;;          nil utf-8)
-  ;;         ("francais"
-  ;;          "[[:alpha:]ÀÂÇÈÉÊËÎÏÔÙÛÜàâçèéêëîïôùûü]" "[^[:alpha:]ÀÂÇÈÉÊËÎÏÔÙÛÜàâçèéêëîïôùûü]" "[-']" t
-  ;;          ("-d" "fr" "-p" "C:\\Users\\delbo\\AppData\\Roaming\\.emacs.d\\hunspell\\share\\hunspell\\personal.fr")
-  ;;          nil utf-8)
-  ;;         ))
-#+END_SRC
-* TeX
-#+BEGIN_SRC emacs-lisp
-  (use-package tex
-    :ensure nil
-    :defer t
+                ("C-M-i" . nil) ; reserve for org-roam completion
+                ("M-," . flyspell-go-to-previous-error))
     :config
-    (setq TeX-auto-save t
-          TeX-parse-self t
-          TeX-PDF-mode t))
+    (defun flyspell-goto-previous-error ()
+      "Move point to previous Flyspell error."
+      (interactive)
+      (let ((pos (point))
+            (min (point-min)))
+        ;; Handle position tracking
+        (when (and (eq (current-buffer) flyspell-old-buffer-error)
+                   (eq pos flyspell-old-pos-error))
+          (if (= pos min)
+              (progn
+                (message "Restarting from end of buffer")
+                (goto-char (point-max)))
+            (backward-word 1))
+          (setq pos (point)))
 
-  ;; (add-hook 'LaTeX-mode-hook 'pandoc-mode)
+        ;; Search backward through buffer
+        (catch 'found
+          (while (>= pos min)
+            (dolist (ov (overlays-at pos))
+              (when (flyspell-overlay-p ov)
+                (setq flyspell-old-pos-error pos)
+                (setq flyspell-old-buffer-error (current-buffer))
+                (goto-char pos)
+                (throw 'found t)))
+            (setq pos (1- pos))))
+
+        ;; Final position handling
+        (if (= pos min)
+            (message "No more misspelled words!")
+          (goto-char pos)))))
+
+
 #+END_SRC
 * thesaurus
-https://github.com/SavchenkoValeriy/emacs-powerthesaurus
+# https://github.com/SavchenkoValeriy/emacs-powerthesaurus
 #+BEGIN_SRC emacs-lisp
 (use-package powerthesaurus
-  :init
-  (require 'transient)
+  :ensure t
+  :after transient
   :bind
   ("C-c t" . powerthesaurus-transient))
 #+END_SRC
@@ -2237,159 +1947,23 @@ https://github.com/SavchenkoValeriy/emacs-powerthesaurus
   ;; from https://protesilaos.com/emacs/modus-themes
   ;; set faces in modus themes function. Still don't load at startup!!
   (defun my/modus-themes-faces (&rest _)
-    	(set-face-attribute 'default nil :font "Iosevka-12")
-    	(set-face-attribute 'fixed-pitch nil :font "Iosevka-14")
-    	(set-face-attribute 'variable-pitch nil :font "Iosevka Aile-14"))  
+        (set-face-attribute 'default nil :font "Iosevka-12")
+        (set-face-attribute 'fixed-pitch nil :font "Iosevka-14")
+        (set-face-attribute 'variable-pitch nil :font "Iosevka Aile-14"))  
 
   ;; and here is the hook
   (add-hook 'modus-themes-after-load-theme-hook #'my/modus-themes-faces)
 #+END_SRC  
-* vertico / corfu minimalistic vertical completion UI 
-#+BEGIN_SRC emacs-lisp
-  ;; ;; Config from https://elpa.gnu.org/packages/vertico.html
-
-  ;; (use-package vertico
-  ;;   :ensure nil
-  ;;   :init
-  ;;   (vertico-mode)
-
-  ;;   ;; Different scroll margin
-  ;;   ;; (setq vertico-scroll-margin 0)
-
-  ;;   ;; Show more candidates
-  ;;   ;; (setq vertico-count 20)
-
-  ;;   ;; Grow and shrink the Vertico minibuffer
-  ;;   ;; (setq vertico-resize t)
-
-  ;;   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  ;;   ;; (setq vertico-cycle t)
-  ;;   )
-
-  ;; ;; Persist history over Emacs restarts. Vertico sorts by history position.
-  ;; (use-package savehist
-  ;;   :init
-  ;;   (savehist-mode))
-
-  ;; ;; A few more useful configurations...
-  ;; (use-package emacs
-  ;;   :init
-  ;;   ;; Add prompt indicator to `completing-read-multiple'.
-  ;;   ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
-  ;;   (defun crm-indicator (args)
-  ;;     (cons (format "[CRM%s] %s"
-  ;; 		  (replace-regexp-in-string
-  ;; 		   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-  ;; 		   crm-separator)
-  ;; 		  (car args))
-  ;; 	  (cdr args)))
-  ;;   (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-
-  ;;   ;; Do not allow the cursor in the minibuffer prompt
-  ;;   (setq minibuffer-prompt-properties
-  ;; 	'(read-only t cursor-intangible t face minibuffer-prompt))
-  ;;   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-
-  ;;   ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
-  ;;   ;; Vertico commands are hidden in normal buffers.
-  ;;   (setq read-extended-command-predicate
-  ;;         #'command-completion-default-include-p)
-
-  ;;   ;; Enable recursive minibuffers
-  ;;   (setq enable-recursive-minibuffers t))
-
-  ;; ;; Optionally use the `orderless' completion style.
-  ;; (use-package orderless
-  ;;   :ensure nil
-  ;;   :init
-  ;;   ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;;   ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
-  ;;   ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  ;;   (setq completion-styles '(orderless basic)
-  ;; 	completion-category-defaults nil
-  ;; 	completion-category-overrides '((file (styles partial-completion)))))
-
-  ;; (use-package corfu ;; in-buffer completion with a small completion pop-up
-  ;;   ;; Optional customizations
-  ;;   ;; :custom
-  ;;   ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  ;;   ;; (corfu-auto t)                 ;; Enable auto completion
-  ;;   ;; (corfu-separator ?\s)          ;; Orderless field separator
-  ;;   ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  ;;   ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  ;;   ;; (corfu-preview-current nil)    ;; Disable current candidate preview
-  ;;   ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
-  ;;   ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-  ;;   ;; (corfu-scroll-margin 5)        ;; Use scroll margin
-
-  ;;   ;; Enable Corfu only for certain modes.
-  ;;   ;; :hook ((prog-mode . corfu-mode)
-  ;;   ;;        (shell-mode . corfu-mode)
-  ;;   ;;        (eshell-mode . corfu-mode))
-
-  ;;   ;; Recommended: Enable Corfu globally.
-  ;;   ;; This is recommended since Dabbrev can be used globally (M-/).
-  ;;   ;; See also `corfu-excluded-modes'.
-  ;;   :init
-  ;;   (global-corfu-mode))
-
-  ;; ;; A few more useful configurations...
-  ;; (use-package emacs
-  ;;   :init
-  ;;   ;; TAB cycle if there are only few candidates
-  ;;   (setq completion-cycle-threshold 3)
-
-  ;;   ;; Enable indentation+completion using the TAB key.
-  ;;   ;; `completion-at-point' is often bound to M-TAB.
-  ;;   (setq tab-always-indent 'complete))
-#+END_SRC
 * Visual Fill Column
 #+BEGIN_SRC emacs-lisp
   (use-package visual-fill-column
-    :ensure nil)
-  ;;; center-text set in Customize:
-  ;;    (setq visual-fill-column-center-text t)
+    :ensure t)
+
 #+END_SRC
 * which key
-Brings up some help
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :config
     (which-key-mode))
 #+END_SRC
 
-* Wiki-summary in separate buffer
-#+begin_SRC emacs-lisp
-  (use-package wiki-summary
-    :ensure nil
-    :defer 1
-    :preface
-    (defun my/format-summary-in-buffer (summary)
-      "Given a summary, sticks it in the *wiki-summary* buffer and displays
-       the buffer."
-      (let ((buf (generate-new-buffer "*wiki-summary*")))
-        (with-current-buffer buf
-          (princ summary buf)
-          (fill-paragraph)
-          (goto-char (point-min))
-          (view-mode))
-        (pop-to-buffer buf))))
-
-  (advice-add 'wiki-summary/format-summary-in-buffer :override #'my/format-summary-in-buffer)
-#+end_SCR
-
-* writeroom mode
-replaced by olivetti-mode /  logos-mode
-#+begin_SRC emacs-lisp
-;; (use-package writeroom-mode
-;;   :ensure nil
-;;   :after org
-;;   :bind
-;;   (("C-|" . writeroom-mode)
-;;          :map writeroom-mode-map
-;;          ("s-?" . nil) ;; free up for help
-;;          ("<S-f6>" . writeroom-toggle-mode-line)))
-
-#+end_SRC
-
-# -*- no-abbrev-mode: t -*-
