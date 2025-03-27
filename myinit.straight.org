@@ -150,10 +150,15 @@ moved to "custom-vars.el"
 (use-package academic-phrases
   :ensure nil)
 #+END_SRC
-* AUCTeX
+* TeX / AUCTeX
 #+begin_src emacs-lisp
   (use-package auctex
     :ensure nil)
+
+  (use-package tex
+    :config
+    (add-to-list 'exec-path "~/texlive/2025/bin/x86_64-linux") 
+    (setenv "PATH" (concat "/home/ebo/texlive/2025/bin/x86_64-linux:" (getenv "PATH")))) ; must be full path
 
   (use-package company-auctex
   :ensure nil
