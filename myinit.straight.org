@@ -1,4 +1,13 @@
 #+STARTUP: content
+* org-latex hanging colon bug fix (Emacs29)
+#+BEGIN_SRC emacs-lisp
+(defun my/org-remove-hanging-colon-from-ref (ref)
+  "Remove the hanging colon tokens from the exported label REF."
+  (replace-regexp-in-string "\\\\kern -\\\\h@ngcolonwd\\\\kern \\\\h@ngcolonwd" "" ref))
+
+(advice-add 'org-export-get-reference :filter-return #'my/org-remove-hanging-colon-from-ref)
+
+#+END_SRC
 * package archives
 # moved to "custom-vars.el"
 * ELPA certificates
@@ -148,29 +157,30 @@
 * AUCTeX / TeX
 #+begin_src emacs-lisp
   (use-package auctex
-	:ensure t
-	:defer t
-	:config
-	(setq TeX-auto-save t
-		  TeX-parse-self t
-		  TeX-PDF-mode t)
-	;; Use PDF-tools for previewing
-	(setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-		  TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view)))
-	(add-to-list 'exec-path "~/texlive/2025/bin/x86_64-linux")
-	;; PATH  must be full path
-	(setenv "PATH" (concat "/home/ebo/texlive/2025/bin/x86_64-linux:" (getenv "PATH")))
-	:hook
-	(LaTeX-mode-hook . TeX-source-correlate-mode)
-	(LaTeX-mode-hook . TeX-PDF-mode))
+    :ensure t
+    :defer t
+    :config
+    (setq TeX-auto-save t
+          TeX-parse-self t
+          TeX-PDF-mode t)
+    ;; Use PDF-tools for previewing
+    (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+          TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view)))
+    :hook
+    (LaTeX-mode-hook . TeX-source-correlate-mode)
+    (LaTeX-mode-hook . TeX-PDF-mode))
+
+  ;; PATH  must be full path
+  (setenv "PATH" (concat "/home/ebo/texlive/2025/bin/x86_64-linux:" (getenv "PATH")))
+  (add-to-list 'exec-path "~/texlive/2025/bin/x86_64-linux")
 
   (use-package company-auctex
-	:ensure t
-	:after (company auctex)  ; Ensure auctex is loaded before company-auctex
-	:hook (org-mode . company-auctex-init)
-	:config
-	(add-to-list 'company-backends 'company-auctex)
-	(setq company-auctex-doc-delay 0.3))  ;; Adjust delay for documentation popups
+    :ensure t
+    :after (company auctex)  ; Ensure auctex is loaded before company-auctex
+    :hook (org-mode . company-auctex-init)
+    :config
+    (add-to-list 'company-backends 'company-auctex)
+    (setq company-auctex-doc-delay 0.3))  ;; Adjust delay for documentation popups
 
   ;; make AUCTeX aware of the multi-file document structure.
   ;; Each time you open a new file, AUCTeX will then ask you for a master file.
