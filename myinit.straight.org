@@ -1,3 +1,4 @@
+
 #+STARTUP: content
 * package archives
 # moved to "custom-vars.el"
@@ -1935,31 +1936,32 @@ LaTeX output from org-mode files
 #+END_SRC
 * theme & fonts
 #+BEGIN_SRC emacs-lisp
-  ;;  (set-face-attribute 'default nil :font "Iosevka-12")
-  ;;  (set-face-attribute 'fixed-pitch nil :font "Iosevka-14")
-  ;;  (set-face-attribute 'variable-pitch nil :font "Iosevka-14")
+  (set-face-attribute 'default nil :font "Iosevka-12")
+  (set-face-attribute 'fixed-pitch nil :font "Iosevka-14")
+  (set-face-attribute 'variable-pitch nil :font "Iosevka-14")
 
-    ;; From https://gitlab.com/protesilaos/modus-themes
-    (use-package emacs
-      :config
-      (require-theme 'modus-themes) ; `require-theme' is ONLY for the built-in Modus themes
-      ;; Add customizations prior to loading the themes
-      (setq modus-themes-italic-constructs t
-            modus-themes-bold-constructs t
-            modus-themes-region '(bg-only no-extend))
-      ;; load theme
-      (load-theme 'modus-operandi t) ;light. (load-theme 'modus-vivendi t) for dark
-      :bind ("<S-f5>" . modus-themes-toggle))
+  ;; From https://gitlab.com/protesilaos/modus-themes
+   (use-package emacs
+     :config
+     (require-theme 'modus-themes) ; `require-theme' is ONLY for the built-in Modus themes
+     ;; Add customizations prior to loading the themes
+     (setq modus-themes-italic-constructs t
+           modus-themes-bold-constructs t
+           modus-themes-region '(bg-only no-extend))
+     ;; load theme
+     (load-theme 'modus-operandi t) ;light. (load-theme 'modus-vivendi t) for dark
+     :bind ("<S-f5>" . modus-themes-toggle))
 
-    ;; ;; from https://protesilaos.com/emacs/modus-themes
-    ;; set faces in modus themes function. Still don't load at startup!!
-    (defun my/modus-themes-faces (&rest _)
-          (set-face-attribute 'default nil :font "Iosevka-12")
-          (set-face-attribute 'fixed-pitch nil :font "Iosevka-14")
-          (set-face-attribute 'variable-pitch nil :font "Iosevka-14")) ; bit of a hack: increases the font size but is not variable pitch
+   ;; ;; ;; from https://protesilaos.com/emacs/modus-themes
+   ;; ;; set faces in modus themes function. Still don't load at startup!!
+   ;; (defun my/modus-themes-faces (&rest _)
+   ;;       (set-face-attribute 'default nil :font "Iosevka-12")
+   ;;       (set-face-attribute 'fixed-pitch nil :font "Iosevka-14")
+   ;;       (set-face-attribute 'variable-pitch nil :font "Iosevka-14")) ; bit of a hack: increases the font size but is not variable pitch
 
-    ;; ;; and here is the hook
-    ;; (add-hook 'modus-themes-after-load-theme-hook #'my/modus-themes-faces)
+   ;; ;; ;; and here i
+  s the hook
+   ;; (add-hook 'modus-themes-after-load-theme-hook #'my/modus-themes-faces)
 #+END_SRC  
 * Visual Fill Column
 #+BEGIN_SRC emacs-lisp
