@@ -1832,6 +1832,9 @@ LaTeX output from org-mode files
       :ensure t
   	:pin melpa)
 
+  (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
+
+
   ;;  (pdf-tools-install)  ; run explicitly as needed otherwise reinstalls every startup
 #+END_SRC
 * pop to mark
