@@ -1959,8 +1959,7 @@ LaTeX output from org-mode files
    ;;       (set-face-attribute 'fixed-pitch nil :font "Iosevka-14")
    ;;       (set-face-attribute 'variable-pitch nil :font "Iosevka-14")) ; bit of a hack: increases the font size but is not variable pitch
 
-   ;; ;; ;; and here i
-  s the hook
+   ;; ;; ;; and here is the hook
    ;; (add-hook 'modus-themes-after-load-theme-hook #'my/modus-themes-faces)
 #+END_SRC  
 * Visual Fill Column

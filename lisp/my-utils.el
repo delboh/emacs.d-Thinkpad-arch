@@ -309,6 +309,22 @@ in whole buffer.  With neither, delete comments on current line."
 (advice-add 'org-latex--format-headline-default-function :around
             #'my/org-latex--move-label-before-heading)
 
+;; comment-dwim replacement
+(defun my/org-comment-region-or-line ()
+  "Comment or uncomment the current line or region in org-mode, predictably."
+  (interactive)
+  (let ((comment-style 'plain)) ;; avoid alignment guessing
+    (if (use-region-p)
+        ;; Adjust region to start and end at line boundaries
+        (let ((beg (save-excursion (goto-char (region-beginning)) (line-beginning-position)))
+              (end (save-excursion (goto-char (region-end)) (if (bolp) (point) (line-end-position)))))
+          (comment-or-uncomment-region beg end))
+      ;; Single line
+      (org-comment-line 1))))
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (local-set-key (kbd "M-;") #'my/org-comment-region-or-line)))
 
 ;; DEPENDENCY??
 
