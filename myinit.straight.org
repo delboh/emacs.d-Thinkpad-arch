@@ -1105,8 +1105,10 @@
 #+end_src
 * org-inline-tasks
 #+begin_SRC emacs-lisp
-(require 'org-inlinetask)
-(setq org-inlinetask-default-state "TODO")
+  (require 'org-inlinetask)
+  (setq org-inlinetask-default-state "TODO"
+  	org-export-with-inlinetasks nil)
+
 #+end_SRC
 
 * org-journal
