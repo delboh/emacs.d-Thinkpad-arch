@@ -1,13 +1,4 @@
 #+STARTUP: content
-* org-latex hanging colon bug fix (Emacs29)
-#+BEGIN_SRC emacs-lisp
-(defun my/org-remove-hanging-colon-from-ref (ref)
-  "Remove the hanging colon tokens from the exported label REF."
-  (replace-regexp-in-string "\\\\kern -\\\\h@ngcolonwd\\\\kern \\\\h@ngcolonwd" "" ref))
-
-(advice-add 'org-export-get-reference :filter-return #'my/org-remove-hanging-colon-from-ref)
-
-#+END_SRC
 * package archives
 # moved to "custom-vars.el"
 * ELPA certificates
@@ -171,8 +162,8 @@
     (LaTeX-mode-hook . TeX-PDF-mode))
 
   ;; PATH  must be full path
-  (setenv "PATH" (concat "/home/ebo/texlive/2025/bin/x86_64-linux:" (getenv "PATH")))
-  (add-to-list 'exec-path "~/texlive/2025/bin/x86_64-linux")
+;;  (setenv "PATH" (concat "/home/ebo/texlive/2025/bin/x86_64-linux:" (getenv "PATH")))
+;;  (add-to-list 'exec-path "~/texlive/2025/bin/x86_64-linux")
 
   (use-package company-auctex
     :ensure t
