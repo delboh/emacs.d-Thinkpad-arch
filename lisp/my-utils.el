@@ -326,31 +326,13 @@ in whole buffer.  With neither, delete comments on current line."
           (lambda ()
             (local-set-key (kbd "M-;") #'my/org-comment-region-or-line)))
 
-;; Cut to gpt
-(defun gpt-copy-region-and-open ()
-  "Copy region and open ChatGPT in browser."
-  (interactive)
-  (when (use-region-p)
-    (kill-ring-save (region-beginning) (region-end))
-    (browse-url-chromium "https://chat.openai.com")))
-
-(defun gptel-send-region-replace (prompt)
-  "Send region to GPT with PROMPT and replace it with the response."
-  (interactive "sPrompt to GPT: ")
-  (if (use-region-p)
-      (let ((start (region-beginning))
-            (end (region-end))
-            (text (buffer-substring-no-properties (region-beginning) (region-end))))
-        (gptel-request
-         text
-         :context prompt
-         :callback (lambda (response)
-                     (save-excursion
-                       (goto-char start)
-                       (delete-region start end)
-                       (insert response)))))
-    (message "No region selected.")))
-
+;; ;; Cut to gpt
+;; (defun gpt-copy-region-and-open ()
+;;   "Copy region and open ChatGPT in browser."
+;;   (interactive)
+;;   (when (use-region-p)
+;;     (kill-ring-save (region-beginning) (region-end))
+;;     (browse-url-chromium "https://chat.openai.com")))
 
 ;; DEPENDENCY??
 
