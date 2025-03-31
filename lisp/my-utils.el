@@ -326,6 +326,16 @@ in whole buffer.  With neither, delete comments on current line."
           (lambda ()
             (local-set-key (kbd "M-;") #'my/org-comment-region-or-line)))
 
+;; Cut to gpt
+(defun gpt-copy-region-and-open ()
+  "Copy region and open ChatGPT in browser."
+  (interactive)
+  (when (use-region-p)
+    (kill-ring-save (region-beginning) (region-end))
+    (browse-url-chromium "https://chat.openai.com")))
+
+
+
 ;; DEPENDENCY??
 
 (defun insert-todays-date (arg)

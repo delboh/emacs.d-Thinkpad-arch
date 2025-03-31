@@ -15,6 +15,10 @@
   (load "my-text-functions")
   (load "add-latex-acronym")
 #+END_SRC
+* gpg encryption
+#+BEGIN_SRC emacs-lisp
+(setq epa-file-encrypt-to '("delboh@hotmail.com"))
+#+END_SRC
 * default directory
 #+begin_SRC emacs-lisp
 (setq default-directory "~/")
@@ -460,26 +464,6 @@
     ;;  (after-init-hook . company-tng-mode) ;completion with tab
     (global-company-mode))  ; Enable globally after configuring
 #+END_SRC
-* copilot.el
-#+BEGIN_SRC emacs-lisp
-      (use-package copilot
-        :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-        :ensure t
-        :init (setq copilot-indent-offset-warning-disable 1  ; suppress indent warnings
-                    copilot-max-char-warning-disable 1)      ; suppress max-char warnings
-        :hook (prog-mode . copilot-mode)
-        :bind (("C-c M-f" . copilot-complete)
-             :map copilot-completion-map
-             ("C-g" . 'copilot-clear-overlay)
-             ("M-p" . 'copilot-previous-completion)
-             ("M-n" . 'copilot-next-completion)
-             ("<tab>" . 'copilot-accept-completion)
-             ("M-f" . 'copilot-accept-completion-by-word)
-             ("M-<return>" . 'copilot-accept-completion-by-line)))
-
-      ;; (add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
-#+END_SRC
-
 * deadgrep search using ripgrep
 #+begin_SRC emacs-lisp
   (use-package deadgrep
@@ -877,15 +861,14 @@
   (setq magit-define-global-key-bindings 'recommended
     ))
 #+END_SRC
-
-* gptel: A simple LLM client for Emacs
+* gptel
 #+BEGIN_SRC emacs-lisp
   (use-package gptel
-    :ensure t)
-
-  (gptel-make-perplexity "Perplexity"     ;Any name you want
-    :key "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"                   ;can be a function that returns the key
-    :stream t)                            ;If you want responses to be streamed
+    :straight (gptel :type git :host github :repo "karthink/gptel")
+    :config
+    (setq gptel-api-key
+          (auth-source-pick-first-password :host "api.openai.com"))
+    (setq gptel-model 'gpt-4))  ;; or "gpt-3.5-turbo"
 #+END_SRC
 * htmlize
 #+begin_src emacs-lisp
@@ -1005,47 +988,47 @@
 #+BEGIN_SRC emacs-lisp
 
   ;; zap-up-to-char
-  (global-set-key "\M-z" 'zap-up-to-char)
-  (global-set-key "\M-/" 'hippie-expand)
+  (global-set-key (kbd "\M-z") 'zap-up-to-char)
+  (global-set-key (kbd "\M-/") #'hippie-expand)
 
   ;; enable cut paste from clipboard
-  (global-set-key [(shift delete)] 'clipboard-kill-region)
-  (global-set-key [(control insert)] 'clipboard-kill-ring-save)
-  (global-set-key [(shift insert)] 'clipboard-yank)
+  (global-set-key (kbd "S-<delete>") #'clipboard-kill-region)
+  (global-set-key (kbd "C-<insert>") #'clipboard-kill-ring-save)
+  (global-set-key (kbd "S-<insert>") #'clipboard-yank)
 
   ;; C-h as delete-backword and C-/ as help
-  (global-set-key (kbd "C-?") 'help-command)
-  (global-set-key (kbd "M-?") 'mark-paragraph)
-  (global-set-key (kbd "C-h") 'delete-backward-char)
-  (global-set-key (kbd "M-h") 'backward-kill-word)
+  (global-set-key (kbd "C-?") #'help-command)
+  (global-set-key (kbd "M-?") #'mark-paragraph)
+  (global-set-key (kbd "C-h") #'delete-backward-char)
+  (global-set-key (kbd "M-h") #'backward-kill-word)
   ;; make backspace work with the above !!
   (normal-erase-is-backspace-mode 1)
 
   ;; org-forward-element (redefined from default M-}/{ for simplicity)
-  (define-key org-mode-map (kbd "M-]") 'org-forward-element)
-  (define-key org-mode-map (kbd "M-[") 'org-backward-element)
+  (define-key org-mode-map (kbd "M-]") #'org-forward-element)
+  (define-key org-mode-map (kbd "M-[") #'org-backward-element)
 
   ;; find-file-a-point
-  (global-set-key (kbd "C-x f") 'find-file-at-point)
+  (global-set-key (kbd "C-x f") #'find-file-at-point)
 
   ;; User Activated keybindings
   (put 'downcase-region 'disabled nil)
   (put 'upcase-region 'disabled nil)
   (put 'narrow-to-region 'disabled nil)
 
-  
-  (global-set-key (kbd "M-%") 'replace-string)
-  (global-set-key (kbd "C-M-%") 'replace-regexp)
+
+  (global-set-key (kbd "M-%") #'replace-string)
+  (global-set-key (kbd "C-M-%") #'replace-regexp)
 
   ;; keybindings for my- functions in ~/lisp/
-  (global-set-key (kbd "C-c e") 'my-move-to-paragraph-end)
+  (global-set-key (kbd "C-c e") #'my-move-to-paragraph-end)
   (global-set-key (kbd "M-<return>") #'my-end-of-line-and-newline)
-  (global-set-key (kbd "<f5>") 'my-move-to-minibuffer)
-  (global-set-key (kbd "<f6>") 'my-lookup-wikipedia)
-  (global-set-key (kbd "<f7>") 'my-lookup-oed)
-  (global-set-key (kbd "<f8>") 'my-lookup-googlescholar)
+  (global-set-key (kbd "<f5>") #'my-move-to-minibuffer)
+  (global-set-key (kbd "<f6>") #'my-lookup-wikipedia)
+  (global-set-key (kbd "<f7>") #'my-lookup-oed)
+  (global-set-key (kbd "<f8>") #'my-lookup-googlescholar)
   (define-key org-mode-map (kbd "<f10>") #'my-org-count-words)
-
+  (global-set-key (kbd "M-y") #'gpt-copy-region-and-open)
 
 #+END_SRC
 * markdown mode
