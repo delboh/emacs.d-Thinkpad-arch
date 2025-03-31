@@ -1976,7 +1976,6 @@ LaTeX output from org-mode files
     (which-key-mode))
 #+END_SRC
 
-
 * yasnippets
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
