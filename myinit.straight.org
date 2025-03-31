@@ -1035,6 +1035,7 @@
   (put 'upcase-region 'disabled nil)
   (put 'narrow-to-region 'disabled nil)
 
+  (global-set-key (kbd "M-£") 'dictionary-lookup-definition)
 
   (global-set-key (kbd "M-%") #'replace-string)
   (global-set-key (kbd "C-M-%") #'replace-regexp)
@@ -1882,9 +1883,7 @@ LaTeX output from org-mode files
 #+BEGIN_SRC emacs-lisp
   (setq ispell-program-name "aspell")
   (setq ispell-extra-args '("--sug-mode=ultra" "--lang=en_GB"))
-
-  (global-set-key (kbd "M-£") 'dictionary-lookup-definition)
-
+  (setq ispell-silently-savep t)
 
   (use-package flyspell
     :hook (((markdown-mode org-mode text-mode LaTeX-mode latex-mode) . flyspell-mode)
