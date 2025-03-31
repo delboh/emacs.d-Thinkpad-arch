@@ -863,19 +863,30 @@
 #+END_SRC
 * gptel
 #+BEGIN_SRC emacs-lisp
-  (use-package gptel
-    :straight (gptel :type git :host github :repo "karthink/gptel")
-    :config
-    (setq gptel-api-key
-          (auth-source-pick-first-password :host "api.openai.com"))
-    (setq gptel-model 'gpt-4))  ;; or "gpt-3.5-turbo"
+    (use-package gptel
+      :straight (gptel :type git :host github :repo "karthink/gptel")
+      :config
+      (setq gptel-api-key
+            (auth-source-pick-first-password :host "api.openai.com"))
+      (setq gptel-model 'gpt-4))  ;; or "gpt-3.5-turbo"
 
-  (add-to-list 'display-buffer-alist
-               '("\\*gptel\\*"
-                 (display-buffer-in-side-window)
-                 (side . right)
-                 (window-width . 0.5)
-                 (slot . 1)))
+  (with-eval-after-load 'gptel
+    (setq gptel-display-buffer-action
+          '((display-buffer-reuse-window
+             display-buffer-in-side-window)
+            (side . right)
+            (window-width . 0.5)
+            (slot . 1)))
+
+    (add-to-list 'display-buffer-alist
+                 '("^\\*gptel\\*"
+                   (display-buffer-in-side-window)
+                   (side . right)
+                   (window-width . 0.5)
+                   (slot . 1))))
+
+  (with-eval-after-load 'gptel
+    (define-key gptel-mode-map (kbd "C-c C-c") #'gptel-send))
 
 #+END_SRC
 * htmlize
@@ -996,8 +1007,8 @@
 #+BEGIN_SRC emacs-lisp
 
   ;; zap-up-to-char
-  (global-set-key (kbd "\M-z") 'zap-up-to-char)
-  (global-set-key (kbd "\M-/") #'hippie-expand)
+  (global-set-key (kbd "M-z") 'zap-up-to-char)
+  (global-set-key (kbd "M-/") #'hippie-expand)
 
   ;; enable cut paste from clipboard
   (global-set-key (kbd "S-<delete>") #'clipboard-kill-region)
@@ -1030,13 +1041,12 @@
 
   ;; keybindings for my- functions in ~/lisp/
   (global-set-key (kbd "C-c e") #'my-move-to-paragraph-end)
-  (global-set-key (kbd "M-<return>") #'my-end-of-line-and-newline)
+  (global-set-key (kbd "C-c C-<return>") #'my-end-of-line-and-newline)
   (global-set-key (kbd "<f5>") #'my-move-to-minibuffer)
   (global-set-key (kbd "<f6>") #'my-lookup-wikipedia)
   (global-set-key (kbd "<f7>") #'my-lookup-oed)
   (global-set-key (kbd "<f8>") #'my-lookup-googlescholar)
   (define-key org-mode-map (kbd "<f10>") #'my-org-count-words)
-  (global-set-key (kbd "M-y") #'gpt-copy-region-and-open)
 
 #+END_SRC
 * markdown mode
@@ -1880,8 +1890,7 @@ LaTeX output from org-mode files
     :hook (((markdown-mode org-mode text-mode LaTeX-mode latex-mode) . flyspell-mode)
            (prog-mode . flyspell-prog-mode))
     :bind (:map flyspell-mode-map
-                ("C-M-i" . nil) ; reserve for org-roam completion
-                ("M-," . flyspell-go-to-previous-error))
+                ("C-M-i" . nil)) ; reserve for org-roam completion
     :config
     (defun flyspell-goto-previous-error ()
       "Move point to previous Flyspell error."
@@ -1914,7 +1923,9 @@ LaTeX output from org-mode files
             (message "No more misspelled words!")
           (goto-char pos)))))
 
-
+  (with-eval-after-load 'flyspell
+    (global-unset-key (kbd "M-,")) ; built in function seems to be broken
+    (global-set-key (kbd "M-,") #'flyspell-goto-previous-error))
 #+END_SRC
 * thesaurus
 # https://github.com/SavchenkoValeriy/emacs-powerthesaurus
@@ -1966,3 +1977,14 @@ LaTeX output from org-mode files
     (which-key-mode))
 #+END_SRC
 
+
+* yasnippets
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :init
+    (yas-global-mode 1))
+
+  (use-package yasnippet-snippets
+    :ensure t)
+#+END_SRC
