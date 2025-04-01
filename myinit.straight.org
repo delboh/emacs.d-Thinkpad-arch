@@ -1793,38 +1793,40 @@ replaced by org-cite for citations. Still used for cross references, labels and 
 * ox-latex
 LaTeX output from org-mode files
 #+begin_src emacs-lisp
-(require 'ox-latex)
-(unless (boundp 'org-latex-classes)
-  (setq org-latex-classes nil))
-(add-to-list 'org-latex-classes
-             '("caltech_thesis"
-               "\\documentclass{caltech_thesis}
-[NO-DEFAULT-PACKAGES]
-[PACKAGES]
-[EXTRA]"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-(add-to-list 'org-latex-classes
-                 '("mimosis"
-                   "\\documentclass{mimosis}
- [NO-DEFAULT-PACKAGES]
- [PACKAGES]
- [EXTRA]
-\\newcommand{\\mboxparagraph}[1]{\\paragraph{#1}\\mbox{}\\\\}
-\\newcommand{\\mboxsubparagraph}[1]{\\subparagraph{#1}\\mbox{}\\\\}"
-                   ("\\chapter{%s}" . "\\chapter*{%s}")
-                   ("\\section{%s}" . "\\section*{%s}")
-                   ("\\subsection{%s}" . "\\subsection*{%s}")
-                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                   ("\\mboxparagraph{%s}" . "\\mboxparagraph*{%s}")
-                   ("\\mboxsubparagraph{%s}" . "\\mboxsubparagraph*{%s}")))
+  (require 'ox-latex)
+  (unless (boundp 'org-latex-classes)
+    (setq org-latex-classes nil))
+  (add-to-list 'org-latex-classes
+               '("caltech_thesis"
+                 "\\documentclass{caltech_thesis}
+  [NO-DEFAULT-PACKAGES]
+  [PACKAGES]
+  [EXTRA]"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  (add-to-list 'org-latex-classes
+                   '("mimosis"
+                     "\\documentclass{mimosis}
+   [NO-DEFAULT-PACKAGES]
+   [PACKAGES]
+   [EXTRA]
+  \\newcommand{\\mboxparagraph}[1]{\\paragraph{#1}\\mbox{}\\\\}
+  \\newcommand{\\mboxsubparagraph}[1]{\\subparagraph{#1}\\mbox{}\\\\}"
+                     ("\\chapter{%s}" . "\\chapter*{%s}")
+                     ("\\section{%s}" . "\\section*{%s}")
+                     ("\\subsection{%s}" . "\\subsection*{%s}")
+                     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                     ("\\mboxparagraph{%s}" . "\\mboxparagraph*{%s}")
+                     ("\\mboxsubparagraph{%s}" . "\\mboxsubparagraph*{%s}")))
 
-(setq org-latex-pdf-process '("latexmk -shell-escape -pdf -f %f")
-      org-latex-prefer-user-labels nil) ;; use org-ref for labels
+  ;; (setq org-latex-pdf-process '("latexmk -shell-escape -pdf -f %f")
+  ;;       org-latex-prefer-user-labels t) ;; use org-ref for labels
 
+  (setq org-latex-pdf-process '("latexmk -shell-escape -pdf -f %f")
+  	org-latex-prefer-user-labels t) ;; add your own human-readable section labels
 
 #+end_src
 * ox-reveal
