@@ -334,6 +334,24 @@ in whole buffer.  With neither, delete comments on current line."
 ;;     (kill-ring-save (region-beginning) (region-end))
 ;;     (browse-url-chromium "https://chat.openai.com")))
 
+;; Clean LaTeX Temp Files from current directory
+(defun my-clean-latex-temp-files ()
+  "Delete common LaTeX temporary files in the current directory.
+This is safe for troubleshooting without deleting your .org or .pdf files."
+  (interactive)
+  (let* ((basename (file-name-sans-extension (buffer-file-name)))
+         (exts '("aux" "log" "out" "toc" "bbl" "blg" "fdb_latexmk"
+                 "fls" "synctex.gz" "idx" "ilg" "ind"))
+         (deleted 0))
+    (dolist (ext exts)
+      (let ((file (concat basename "." ext)))
+        (when (file-exists-p file)
+          (delete-file file)
+          (setq deleted (1+ deleted)))))
+    (message "Deleted %d LaTeX temp files." deleted)))
+
+
+
 ;; DEPENDENCY??
 
 (defun insert-todays-date (arg)
