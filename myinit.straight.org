@@ -1159,7 +1159,7 @@
   		;; org export options
   		org-footnote-define-inline t                                                             ; footnotes inline
   		org-footnote-auto-adjust nil
-  		org-adapt-indentation nil                                                                ; don't indent [t 'headline-data]
+  		org-adapt-indentation 'headline-data                                                     ; don't indent [t nil 'headline-data]
           ;; org-icalendar-combined-agenda-file
           org-icalendar-use-deadline (quote (event-if-not-todo event-if-todo))
           org-icalendar-use-scheduled (quote (event-if-not-todo event-if-todo)))
@@ -1780,10 +1780,12 @@ code below to use for labels if necessary
 #+END_SRC
 
 * ox-extra
+LEGACY IN EMACS30
+interferes with label export
 # package extracted from org-plus-contrib
 #+begin_SRC emacs-lisp
-     (require 'ox-extra) ;; activate this package
-     (ox-extras-activate '(ignore-headlines)) ;; ignore headlines with <ignore> tag on export
+      (require 'ox-extra) ;; activate this package
+      (ox-extras-activate '(ignore-headlines)) ;; ignore headlines with <ignore> tag on export
 
 #+end_SRC
 * ox-hugo
