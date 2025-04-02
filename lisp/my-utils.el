@@ -296,18 +296,18 @@ in whole buffer.  With neither, delete comments on current line."
       (message "Word count: %d" word-count))))
 
 
-;; org export fix from chatgpt
-(defun my/org-latex--move-label-before-heading (orig-fun &rest args)
-  (let* ((headline (car args))
-         (contents (cadr args))
-         (result (apply orig-fun args)))
-    ;; Match \label after a heading like \chapter{...} or \section{...}
-    (if (string-match "\\(\\\\\\(chapter\\|section\\|subsection\\|subsubsection\\|paragraph\\|subparagraph\\){.*?}\\)[ \n]*\\\\label{\\([^}]+\\)}" result)
-        (replace-match "\\\\label{\\3}\n\\1" nil nil result)
-      result)))
+;; ;; org export fix from chatgpt
+;; (defun my/org-latex--move-label-before-heading (orig-fun &rest args)
+;;   (let* ((headline (car args))
+;;          (contents (cadr args))
+;;          (result (apply orig-fun args)))
+;;     ;; Match \label after a heading like \chapter{...} or \section{...}
+;;     (if (string-match "\\(\\\\\\(chapter\\|section\\|subsection\\|subsubsection\\|paragraph\\|subparagraph\\){.*?}\\)[ \n]*\\\\label{\\([^}]+\\)}" result)
+;;         (replace-match "\\\\label{\\3}\n\\1" nil nil result)
+;;       result)))
 
-(advice-add 'org-latex--format-headline-default-function :around
-            #'my/org-latex--move-label-before-heading)
+;; (advice-add 'org-latex--format-headline-default-function :around
+;;             #'my/org-latex--move-label-before-heading)
 
 ;; comment-dwim replacement
 (defun my/org-comment-region-or-line ()

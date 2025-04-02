@@ -1,4 +1,3 @@
-
 #+STARTUP: content
 * package archives
 # moved to "custom-vars.el"
@@ -1160,6 +1159,7 @@
   		;; org export options
   		org-footnote-define-inline t                                                             ; footnotes inline
   		org-footnote-auto-adjust nil
+  		org-adapt-indentation nil                                                                ; don't indent [t 'headline-data]
           ;; org-icalendar-combined-agenda-file
           org-icalendar-use-deadline (quote (event-if-not-todo event-if-todo))
           org-icalendar-use-scheduled (quote (event-if-not-todo event-if-todo)))
@@ -1426,15 +1426,16 @@
 
 #+END_SRC
 * org-ref REPLACED BY ORG-CITE
-replaced by org-cite for citations. Still used for cross references, labels and glossary functions.
-#+BEGIN_SRC emacs-lisp
-    (use-package org-ref
-      :ensure t)
+replaced by org-cite
+code below to use for labels if necessary
+# #+BEGIN_SRC emacs-lisp
+#     (use-package org-ref
+#       :ensure t)
   
-  (setq org-ref-insert-cite-function (lambda () (org-cite-insert nil))) ; don't use org-ref for citations
+#   (setq org-ref-insert-cite-function (lambda () (org-cite-insert nil))) ; don't use org-ref for citations
 
     
-#+end_src
+# #+end_src
 * org-roam
 #+begin_SRC emacs-lisp
   (use-package f) ;; Dependency
@@ -1808,25 +1809,26 @@ LaTeX output from org-mode files
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
   (add-to-list 'org-latex-classes
-                   '("mimosis"
-                     "\\documentclass{mimosis}
+               '("mimosis"
+                 "\\documentclass{mimosis}
    [NO-DEFAULT-PACKAGES]
    [PACKAGES]
    [EXTRA]
   \\newcommand{\\mboxparagraph}[1]{\\paragraph{#1}\\mbox{}\\\\}
   \\newcommand{\\mboxsubparagraph}[1]{\\subparagraph{#1}\\mbox{}\\\\}"
-                     ("\\chapter{%s}" . "\\chapter*{%s}")
-                     ("\\section{%s}" . "\\section*{%s}")
-                     ("\\subsection{%s}" . "\\subsection*{%s}")
-                     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                     ("\\mboxparagraph{%s}" . "\\mboxparagraph*{%s}")
-                     ("\\mboxsubparagraph{%s}" . "\\mboxsubparagraph*{%s}")))
+                 ("\\chapter{%s}" . "\\chapter*{%s}")
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\mboxparagraph{%s}" . "\\mboxparagraph*{%s}")
+                 ("\\mboxsubparagraph{%s}" . "\\mboxsubparagraph*{%s}")))
 
   ;; (setq org-latex-pdf-process '("latexmk -shell-escape -pdf -f %f")
   ;;       org-latex-prefer-user-labels t) ;; use org-ref for labels
 
   (setq org-latex-pdf-process '("latexmk -shell-escape -pdf -f %f")
-  	org-latex-prefer-user-labels t) ;; add your own human-readable section labels
+  	  org-latex-reference-command "\\label{%s}"
+  	  org-latex-prefer-user-labels t) ;; add your own human-readable section labels
 
 #+end_src
 * ox-reveal
