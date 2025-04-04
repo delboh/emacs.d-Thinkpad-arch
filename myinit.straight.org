@@ -1033,6 +1033,8 @@
   (put 'downcase-region 'disabled nil)
   (put 'upcase-region 'disabled nil)
   (put 'narrow-to-region 'disabled nil)
+  (put 'narrow-to-page 'disabled nil)
+  (put 'org-narrow-to-element 'disabled nil)
 
   (global-set-key (kbd "M-£") 'dictionary-lookup-definition)
 
