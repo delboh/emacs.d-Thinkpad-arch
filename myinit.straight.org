@@ -242,7 +242,7 @@
        ;; :hook
        ;; (LaTeX-mode . citar-capf-setup)
        ;; (org-mode . citar-capf-setup)
-       :bind (("C-c r" . citar-insert-reference) ; functions outside of org-modea minor mode globally in my init file
+       :bind (("C-c r" . citar-insert-reference) ; functions outside of org-mode
               :map org-mode-map
                    ;; org-cite-insert is also bound to C-c C-x C-@
                    ("C-c ]" . #'org-cite-insert) ; org-mode specific
