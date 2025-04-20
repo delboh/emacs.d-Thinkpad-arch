@@ -275,7 +275,7 @@
 
   (global-set-key (kbd "C-x C-;") 'comment-or-uncomment-region-or-line)
 #+END_SRC
-* consult / vertico / orderless /marginalia
+* consult / vertico / orderless / marginalia / tempel
 #+BEGIN_SRC emacs-lisp
       
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -444,6 +444,23 @@
     ;; the mode gets enabled right away. Note that this forces loading the
     ;; package.
     (marginalia-mode))
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; TEMPEL simple, in-buffer template expansion
+  (use-package tempel
+    :ensure nil
+    :bind (("M-+" . tempel-complete)) ;; Optional: manual trigger
+    :init
+    ;; Add to Org mode
+    (add-hook 'org-mode-hook #'tempel-setup-capf)
+    ;; Add to other modes if needed
+    ;; (add-hook 'text-mode-hook #'tempel-setup-capf)
+  )
+
+  (setq tempel-templates
+        '((org-block
+           "#+begin_${1:flushright|mesostic|}\n$0\n#+end_$1")))
+
 
 #+END_SRC
 * company autocompletion
@@ -946,10 +963,6 @@
 
 #+END_SRC
 
-* line numbers
-#+begin_SRC emacs-lisp
-(global-set-key [S-f7] 'display-line-numbers-mode)
-#+end_SRC
 * logos / olivetti
 #+BEGIN_SRC emacs-lisp
   (use-package logos
@@ -1029,6 +1042,9 @@
   ;; find-file-a-point
   (global-set-key (kbd "C-x f") #'find-file-at-point)
 
+  ;; line numbers mode
+  (global-set-key (kbd "<S-f7>") #'display-line-numbers-mode)
+  
   ;; User Activated keybindings
   (put 'downcase-region 'disabled nil)
   (put 'upcase-region 'disabled nil)
@@ -1408,23 +1424,23 @@
 #+END_SRC
 * org noter
 #+BEGIN_SRC emacs-lisp
-          ;; new fork at github.com/org-noter/org-noter
-          (use-package org-noter
-            :ensure t
-            :init
-            (setq org-noter-notes-search-path '("~/Dropbox/org-pdfs/"
-                                                "~/Dropbox/org-notes")
-                  org-noter-doc-split-fraction (quote (0.6 . 0.4))
-          		org-noter-highlight-selected-text t
-          		org-noter-max-short-selected-text-length 80) ;default value 80
-            ;;   (require 'org-noter-pdftools) ;; not currently maintained
-            )
+  ;; new fork at github.com/org-noter/org-noter
+  (use-package org-noter
+    :ensure t
+    :init
+    (setq org-noter-notes-search-path '("~/Dropbox/org-pdfs/"
+                                        "~/Dropbox/org-notes")
+          org-noter-doc-split-fraction (quote (0.6 . 0.4))
+  		org-noter-highlight-selected-text t
+  		org-noter-max-short-selected-text-length 80) ;default value 80
+    ;;   (require 'org-noter-pdftools) ;; not currently maintained
+    )
 
-          (global-set-key (kbd "<f12>") 'org-noter)
+  (global-set-key (kbd "<f12>") 'org-noter)
 
-          ;;;; ebook reader  
-          (use-package djvu
-            :ensure t)
+  ;;;; ebook reader  
+  (use-package djvu
+    :ensure t)
 
 #+END_SRC
 * org-ref REPLACED BY ORG-CITE
@@ -1961,15 +1977,15 @@ LaTeX output from org-mode files
      (load-theme 'modus-operandi t) ;light. (load-theme 'modus-vivendi t) for dark
      :bind ("<S-f5>" . modus-themes-toggle))
 
-   ;; ;; ;; from https://protesilaos.com/emacs/modus-themes
-   ;; ;; set faces in modus themes function. Still don't load at startup!!
-   ;; (defun my/modus-themes-faces (&rest _)
-   ;;       (set-face-attribute 'default nil :font "Iosevka-12")
-   ;;       (set-face-attribute 'fixed-pitch nil :font "Iosevka-14")
-   ;;       (set-face-attribute 'variable-pitch nil :font "Iosevka-14")) ; bit of a hack: increases the font size but is not variable pitch
+   ;; ;; from https://protesilaos.com/emacs/modus-themes
+   ;; set faces in modus themes function. Still don't load at startup!!
+   (defun my/modus-themes-faces (&rest _)
+         (set-face-attribute 'default nil :font "Iosevka-12")
+         (set-face-attribute 'fixed-pitch nil :font "Iosevka-14")
+         (set-face-attribute 'variable-pitch nil :font "Iosevka-14")) ; bit of a hack: increases the font size but is not variable pitch
 
-   ;; ;; ;; and here is the hook
-   ;; (add-hook 'modus-themes-after-load-theme-hook #'my/modus-themes-faces)
+   ;; and here is the hook
+   (add-hook 'modus-themes-after-load-theme-hook #'my/modus-themes-faces)
 #+END_SRC  
 * Visual Fill Column
 #+BEGIN_SRC emacs-lisp
