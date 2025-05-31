@@ -445,21 +445,20 @@
     ;; package.
     (marginalia-mode))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; TEMPEL simple, in-buffer template expansion
-  (use-package tempel
-    :ensure nil
-    :bind (("M-+" . tempel-complete)) ;; Optional: manual trigger
-    :init
-    ;; Add to Org mode
-    (add-hook 'org-mode-hook #'tempel-setup-capf)
-    ;; Add to other modes if needed
-    ;; (add-hook 'text-mode-hook #'tempel-setup-capf)
-  )
-
-  (setq tempel-templates
-        '((org-block
-           "#+begin_${1:flushright|mesostic|}\n$0\n#+end_$1")))
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;; TEMPEL simple, in-buffer template expansion
+ (use-package tempel
+   :ensure nil
+   :bind (("M-+" . tempel-complete)) ;; Optional: manual trigger
+   :init
+   ;; Add to Org mode
+   ;; (add-hook 'org-mode-hook #'tempel-setup-capf)
+   ;; Add to other modes if needed
+   ;; (add-hook 'text-mode-hook #'tempel-setup-capf)
+ )
+ (setq tempel-templates
+       '((org-block
+          "#+begin_${1:flushright|mesostic|}\n$0\n#+end_$1")))
 
 
 #+END_SRC
@@ -595,8 +594,6 @@
     :ensure t)
   (use-package eldoc
     :diminish eldoc-mode)
-  (use-package org-indent
-    :diminish org-indent-mode)
   (use-package which-key
     :diminish which-key-mode)
 #+END_SRC
@@ -1160,7 +1157,7 @@
     (setq-default ;; buffer local variables
      org-startup-folded 'content                      ; Show headings when opening org files
      org-hide-leading-stars nil
-     org-startup-indented t
+     org-startup-indented nil                        ; interferes with flyspell
      )
     (setq org-directory "~/org"
           org-archive-subtree-save-file-p nil                                                      ; avoids permission error when archiving in Dropbox
