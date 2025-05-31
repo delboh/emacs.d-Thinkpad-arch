@@ -41,3 +41,20 @@ Punctuation remains at the end of the current line."
   (sort-regexp-fields reverse "\\w+" "\\&" beg end))
 
 
+(defun org-forward-clause ()
+  "Move point to the end of the next clause or sentence.
+A clause ends with a period or comma."
+  (interactive)
+  (let ((pos (point)))
+    (when (re-search-forward "[.,]" nil t)
+      ;; Move just after the punctuation
+      (forward-char 0)
+      ;; Skip following whitespace
+      (skip-chars-forward " \t\n"))
+    ;; Return t if point moved
+    (not (= pos (point)))))
+
+;; Optionally, bind it in org-mode
+(with-eval-after-load 'org
+  (define-key org-mode-map (kbd "M-e") #'org-forward-clause))
+
